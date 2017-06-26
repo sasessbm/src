@@ -125,7 +125,8 @@ public class RunFromKeyWordSeed {
 			//三つ組から手がかり語取得
 			for(TripleSet tripleSet : tripleSetIncreaseList){
 				ArrayList<KeyWord> keyWordTmpList = new ArrayList<KeyWord>();
-				String target = tripleSet.getTargetElement().getText();
+				//String target = tripleSet.getTargetElement().getText();
+				String target = tripleSet.getTargetOriginalElement().getText();
 				String effect = tripleSet.getEffectElement().getText();
 				System.out.println("「" + target + "」（，" + effect + "）");
 				keyWordTmpList = KeyWordSearcher.getKeyWordList(medicineNameList, sentenceList, target, effect);

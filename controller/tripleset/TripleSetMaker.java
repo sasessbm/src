@@ -46,95 +46,13 @@ public class TripleSetMaker {
 
 		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
 			ArrayList<Phrase> phraseRestoreList = sentenceList.get(tripleSetInfo.getSentenceId()-1).getPhraseRestoreList();
-			tripleSetList.add(getTripleSet2(tripleSetInfo, phraseRestoreList, medicineNameList));
+			tripleSetList.add(getTripleSet(tripleSetInfo, phraseRestoreList, medicineNameList));
 		}
 		
 		return tripleSetList;
 	}
 
-
-
 	public static TripleSet getTripleSet
-	(TripleSetInfo tripleSetInfo, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList) {
-
-		int targetPhraseId = tripleSetInfo.getTargetPhraseId();
-		//ArrayList<Integer> targetPhraseIdList = tripleSetInfo.getTargetPhraseIdList();
-		int effectPhraseId = tripleSetInfo.getEffectPhraseId();
-		//ArrayList<String> medicineNameInPhraseList = new ArrayList<String>();
-		int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
-		String medicineName = "";
-		String sentenceText = tripleSetInfo.getSentenceText();
-		int sentenceId = tripleSetInfo.getSentenceId();
-
-		// とりあえず、薬剤名文節に薬剤名が複数含まれていた場合に対応
-		for(Morpheme morpheme : phraseList.get(medicinePhraseId).getMorphemeList()){
-			if(!morpheme.getPartOfSpeechDetails().equals("固有名詞") && 
-					!morpheme.getPartOfSpeechDetails().equals("一般")){ continue; }
-
-			for(String text : medicineNameList){
-				String morphemeText = morpheme.getMorphemeText();
-				if(morphemeText.contains(text)){
-					//medicineNameInPhraseList.add(medicineName);
-					medicineName = text;
-					break;
-				}
-			}
-		}
-
-		ArrayList<Morpheme> targetMorphemeList = new ArrayList<Morpheme>();
-		ArrayList<Morpheme> effectMorphemeList = new ArrayList<Morpheme>();
-		Element targetElement = new Element();
-		Element effectElement = new Element();
-		int searchIndex = 0;
-		
-		// 対象要素の形態素リスト取得
-		Phrase phrase = phraseList.get(targetPhraseId);
-		ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-		while(true){
-			Collections.reverse(morphemeList);
-			targetMorphemeList.addAll(morphemeList);
-			Collections.reverse(morphemeList);
-			
-			if(targetPhraseId - searchIndex == 0){ break; } // 対象文節が最初だった時
-			searchIndex++;
-			phrase = phraseList.get(targetPhraseId - searchIndex);
-			morphemeList = phrase.getMorphemeList();
-			//if(!morphemeList.get(morphemeList.size()-1).getMorphemeText().equals("の")){ break; }
-//			if(!(morphemeList.get(morphemeList.size()-1).getMorphemeText().equals("の") || 
-//					phrase.getDependencyIndex() == phraseList.get(targetPhraseId - searchIndex + 1).getId())){ break; }
-			if(phrase.getDependencyIndex() != phraseList.get(targetPhraseId - searchIndex + 1).getId()){ break; }
-		}
-		Collections.reverse(targetMorphemeList);
-
-		// 効果要素の形態素リスト取得
-		for(Morpheme morpheme : phraseList.get(effectPhraseId).getMorphemeList()){
-			effectMorphemeList.add(morpheme);
-		}
-
-		// 要素取得
-		targetElement = getEffectElement(targetMorphemeList, 1);
-		targetElement.setPhraseIndex(targetPhraseId);
-		effectElement = getEffectElement(effectMorphemeList, 2);
-		effectElement.setPhraseIndex(effectPhraseId);
-
-		//for(String medicineNameInPhrase : medicineNameInPhraseList){
-		TripleSet tripleSet = new TripleSet();
-		tripleSet.setMedicineName(medicineName);
-		tripleSet.setTargetElement(targetElement);
-		tripleSet.setEffectElement(effectElement);
-		tripleSet.setUsedKeyWord(tripleSetInfo.getUsedKeyWord());
-		tripleSet.setSentenceText(sentenceText);
-		tripleSet.setSentenceId(sentenceId);
-		tripleSet.setMedicinePhraseIndex(medicinePhraseId);
-		PostProcessor.deleteParentheses(tripleSet);
-		//tripleSetList.add(tripleSet);
-		//}
-
-		//tripleSetList = deleteSameSet(tripleSetList);
-		return tripleSet;
-	}
-	
-	public static TripleSet getTripleSet2
 	(TripleSetInfo tripleSetInfo, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList) {
 
 		int targetPhraseId = tripleSetInfo.getTargetPhraseId();
@@ -159,8 +77,6 @@ public class TripleSetMaker {
 		}
 		ArrayList<Phrase> targetPhraseList = new ArrayList<Phrase>();
 		ArrayList<Phrase> effectPhraseList = new ArrayList<Phrase>();
-		Element targetElement = new Element();
-		Element effectElement = new Element();
 		int searchIndex = targetPhraseId;
 		boolean isRelation = false;
 
@@ -181,19 +97,17 @@ public class TripleSetMaker {
 		effectPhraseList.add(phraseList.get(effectPhraseId));
 
 		// 要素取得
-		targetElement = getTargetElement(targetPhraseList, 1, isRelation);
+		Element targetOriginalElement = getOriginalElement(phraseList.get(targetPhraseId).getMorphemeList(), 1);
+		Element targetElement = getTargetElement(targetPhraseList, 1, isRelation);
 		targetElement.setPhraseIndex(targetPhraseId);
-		effectElement = getEffectElement(phraseList.get(effectPhraseId).getMorphemeList(), 2);
+		Element effectElement = getOriginalElement(phraseList.get(effectPhraseId).getMorphemeList(), 2);
 		effectElement.setPhraseIndex(effectPhraseId);
 
-		TripleSet tripleSet = new TripleSet();
-		tripleSet.setMedicineName(medicineName);
-		tripleSet.setTargetElement(targetElement);
-		tripleSet.setEffectElement(effectElement);
-		tripleSet.setUsedKeyWord(tripleSetInfo.getUsedKeyWord());
-		tripleSet.setSentenceText(sentenceText);
-		tripleSet.setSentenceId(sentenceId);
-		tripleSet.setMedicinePhraseIndex(medicinePhraseId);
+		TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyWord(),
+				sentenceText, sentenceId, medicinePhraseId);
+		
+		tripleSet.setTargetOriginalElement(targetOriginalElement);
+		
 		PostProcessor.deleteParentheses(tripleSet);
 		
 		return tripleSet;
@@ -302,7 +216,7 @@ public class TripleSetMaker {
 	}
 
 
-	public static Element getEffectElement(ArrayList<Morpheme> morphemeList, int elementType){
+	public static Element getOriginalElement(ArrayList<Morpheme> morphemeList, int elementType){
 
 		Element element = new Element();
 		String text = "";
@@ -312,10 +226,10 @@ public class TripleSetMaker {
 		for(Morpheme morpheme : morphemeList){
 
 			//助詞が出現("の"以外) 
-			if(morpheme.getPartOfSpeech().equals("助詞") & !morpheme.getOriginalForm().equals("の") ){ break; }
+			//if(morpheme.getPartOfSpeech().equals("助詞") & !morpheme.getOriginalForm().equals("の") ){ break; }
+			if(morpheme.getPartOfSpeech().equals("助詞")){ break; }
 
 			if(morpheme.getOriginalForm().equals("、") || morpheme.getOriginalForm().equals("。")){ break; }
-			//System.out.println(morpheme.getMorphemeText() + "→" + morpheme.getPartOfSpeechDetails());
 
 			if(morpheme.getPartOfSpeech().equals("動詞")){
 
