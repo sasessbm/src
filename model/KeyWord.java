@@ -37,7 +37,10 @@ public class KeyWord {
 //			if(set.getTargetElement().getText().equals(target) && set.getEffectElement().getText().equals(effect)){ 
 //				count++; 
 //			}
-			if(set.getTargetElement().getText().equals(target)){ 
+//			if(set.getTargetElement().getText().equals(target)){ 
+//				count++; 
+//			}
+			if(set.getTargetOriginalElement().getText().equals(target)){ 
 				count++; 
 			}
 		}

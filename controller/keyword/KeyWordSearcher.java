@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import controller.Logic;
+import controller.tripleset.TripleSetMaker;
 import model.*;
 
 public class KeyWordSearcher {
@@ -57,29 +58,61 @@ public class KeyWordSearcher {
 		int keyWordId = -1;
 		int targetDependencyIndex = -1;
 		int effectId = -1;
-		int searchIndex = phraseList.size() - 1;
-		int phraseId = 0;
-		Phrase phrase = phraseList.get(searchIndex);
-		ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-		while(searchIndex > 0){
+		//int searchIndex = phraseList.size() - 1;
+		//int phraseId = 0;
+		//Phrase phrase = phraseList.get(searchIndex);
+		//ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
+		//		while(searchIndex > 0){
+		//			ArrayList<Morpheme> targetMorphemeList = new ArrayList<Morpheme>();
+		//			
+		//			phraseId = searchIndex;
+		////			while(searchIndex > 0){
+		////				Collections.reverse(morphemeList);
+		////				targetMorphemeList.addAll(morphemeList);
+		////				Collections.reverse(morphemeList);
+		////				searchIndex--;
+		////				phrase = phraseList.get(searchIndex);
+		////				morphemeList = phrase.getMorphemeList();
+		////				if(!morphemeList.get(morphemeList.size()-1).getMorphemeText().equals("の")){ break; }
+		////			}
+		//			targetMorphemeList.addAll(morphemeList);
+		//			String lastMorphemeText = targetMorphemeList.get(0).getMorphemeText();
+		//			if(!(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") 
+		//												|| lastMorphemeText.equals("を"))){ continue; }
+		//			Collections.reverse(targetMorphemeList);
+		//			String targetForm = ChangePhraseForm.changePhraseForm(targetMorphemeList, 1);
+		//			//if(!targetForm.contains(target)){ continue; }
+		//			if(!targetForm.equals(target)){ continue; }
+		//			targetDependencyIndex = phraseList.get(phraseId).getDependencyIndex();
+		//			switch(patternType){
+		//			case 3:
+		//				effectId = P3Searcher.getEffectId(targetDependencyIndex, effect, phraseList);
+		//				if(effectId == -1){ continue; }
+		//				keyWordId = P3Searcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
+		//				break;
+		//			case 4:
+		//				effectId = P4Searcher.getEffectId(targetDependencyIndex, effect, phraseList);
+		//				if(effectId == -1){ continue; }
+		//				keyWordId = P4Searcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
+		//				break;
+		//			}
+		//			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
+		//			keyWordIdList.add(keyWordId);
+		//		} 
+
+		for(int phraseId = 0; phraseId < phraseList.size(); phraseId++){
+
 			ArrayList<Morpheme> targetMorphemeList = new ArrayList<Morpheme>();
-			phraseId = searchIndex;
-			while(searchIndex > 0){
-				Collections.reverse(morphemeList);
-				targetMorphemeList.addAll(morphemeList);
-				Collections.reverse(morphemeList);
-				searchIndex--;
-				phrase = phraseList.get(searchIndex);
-				morphemeList = phrase.getMorphemeList();
-				if(!morphemeList.get(morphemeList.size()-1).getMorphemeText().equals("の")){ break; }
-			}
-			String lastMorphemeText = targetMorphemeList.get(0).getMorphemeText();
+			ArrayList<Morpheme> morphemeList = phraseList.get(phraseId).getMorphemeList();
+			targetMorphemeList.addAll(morphemeList);
+			String lastMorphemeText = targetMorphemeList.get(targetMorphemeList.size()-1).getMorphemeText();
 			if(!(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") 
-												|| lastMorphemeText.equals("を"))){ continue; }
-			Collections.reverse(targetMorphemeList);
-			String targetForm = ChangePhraseForm.changePhraseForm(targetMorphemeList, 1);
+					|| lastMorphemeText.equals("を"))){ continue; }
+
+			Element targetForm = TripleSetMaker.getOriginalElement(targetMorphemeList, 1);
+			String targetText = targetForm.getText();
 			//if(!targetForm.contains(target)){ continue; }
-			if(!targetForm.equals(target)){ continue; }
+			if(!targetText.equals(target)){ continue; }
 			targetDependencyIndex = phraseList.get(phraseId).getDependencyIndex();
 			switch(patternType){
 			case 3:
@@ -95,7 +128,9 @@ public class KeyWordSearcher {
 			}
 			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
 			keyWordIdList.add(keyWordId);
-		} 
+		}
+
+
 		return keyWordIdList;
 	}
 
@@ -106,7 +141,7 @@ public class KeyWordSearcher {
 		for(int id : keyWordIdList){
 			Phrase phrase = phraseList.get(id);
 			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-			
+
 			//P3の時は、薬剤名のすぐ後ろを手がかり語とする
 			if(pattern == 3){
 				// 薬剤名の形態素位置取得
@@ -130,8 +165,8 @@ public class KeyWordSearcher {
 			if(morpheme.getPartOfSpeechDetails().equals("数")){ 
 				if(keyWordPlace + 1 >= morphemeList.size()){ continue; } //形態素存在チェック
 				morpheme = morphemeList.get(keyWordPlace + 1); 
-				}
-			
+			}
+
 			//手がかり語の適切性判断
 			if(Logic.properKeyWord(morpheme) == false){ continue; }
 

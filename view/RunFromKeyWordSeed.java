@@ -108,7 +108,7 @@ public class RunFromKeyWordSeed {
 					//System.out.println("tripleSetAllNum・・・" + tripleSetAllNum);
 					entropy = Calculator.calculateEntropy(tripleSetNumList, tripleSetAllNum);
 				}
-				System.out.println("「" +tripleSet.getTargetElement().getText()+ "」" + "（，" 
+				System.out.println("「" +tripleSet.getTargetOriginalElement().getText()+ "」" + "（，" 
 						+tripleSet.getEffectElement().getText() +"）　→　" + entropy );
 
 				//閾値以上の三つ組をリストに追加
@@ -223,11 +223,8 @@ public class RunFromKeyWordSeed {
 		ArrayList<TripleSetInfo> correctTripleSetInfoList = Logic.getCorrectTripleSetInfoList(tripleSetInfoIncreaseFinalList, correctAnswerList);
 		ArrayList<TripleSet> correctTripleSetList = TripleSetMaker.getTripleSetList(correctTripleSetInfoList, sentenceList, medicineNameList);
 		
-		
 		Logic.displayResult
 		(tripleSetInfoIncreaseFinalList.size(), correctTripleSetList, correctAnswerList.size());
-
-
 	}
 
 }
