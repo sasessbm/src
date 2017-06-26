@@ -285,9 +285,9 @@ public class Logic {
 		System.out.println("正解三つ組み数：" + correctExtractionNum);
 		System.out.println("誤り三つ組み数：" + (allExtractionNum - correctExtractionNum));
 
-		System.out.println("\r\n適合率：" + resultList.get(0));
-		System.out.println("再現率：" + resultList.get(1));
-		System.out.println("Ｆ値　：" + resultList.get(2));
+		System.out.println("\r\n適合率(precision)：" + resultList.get(0));
+		System.out.println("再現率(recall)：" + resultList.get(1));
+		System.out.println("Ｆ値(F-measure)：" + resultList.get(2));
 		System.out.println("\r\n＜正解出力結果＞");
 
 		for(TripleSet tripleSet : correctTripleSetList){

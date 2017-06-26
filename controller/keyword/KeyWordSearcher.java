@@ -2,12 +2,8 @@ package controller.keyword;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-
 import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
-
 import controller.Logic;
 import controller.tripleset.TripleSetMaker;
 import model.*;
@@ -109,8 +105,8 @@ public class KeyWordSearcher {
 			if(!(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") 
 					|| lastMorphemeText.equals("を"))){ continue; }
 
-			Element targetForm = TripleSetMaker.getOriginalElement(targetMorphemeList, 1);
-			String targetText = targetForm.getText();
+			Element targetOriginalElement = TripleSetMaker.getOriginalElement(targetMorphemeList, 1);
+			String targetText = targetOriginalElement.getText();
 			//if(!targetForm.contains(target)){ continue; }
 			if(!targetText.equals(target)){ continue; }
 			targetDependencyIndex = phraseList.get(phraseId).getDependencyIndex();

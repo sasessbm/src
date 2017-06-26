@@ -24,7 +24,6 @@ public class TripleSetInfoSearcher {
 			sentenceText = sentence.getText();
 
 			for(Phrase phrase : phraseList){
-				keyWordText = "";
 				String phraseText = phrase.getPhraseText();
 				int dIndex = phrase.getDependencyIndex();
 				if(!phraseText.contains(MEDICINE)){ continue; }
@@ -128,7 +127,8 @@ public class TripleSetInfoSearcher {
 						.get(phrase.getMorphemeList().size()-1)
 						.getMorphemeText();
 				if(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") || lastMorphemeText.equals("を")){
-					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId, keyWordText);
+					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
+					tripleSetInfo.setUsedKeyWord(keyWordText);
 					tripleSetInfoList.add(tripleSetInfo);
 				}
 			}

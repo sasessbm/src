@@ -21,13 +21,13 @@ public class TripleSetInfo {
 //	}
 	
 	public TripleSetInfo(int sentenceId, String sentenceText, int medicinePhraseId,
-			int targetPhraseId, int effectPhraseId, String usedKeyWord) {
+			int targetPhraseId, int effectPhraseId) {
 		this.sentenceId = sentenceId;
 		this.sentenceText = sentenceText;
 		this.medicinePhraseId = medicinePhraseId;
 		this.targetPhraseId = targetPhraseId;
 		this.effectPhraseId = effectPhraseId;
-		this.usedKeyWord = usedKeyWord;
+		//this.usedKeyWord = usedKeyWord;
 	}
 
 	public int getSentenceId() {

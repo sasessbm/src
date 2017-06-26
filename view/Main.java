@@ -37,10 +37,10 @@ public class Main {
 		//Logic.medicineNameList = medicineNameList;
 		
 		//既存手法
-		//RunOnlyPattern.run(keyWordSeedList, medicineNameList, testDataPath);
+		RunBaseLine.run(keyWordSeedList, medicineNameList, testDataPath);
 		
 		//ブートストラップ
-		RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath);
+		//RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath);
 		
 	}
 
