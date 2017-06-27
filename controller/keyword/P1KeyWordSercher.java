@@ -3,29 +3,23 @@ package controller.keyword;
 import java.util.ArrayList;
 
 import controller.logic.Logic;
-import model.*;
+import model.Phrase;
 
-public class P3Searcher {
-	
-	//public static final String MEDICINE = "MEDICINE";
+public class P1KeyWordSercher {
 
 	public static int getEffectId(int targetDependencyIndex, String effect, ArrayList<Phrase> phraseList){
-
 		int effectId = -1;
 		for(Phrase phrase : phraseList){
 			int phraseId = phrase.getId();
 			if(phraseId == targetDependencyIndex){
-				//String changeEffectForm = ChangePhraseForm.changePhraseForm(phrase.getMorphemeList(), 2);
-				//if(changeEffectForm.contains(effect)){
-					effectId = phraseId;
-					break;
-				//}
+				effectId = phraseId;
+				break;
 			}
 		}
 		return effectId;
 	}
-
-	public static int getKeyWordId(int targetId, int effectId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
+	
+	public static int getKeyWordId(int targetId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
 
 		int keyWordId = -1;
 		
@@ -33,7 +27,7 @@ public class P3Searcher {
 		for(Phrase phrase : phraseList){
 			int dependencyIndex = phrase.getDependencyIndex();
 			//if(phrase.getId() == targetId){ break; } //対象文節まで到達した時
-			if(dependencyIndex == effectId && judgeKeyWordPhrase(phrase, medicineNameList)){
+			if(dependencyIndex == targetId && judgeKeyWordPhrase(phrase, medicineNameList)){
 				keyWordId = phrase.getId();
 			}
 		}

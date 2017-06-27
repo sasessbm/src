@@ -299,15 +299,7 @@ public class Logic {
 
 
 		ArrayList<Double> resultList = Calculator.getResultList(allExtractionNum, correctExtractionNum, correctAnswerNum);
-
-		System.out.println("\r\n＜評価結果＞");
-		System.out.println("\r\n出力数　　　　：" + allExtractionNum);
-		System.out.println("正解三つ組み数：" + correctExtractionNum);
-		System.out.println("誤り三つ組み数：" + (allExtractionNum - correctExtractionNum));
-
-		System.out.println("\r\n適合率(precision)：" + resultList.get(0));
-		System.out.println("再現率(recall)：" + resultList.get(1));
-		System.out.println("Ｆ値(F-measure)：" + resultList.get(2));
+		
 		System.out.println("\r\n＜正解出力結果＞");
 
 		for(TripleSet tripleSet : correctTripleSetList){
@@ -317,6 +309,16 @@ public class Logic {
 					+tripleSet.getEffectElement().getText() + "）（" + tripleSet.getMedicinePhraseIndex() + " , " 
 					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）");
 		}
+
+		System.out.println("\r\n＜評価結果＞");
+		System.out.println("\r\n出力数　　　　：" + allExtractionNum);
+		System.out.println("正解三つ組み数：" + correctExtractionNum);
+		System.out.println("誤り三つ組み数：" + (allExtractionNum - correctExtractionNum));
+
+		System.out.println("\r\n適合率(precision)：" + resultList.get(0));
+		System.out.println("再現率(recall)：" + resultList.get(1));
+		System.out.println("Ｆ値(F-measure)：" + resultList.get(2));
+		
 	}
 
 	//正解三つ組情報取得

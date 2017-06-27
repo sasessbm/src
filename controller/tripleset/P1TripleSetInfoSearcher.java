@@ -7,7 +7,7 @@ import model.Phrase;
 import model.Sentence;
 import model.TripleSetInfo;
 
-public class P1Searcher {
+public class P1TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 	private static  ArrayList<Phrase> phraseList;
@@ -20,9 +20,9 @@ public class P1Searcher {
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
-		P1Searcher.keyWordText = keyWordText;
+		P1TripleSetInfoSearcher.keyWordText = keyWordText;
 		for(Sentence sentence : sentenceList){
-			P1Searcher.phraseList = sentence.getPhraseReplaceList();
+			P1TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
 

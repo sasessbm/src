@@ -14,7 +14,7 @@ import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
 import controller.tripleset.PEvalDicSearcher;
 import controller.tripleset.Filtering;
-import controller.tripleset.P3P4Searcher;
+import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.TripleSetMaker;
 
 public class RunBaseLine {
@@ -34,7 +34,7 @@ public class RunBaseLine {
 		//手がかり語から三つ組抽出
 		for(String keyWordText : keyWordSeedList){
 			//System.out.println("\r\n" + keyWordText);
-			tripleSetInfoList = P3P4Searcher.getTripleSetInfoList(sentenceList ,keyWordText);
+			tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText);
 			
 			if(tripleSetInfoList.size() == 0){ continue; }
 			tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);

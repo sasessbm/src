@@ -11,7 +11,7 @@ import controller.logic.Calculator;
 import controller.logic.Logic;
 import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
-import controller.tripleset.P3P4Searcher;
+import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.TripleSetMaker;
 
 public class RunFromKeyWordSeed {
@@ -56,8 +56,8 @@ public class RunFromKeyWordSeed {
 			for(KeyWord keyWord : keyWordIncreaseList){
 				String keyWordText = keyWord.getKeyWordText();
 				//System.out.println("\r\n" + keyWordText);
-				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4Searcher.getTripleSetInfoList(sentenceList ,keyWordText);
-				tripleSetInfoList.addAll(P1Searcher.getTripleSetInfoList(sentenceList ,keyWordText));
+				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText);
+				tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText));
 				
 				if(tripleSetInfoList.size() == 0){ continue; }
 				

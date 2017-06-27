@@ -3,7 +3,7 @@ package controller.tripleset;
 import java.util.ArrayList;
 import model.*;
 
-public class P3P4Searcher {
+public class P3P4TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 	private static  ArrayList<Phrase> phraseList;
@@ -15,11 +15,11 @@ public class P3P4Searcher {
 
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
-		P3P4Searcher.keyWordText = keyWordText;
+		P3P4TripleSetInfoSearcher.keyWordText = keyWordText;
 
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 252){ continue; } //デバッグ用
-			P3P4Searcher.phraseList = sentence.getPhraseReplaceList();
+			P3P4TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
 

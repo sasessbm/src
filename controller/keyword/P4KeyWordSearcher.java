@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import controller.logic.Logic;
 import model.*;
 
-public class P4Searcher {
+public class P4KeyWordSearcher {
 
 	public static int getEffectId(int targetDependencyIndex, String effect, ArrayList<Phrase> phraseList){
 

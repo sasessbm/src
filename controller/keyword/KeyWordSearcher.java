@@ -32,15 +32,20 @@ public class KeyWordSearcher {
 		ArrayList<KeyWord> keyWordList = new ArrayList<KeyWord>();
 
 		for(Sentence sentence : sentenceList){
+			ArrayList<Integer> P1keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P3keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P4keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 
 			//手がかり語探索
+			P1keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 1));
 			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 3));
 			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 4));
 
 			//手がかり語リストに追加
+			if(P1keyWordIdList.size() != 0){
+				keyWordList = addKeyWord(keyWordList, P1keyWordIdList, phraseRestoreList, 1);
+			}
 			if(P3keyWordIdList.size() != 0){
 				keyWordList = addKeyWord(keyWordList, P3keyWordIdList, phraseRestoreList, 3);
 			}
@@ -57,47 +62,6 @@ public class KeyWordSearcher {
 		int keyWordId = -1;
 		int targetDependencyIndex = -1;
 		int effectId = -1;
-		//int searchIndex = phraseList.size() - 1;
-		//int phraseId = 0;
-		//Phrase phrase = phraseList.get(searchIndex);
-		//ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-		//		while(searchIndex > 0){
-		//			ArrayList<Morpheme> targetMorphemeList = new ArrayList<Morpheme>();
-		//			
-		//			phraseId = searchIndex;
-		////			while(searchIndex > 0){
-		////				Collections.reverse(morphemeList);
-		////				targetMorphemeList.addAll(morphemeList);
-		////				Collections.reverse(morphemeList);
-		////				searchIndex--;
-		////				phrase = phraseList.get(searchIndex);
-		////				morphemeList = phrase.getMorphemeList();
-		////				if(!morphemeList.get(morphemeList.size()-1).getMorphemeText().equals("の")){ break; }
-		////			}
-		//			targetMorphemeList.addAll(morphemeList);
-		//			String lastMorphemeText = targetMorphemeList.get(0).getMorphemeText();
-		//			if(!(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") 
-		//												|| lastMorphemeText.equals("を"))){ continue; }
-		//			Collections.reverse(targetMorphemeList);
-		//			String targetForm = ChangePhraseForm.changePhraseForm(targetMorphemeList, 1);
-		//			//if(!targetForm.contains(target)){ continue; }
-		//			if(!targetForm.equals(target)){ continue; }
-		//			targetDependencyIndex = phraseList.get(phraseId).getDependencyIndex();
-		//			switch(patternType){
-		//			case 3:
-		//				effectId = P3Searcher.getEffectId(targetDependencyIndex, effect, phraseList);
-		//				if(effectId == -1){ continue; }
-		//				keyWordId = P3Searcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
-		//				break;
-		//			case 4:
-		//				effectId = P4Searcher.getEffectId(targetDependencyIndex, effect, phraseList);
-		//				if(effectId == -1){ continue; }
-		//				keyWordId = P4Searcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
-		//				break;
-		//			}
-		//			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
-		//			keyWordIdList.add(keyWordId);
-		//		} 
 
 		for(int phraseId = 0; phraseId < phraseList.size(); phraseId++){
 
@@ -113,16 +77,22 @@ public class KeyWordSearcher {
 			//if(!targetForm.contains(target)){ continue; }
 			if(!targetText.equals(target)){ continue; }
 			targetDependencyIndex = phraseList.get(phraseId).getDependencyIndex();
+			
 			switch(patternType){
-			case 3:
-				effectId = P3Searcher.getEffectId(targetDependencyIndex, effect, phraseList);
+			case 1:
+				effectId = P1KeyWordSercher.getEffectId(targetDependencyIndex, effect, phraseList);
 				if(effectId == -1){ continue; }
-				keyWordId = P3Searcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
+				keyWordId = P1KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
+				break;
+			case 3:
+				effectId = P3KeyWordSearcher.getEffectId(targetDependencyIndex, effect, phraseList);
+				if(effectId == -1){ continue; }
+				keyWordId = P3KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			case 4:
-				effectId = P4Searcher.getEffectId(targetDependencyIndex, effect, phraseList);
+				effectId = P4KeyWordSearcher.getEffectId(targetDependencyIndex, effect, phraseList);
 				if(effectId == -1){ continue; }
-				keyWordId = P4Searcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
+				keyWordId = P4KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			}
 			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
@@ -141,8 +111,8 @@ public class KeyWordSearcher {
 			Phrase phrase = phraseList.get(id);
 			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 
-			//P3の時は、薬剤名のすぐ後ろを手がかり語とする
-			if(pattern == 3){
+			//P3、P1の時は、薬剤名のすぐ後ろを手がかり語とする
+			if(pattern == 3 || pattern == 1){
 				// 薬剤名の形態素位置取得
 				for(int i = 0; i<morphemeList.size(); i++){
 					String morphemeText = morphemeList.get(i).getMorphemeText();
@@ -156,9 +126,9 @@ public class KeyWordSearcher {
 			else if(pattern == 4){ keyWordPlace = 0; }
 
 			//文節の末尾確認
-			if(!(morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("格助詞")
-					||morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("接続助詞")
-					|| morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("読点"))){ continue; }
+//			if(!(morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("格助詞")
+//					||morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("接続助詞")
+//					|| morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("読点"))){ continue; }
 			if(keyWordPlace >= morphemeList.size()){ continue; } //形態素存在チェック
 			Morpheme morpheme = morphemeList.get(keyWordPlace);
 			if(morpheme.getPartOfSpeechDetails().equals("数")){ 
