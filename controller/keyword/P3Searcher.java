@@ -2,7 +2,7 @@ package controller.keyword;
 
 import java.util.ArrayList;
 
-import controller.Logic;
+import controller.logic.Logic;
 import model.*;
 
 public class P3Searcher {

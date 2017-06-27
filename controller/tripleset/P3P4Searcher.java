@@ -3,7 +3,7 @@ package controller.tripleset;
 import java.util.ArrayList;
 import model.*;
 
-public class TripleSetInfoSearcher {
+public class P3P4Searcher {
 
 	public static final String MEDICINE = "MEDICINE";
 	private static  ArrayList<Phrase> phraseList;
@@ -15,11 +15,11 @@ public class TripleSetInfoSearcher {
 
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
-		TripleSetInfoSearcher.keyWordText = keyWordText;
+		P3P4Searcher.keyWordText = keyWordText;
 
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 252){ continue; } //デバッグ用
-			TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
+			P3P4Searcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
 
@@ -34,7 +34,7 @@ public class TripleSetInfoSearcher {
 				int medicinePlaceIndex = -1;
 
 				// 薬剤名の形態素位置取得
-				for(int i = 0; i<morphemeList.size(); i++){
+				for(int i = morphemeList.size() - 1; i >= 0; i--){
 					String morphemeText = morphemeList.get(i).getMorphemeText();
 					if(!morphemeText.contains(MEDICINE)){ continue; }
 					medicinePlaceIndex = i;
@@ -46,7 +46,7 @@ public class TripleSetInfoSearcher {
 				// 対象薬剤名のすぐ後ろに手がかり語があるか探索
 				// 同じ文節内にある（P3）
 				if(keywordPlaceIndex > 0){
-					if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } // 隣り合っているか
+					if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } // 隣り合っていなければ不適切
 					// 自身のIDを渡す
 					judgeKeywordPhrase(phrase.getId());
 				}

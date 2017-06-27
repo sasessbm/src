@@ -1,4 +1,4 @@
-package controller;
+package controller.logic;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +61,26 @@ public class Logic {
 				TripleSetInfo tSI = removeList.get(i);
 				if(tSI.getSentenceId() == sentenceId && tSI.getMedicinePhraseId() == medicinePhraseId && 
 						tSI.getTargetPhraseId() == targetPhraseId && tSI.getEffectPhraseId() == effectPhraseId){
+					removeList.remove(i);
+				}
+			}
+		}
+		return removeList;
+	}
+	
+	public static ArrayList<TripleSet> deleteOverlappingFromListForTripleSet
+	(ArrayList<TripleSet> removeList, ArrayList<TripleSet> compareList){
+
+		for(TripleSet tripleSet : compareList){
+			int sentenceId = tripleSet.getSentenceId();
+			int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
+			int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
+			int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
+
+			for(int i = removeList.size() - 1; i >= 0; i--){
+				TripleSet ts = removeList.get(i);
+				if(ts.getSentenceId() == sentenceId && ts.getMedicinePhraseIndex() == medicinePhraseId && 
+					ts.getTargetElement().getPhraseIndex() == targetPhraseId && ts.getEffectElement().getPhraseIndex() == effectPhraseId){
 					removeList.remove(i);
 				}
 			}
@@ -300,26 +320,48 @@ public class Logic {
 	}
 
 	//正解三つ組情報取得
-	public static ArrayList<TripleSetInfo> getCorrectTripleSetInfoList
-	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<CorrectAnswer> correctAnswerList){
+//	public static ArrayList<TripleSetInfo> getCorrectTripleSetInfoList
+//	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<CorrectAnswer> correctAnswerList){
+//
+//		ArrayList<TripleSetInfo> correctTripleSetInfoList = new ArrayList<TripleSetInfo>();
+//		//ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
+//
+//		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
+//			int sentenceId = tripleSetInfo.getSentenceId();
+//			int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
+//			int targetPhraseId = tripleSetInfo.getTargetPhraseId();
+//			int effectPhraseId = tripleSetInfo.getEffectPhraseId();
+//
+//			for(CorrectAnswer correctAnswer : correctAnswerList){
+//				if(correctAnswer.getSentenceId() == sentenceId && correctAnswer.getMedicinePhraseId() == medicinePhraseId
+//						&& correctAnswer.getTargetPhraseId() == targetPhraseId && correctAnswer.getEffectPhraseId() == effectPhraseId){
+//					correctTripleSetInfoList.add(tripleSetInfo);
+//				}
+//			}
+//		}
+//		return correctTripleSetInfoList;
+//	}
+	
+	public static ArrayList<TripleSet> getCorrectTripleSetList
+	(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
 
-		ArrayList<TripleSetInfo> correctTripleSetInfoList = new ArrayList<TripleSetInfo>();
+		ArrayList<TripleSet> correctTripleSetList = new ArrayList<TripleSet>();
 		//ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
 
-		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
-			int sentenceId = tripleSetInfo.getSentenceId();
-			int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
-			int targetPhraseId = tripleSetInfo.getTargetPhraseId();
-			int effectPhraseId = tripleSetInfo.getEffectPhraseId();
+		for(TripleSet tripleSet : tripleSetList){
+			int sentenceId = tripleSet.getSentenceId();
+			int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
+			int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
+			int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
 
 			for(CorrectAnswer correctAnswer : correctAnswerList){
 				if(correctAnswer.getSentenceId() == sentenceId && correctAnswer.getMedicinePhraseId() == medicinePhraseId
 						&& correctAnswer.getTargetPhraseId() == targetPhraseId && correctAnswer.getEffectPhraseId() == effectPhraseId){
-					correctTripleSetInfoList.add(tripleSetInfo);
+					correctTripleSetList.add(tripleSet);
 				}
 			}
 		}
-		return correctTripleSetInfoList;
+		return correctTripleSetList;
 	}
 
 	public static ArrayList<Phrase> copyPhraseList(ArrayList<Phrase> originPhraseList){

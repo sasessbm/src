@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 import model.*;
-import controller.*;
+import controller.tripleset.*;
 import controller.keyword.KeyWordSearcher;
 import controller.keyword.Transformation;
+import controller.logic.Calculator;
+import controller.logic.Logic;
+import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
-import controller.tripleset.TripleSetInfoSearcher;
+import controller.tripleset.P3P4Searcher;
 import controller.tripleset.TripleSetMaker;
 
 public class RunFromKeyWordSeed {
@@ -21,9 +24,9 @@ public class RunFromKeyWordSeed {
 		ArrayList<KeyWord> keyWordIncreaseList = Transformation.stringToKeyWord(keyWordSeedList);
 		ArrayList<String> keyWordTextIncreaseList = new ArrayList<String>();
 
-		ArrayList<TripleSet> tripleSetIncreaseFinalList = new ArrayList<TripleSet>();
+		ArrayList<TripleSet> tripleSetFinalList = new ArrayList<TripleSet>();
 		ArrayList<KeyWord> keyWordIncreaseFinalList = new ArrayList<KeyWord>();
-		ArrayList<TripleSetInfo> tripleSetInfoIncreaseFinalList = new ArrayList<TripleSetInfo>();
+		//ArrayList<TripleSetInfo> tripleSetInfoIncreaseFinalList = new ArrayList<TripleSetInfo>();
 
 		System.out.println("テストデータ読み込み中・・・");
 		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
@@ -53,14 +56,20 @@ public class RunFromKeyWordSeed {
 			for(KeyWord keyWord : keyWordIncreaseList){
 				String keyWordText = keyWord.getKeyWordText();
 				//System.out.println("\r\n" + keyWordText);
-				ArrayList<TripleSetInfo> tripleSetInfoList = TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText);
+				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4Searcher.getTripleSetInfoList(sentenceList ,keyWordText);
+				tripleSetInfoList.addAll(P1Searcher.getTripleSetInfoList(sentenceList ,keyWordText));
 				
 				if(tripleSetInfoList.size() == 0){ continue; }
 				
 				//すでに取得しているものは取得しない
 				//tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);
-				tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
+				//tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSet(tripleSetInfoList, tripleSetIncreaseFinalList);
+				//tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
 				ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+				tripleSetTmpList = Logic.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
+				Filtering.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
+				if(tripleSetTmpList.size() == 0){ continue; }
+				
 				tripleSetForSearchList.addAll(tripleSetTmpList);
 				
 				System.out.println("\r\n「"+keyWordText + "」から、以下の三つ組を抽出");
@@ -116,6 +125,9 @@ public class RunFromKeyWordSeed {
 					tripleSetIncreaseList.add(tripleSet);
 				}
 			}
+			
+			tripleSetFinalList.addAll(tripleSetIncreaseList);
+			
 			//手がかり語増加リスト初期化
 			//keyWordIncreaseList.clear();
 			keyWordTextIncreaseList.clear();
@@ -203,8 +215,10 @@ public class RunFromKeyWordSeed {
 			tripleSetIncreaseList.clear();
 		}
 		
-		tripleSetIncreaseFinalList 
-					= TripleSetMaker.getTripleSetList(tripleSetInfoIncreaseFinalList, sentenceList, medicineNameList);
+//		tripleSetIncreaseFinalList 
+//					= TripleSetMaker.getTripleSetList(tripleSetInfoIncreaseFinalList, sentenceList, medicineNameList);
+		
+		
 		
 		System.out.println("\r\n＜全抽出結果＞");
 		
@@ -214,17 +228,18 @@ public class RunFromKeyWordSeed {
 		}
 
 		System.out.println("\r\n＜三つ組＞");
-		for(TripleSet tripleSet : tripleSetIncreaseFinalList){
+		for(TripleSet tripleSet : tripleSetFinalList){
 			System.out.println("（" + tripleSet.getMedicineName()+ "，" + tripleSet.getTargetElement().getText() + "，" 
 					+tripleSet.getEffectElement().getText() + "）");
 		}
 		
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
-		ArrayList<TripleSetInfo> correctTripleSetInfoList = Logic.getCorrectTripleSetInfoList(tripleSetInfoIncreaseFinalList, correctAnswerList);
-		ArrayList<TripleSet> correctTripleSetList = TripleSetMaker.getTripleSetList(correctTripleSetInfoList, sentenceList, medicineNameList);
+		//ArrayList<TripleSetInfo> correctTripleSetInfoList = Logic.getCorrectTripleSetInfoList(tripleSetInfoIncreaseFinalList, correctAnswerList);
+		//ArrayList<TripleSet> correctTripleSetList = TripleSetMaker.getTripleSetList(correctTripleSetInfoList, sentenceList, medicineNameList);
+		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 		
 		Logic.displayResult
-		(tripleSetInfoIncreaseFinalList.size(), correctTripleSetList, correctAnswerList.size());
+		(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size());
 	}
 
 }

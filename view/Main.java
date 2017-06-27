@@ -1,6 +1,9 @@
 package view;
 import java.util.ArrayList;
+
 import controller.*;
+import controller.logic.FileOperator;
+import controller.logic.SeedSetter;
 
 public class Main {
 
@@ -10,7 +13,6 @@ public class Main {
 	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\薬剤名\\medicine_name.txt");
 	
 	private static ArrayList<String> keyWordSeedList = SeedSetter.getKeyWordSeedList();
-	
 	//private static ArrayList<String> keyWordSeedList = SeedSetter.getTestKeyWordSeedList();
 	
 //	private static ArrayList<String> keyWordList 
@@ -25,7 +27,11 @@ public class Main {
 	private static String keyWordIncreaseFinalFilePath 
 	= "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\手がかり語\\keyword_increase_final.txt";
 	
+//	private static ArrayList<String> targetFilteringList 
+//	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\辞書\\medicine_dic_110_2_clean_human2.txt");
+	
 	private static ArrayList<String> targetFilteringList 
+	//= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\辞書\\110&body.txt");
 	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\辞書\\medicine_dic_110_2_clean_human2.txt");
 
 	//private static String seedFilePath = "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\組\\seed.txt";
@@ -37,10 +43,10 @@ public class Main {
 		//Logic.medicineNameList = medicineNameList;
 		
 		//既存手法
-		RunBaseLine.run(keyWordSeedList, medicineNameList, testDataPath);
+		//RunBaseLine.run(keyWordSeedList, testDataPath, medicineNameList, targetFilteringList);
 		
 		//ブートストラップ
-		//RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath);
+		RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath);
 		
 	}
 

@@ -2,9 +2,12 @@ package controller.keyword;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
-import controller.Logic;
+
+import controller.logic.Logic;
 import controller.tripleset.TripleSetMaker;
 import model.*;
 

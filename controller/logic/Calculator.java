@@ -1,4 +1,4 @@
-package controller;
+package controller.logic;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

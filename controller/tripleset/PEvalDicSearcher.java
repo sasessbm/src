@@ -3,9 +3,10 @@ package controller.tripleset;
 import java.util.ArrayList;
 
 import controller.*;
+import controller.logic.FileOperator;
 import model.*;
 
-public class BaseLine2Searcher {
+public class PEvalDicSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 	private static ArrayList<String> evaldicList = 
@@ -13,7 +14,6 @@ public class BaseLine2Searcher {
 	private static  ArrayList<Phrase> phraseList;
 	private static ArrayList<TripleSetInfo> tripleSetInfoList;
 	private static ArrayList<Integer> medicinePhraseIdList;
-	private static ArrayList<Integer> targetPhraseIdList;
 	private static int sentenceId;
 	private static String sentenceText;
 	//private static TriplePhrase triplePhrase;
@@ -21,20 +21,19 @@ public class BaseLine2Searcher {
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
 
-		targetPhraseIdList = new ArrayList<Integer>();
-
 		for(Sentence sentence : sentenceList){
-			BaseLine2Searcher.phraseList = sentence.getPhraseReplaceList();
+			PEvalDicSearcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
 			medicinePhraseIdList = new ArrayList<Integer>();
+			
+			for(Phrase phrase : phraseList){
+				if(phrase.getPhraseText().contains(MEDICINE)){ medicinePhraseIdList.add(phrase.getId()); }
+			}
 
 			for(Phrase phrase : phraseList){
 				int phraseId = phrase.getId();
-
-				if(phrase.getPhraseText().contains(MEDICINE)){ medicinePhraseIdList.add(phrase.getId()); }
-
-
+				boolean checked = false;
 				for(Morpheme morpheme : phrase.getMorphemeList()){
 					for(String evalWord : evaldicList){
 						//評価表現でない場合
@@ -43,13 +42,13 @@ public class BaseLine2Searcher {
 						judgeTargetPhrase(phraseId);
 						//					System.out.println("評価表現:" + evalWord);
 						//					System.out.println("原形:" + morpheme.getOriginalForm());
-						//					for(Phrase targetPhrase : targetPhraseList){
-						//						System.out.println("対象::" + targetPhrase.getPhraseText());
-						//					}
-						//triplePhraseList.add(triplePhrase);
-						//System.out.println("------------------------------------------");
+						
+						checked = true;
+						break;
 					}
+					if(checked){ break; }
 				}
+				
 			}
 		}
 		return tripleSetInfoList;

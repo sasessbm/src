@@ -1,4 +1,4 @@
-package controller;
+package controller.logic;
 
 import java.util.ArrayList;
 
@@ -70,6 +70,10 @@ public class SeedSetter {
 		seedList.add("mg");
 		seedList.add("なくなる");
 		
+		seedList.add("で");
+		seedList.add("の");
+		seedList.add("は");
+		
 		return seedList;
 
 
@@ -79,10 +83,9 @@ public class SeedSetter {
 		
 		ArrayList<String> seedList = new ArrayList<String>();
 		
-		seedList.add("飲む");
-		seedList.add("変更");
-		seedList.add("処方");
-		seedList.add("する");
+		seedList.add("で");
+		seedList.add("によって");
+		seedList.add("は");
 		//seedList.add("副作用");
 		//seedList.add("せい");
 		//seedList.add("減る");

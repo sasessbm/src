@@ -8,10 +8,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import controller.FileOperator;
-import controller.Logic;
-import controller.PostProcessor;
-import controller.PreProcessor;
+import controller.logic.FileOperator;
+import controller.logic.Logic;
+import controller.logic.PostProcessor;
+import controller.logic.PreProcessor;
 import model.*;
 
 public class SentenceMaker {

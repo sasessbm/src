@@ -1,4 +1,4 @@
-package controller;
+package controller.logic;
 
 import java.util.ArrayList;
 import java.util.TreeMap;

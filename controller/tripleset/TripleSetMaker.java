@@ -3,8 +3,8 @@ package controller.tripleset;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import controller.Logic;
-import controller.PostProcessor;
+import controller.logic.Logic;
+import controller.logic.PostProcessor;
 import model.*;
 
 public class TripleSetMaker {
