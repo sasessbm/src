@@ -233,6 +233,74 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(298,3,10,12));
 		correctAnswerList.add(new CorrectAnswer(299,10,5,6));
 		
+		correctAnswerList.add(new CorrectAnswer(301,13,15,16));
+		correctAnswerList.add(new CorrectAnswer(305,0,2,2));
+		correctAnswerList.add(new CorrectAnswer(314,3,5,9));
+		correctAnswerList.add(new CorrectAnswer(318,0,5,6));
+		correctAnswerList.add(new CorrectAnswer(323,0,2,3));
+		correctAnswerList.add(new CorrectAnswer(323,0,5,6));
+		correctAnswerList.add(new CorrectAnswer(324,0,2,3));
+		correctAnswerList.add(new CorrectAnswer(335,8,10,12));
+		correctAnswerList.add(new CorrectAnswer(339,0,3,5));
+		correctAnswerList.add(new CorrectAnswer(345,1,4,6));
+		correctAnswerList.add(new CorrectAnswer(345,1,5,6));
+		correctAnswerList.add(new CorrectAnswer(346,2,6,7));
+		correctAnswerList.add(new CorrectAnswer(346,3,6,7));
+		
+		correctAnswerList.add(new CorrectAnswer(356,4,9,10));
+		correctAnswerList.add(new CorrectAnswer(356,5,9,10));
+		correctAnswerList.add(new CorrectAnswer(356,6,9,10));
+		correctAnswerList.add(new CorrectAnswer(386,5,7,8)); //一応2個
+		correctAnswerList.add(new CorrectAnswer(386,5,7,8));
+		correctAnswerList.add(new CorrectAnswer(390,3,6,7));
+		correctAnswerList.add(new CorrectAnswer(390,3,11,12));
+		
+		correctAnswerList.add(new CorrectAnswer(408,10,13,14)); //一応2個
+		correctAnswerList.add(new CorrectAnswer(408,10,13,14));
+		correctAnswerList.add(new CorrectAnswer(412,3,6,7));
+		correctAnswerList.add(new CorrectAnswer(417,4,7,9));
+		correctAnswerList.add(new CorrectAnswer(418,1,4,5));
+		correctAnswerList.add(new CorrectAnswer(421,0,2,3));
+		correctAnswerList.add(new CorrectAnswer(427,6,10,12));
+		correctAnswerList.add(new CorrectAnswer(427,7,10,12));
+		correctAnswerList.add(new CorrectAnswer(427,6,10,16));
+		correctAnswerList.add(new CorrectAnswer(427,7,10,16));
+		correctAnswerList.add(new CorrectAnswer(438,0,1,2));
+		correctAnswerList.add(new CorrectAnswer(439,0,3,5));
+		correctAnswerList.add(new CorrectAnswer(443,3,5,6));
+		correctAnswerList.add(new CorrectAnswer(444,1,0,2));
+		correctAnswerList.add(new CorrectAnswer(448,2,1,6));
+		
+		correctAnswerList.add(new CorrectAnswer(452,4,5,6));
+		correctAnswerList.add(new CorrectAnswer(456,0,6,7));
+		correctAnswerList.add(new CorrectAnswer(456,2,6,7));
+		correctAnswerList.add(new CorrectAnswer(461,2,4,5));
+		correctAnswerList.add(new CorrectAnswer(461,13,16,17));
+		correctAnswerList.add(new CorrectAnswer(462,7,2,3));
+		correctAnswerList.add(new CorrectAnswer(462,7,4,6));
+		correctAnswerList.add(new CorrectAnswer(465,0,4,5));
+		correctAnswerList.add(new CorrectAnswer(469,2,7,9));
+		correctAnswerList.add(new CorrectAnswer(473,0,0,1));
+		correctAnswerList.add(new CorrectAnswer(473,0,2,4));
+		correctAnswerList.add(new CorrectAnswer(482,2,1,4));
+		correctAnswerList.add(new CorrectAnswer(482,3,1,4));
+		correctAnswerList.add(new CorrectAnswer(487,3,1,2));
+		correctAnswerList.add(new CorrectAnswer(488,1,4,5));
+		correctAnswerList.add(new CorrectAnswer(488,1,8,9));
+		correctAnswerList.add(new CorrectAnswer(490,6,7,8));
+		correctAnswerList.add(new CorrectAnswer(495,2,0,1));
+		
+		correctAnswerList.add(new CorrectAnswer(504,0,4,5));
+		correctAnswerList.add(new CorrectAnswer(504,0,6,8));
+		correctAnswerList.add(new CorrectAnswer(505,3,5,6));
+		correctAnswerList.add(new CorrectAnswer(510,0,3,5));
+		correctAnswerList.add(new CorrectAnswer(514,3,12,14));
+		correctAnswerList.add(new CorrectAnswer(520,10,12,13));
+		correctAnswerList.add(new CorrectAnswer(526,0,4,5));
+		correctAnswerList.add(new CorrectAnswer(533,1,4,5));
+		
+		
+		
 		return correctAnswerList;
 	}
 	
