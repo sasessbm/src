@@ -36,6 +36,7 @@ public class KeyWordSearcher {
 			ArrayList<Integer> P3keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P4keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P101keyWordIdList = new ArrayList<Integer>();
+			ArrayList<Integer> P102keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 
 			//手がかり語探索
@@ -43,6 +44,7 @@ public class KeyWordSearcher {
 			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 3));
 			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 4));
 			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 101));
+			P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 102));
 			
 
 			//手がかり語リストに追加
@@ -56,7 +58,10 @@ public class KeyWordSearcher {
 				keyWordList = addKeyWord(keyWordList, P4keyWordIdList, phraseRestoreList, 4);
 			}
 			if(P101keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P4keyWordIdList, phraseRestoreList, 101);
+				keyWordList = addKeyWord(keyWordList, P101keyWordIdList, phraseRestoreList, 101);
+			}
+			if(P102keyWordIdList.size() != 0){
+				keyWordList = addKeyWord(keyWordList, P102keyWordIdList, phraseRestoreList, 102);
 			}
 		}
 		return keyWordList;
@@ -105,6 +110,10 @@ public class KeyWordSearcher {
 				if(effectId == -1){ continue; }
 				keyWordId = P101KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
 				break;
+			case 102:
+				effectId = phraseId + 1;
+				keyWordId = P102KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
+				break;
 			}
 			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
 			keyWordIdList.add(keyWordId);
@@ -122,7 +131,7 @@ public class KeyWordSearcher {
 			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 
 			//P3、P1、P101の時は、薬剤名のすぐ後ろを手がかり語とする
-			if(pattern == 3 || pattern == 1 || pattern == 101){
+			if(pattern == 3 || pattern == 1 || pattern == 101 || pattern == 102){
 				// 薬剤名の形態素位置取得
 				for(int i = 0; i<morphemeList.size(); i++){
 					String morphemeText = morphemeList.get(i).getMorphemeText();

@@ -52,38 +52,38 @@ public class RunBaseLine {
 		
 		//評価表現辞書のパターンから三つ組抽出
 		tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
-//		if(tripleSetInfoList.size() != 0){
-//			//すでに取得しているものは取得しない
-//			tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);
-//			tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
-//			System.out.println("\r\n評価表現辞書抽出から、以下の三つ組を取得");
-//			for(TripleSet tripleSet : tripleSetTmpList){
-//				System.out.println(tripleSet.getMedicineName()+ " , " + tripleSet.getTargetElement().getText() 
-//									+ " , " +tripleSet.getEffectElement().getText() + "（" + tripleSet.getMedicinePhraseIndex() + " , " 
-//					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）"
-//					 + "    sID =  " + tripleSet.getSentenceId());
-//			}
-//			tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
-//		}
+		if(tripleSetInfoList.size() != 0){
+			//すでに取得しているものは取得しない
+			tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);
+			tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+			System.out.println("\r\n評価表現辞書抽出から、以下の三つ組を取得");
+			for(TripleSet tripleSet : tripleSetTmpList){
+				System.out.println(tripleSet.getMedicineName()+ " , " + tripleSet.getTargetElement().getText() 
+									+ " , " +tripleSet.getEffectElement().getText() + "（" + tripleSet.getMedicinePhraseIndex() + " , " 
+					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）"
+					 + "    sID =  " + tripleSet.getSentenceId());
+			}
+			tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
+		}
 		
 		tripleSetFinalList = TripleSetMaker.getTripleSetList(tripleSetInfoIncreaseFinalList, sentenceList, medicineNameList);
 		
-//		System.out.println("\r\nフィルタ前");
-//		
-//		for(TripleSet tripleSet : tripleSetFinalList){
-//			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
-//								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
-//		}
-//		
-//		//フィルタリング
-//		Filtering.filter(tripleSetFinalList, targetFilteringList);
-//		
-//		System.out.println("\r\nフィルタ後");
-//		
-//		for(TripleSet tripleSet : tripleSetFinalList){
-//			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
-//								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
-//		}
+		System.out.println("\r\nフィルタ前");
+		
+		for(TripleSet tripleSet : tripleSetFinalList){
+			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
+								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
+		}
+		
+		//フィルタリング
+		Filtering.filter(tripleSetFinalList, targetFilteringList);
+		
+		System.out.println("\r\nフィルタ後");
+		
+		for(TripleSet tripleSet : tripleSetFinalList){
+			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
+								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
+		}
 		
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
 		//ArrayList<TripleSetInfo> correctTripleSetInfoList = Logic.getCorrectTripleSetInfoList(tripleSetInfoIncreaseFinalList, correctAnswerList);
