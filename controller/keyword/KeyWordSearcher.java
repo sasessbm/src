@@ -35,12 +35,15 @@ public class KeyWordSearcher {
 			ArrayList<Integer> P1keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P3keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P4keyWordIdList = new ArrayList<Integer>();
+			ArrayList<Integer> P101keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 
 			//手がかり語探索
 			P1keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 1));
 			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 3));
 			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 4));
+			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 101));
+			
 
 			//手がかり語リストに追加
 			if(P1keyWordIdList.size() != 0){
@@ -51,6 +54,9 @@ public class KeyWordSearcher {
 			}
 			if(P4keyWordIdList.size() != 0){
 				keyWordList = addKeyWord(keyWordList, P4keyWordIdList, phraseRestoreList, 4);
+			}
+			if(P101keyWordIdList.size() != 0){
+				keyWordList = addKeyWord(keyWordList, P4keyWordIdList, phraseRestoreList, 101);
 			}
 		}
 		return keyWordList;
@@ -94,11 +100,15 @@ public class KeyWordSearcher {
 				if(effectId == -1){ continue; }
 				keyWordId = P4KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
+			case 101:
+				effectId = P101KeyWordSercher.getEffectId(targetDependencyIndex, effect, phraseList);
+				if(effectId == -1){ continue; }
+				keyWordId = P101KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
+				break;
 			}
 			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
 			keyWordIdList.add(keyWordId);
 		}
-
 
 		return keyWordIdList;
 	}
@@ -111,8 +121,8 @@ public class KeyWordSearcher {
 			Phrase phrase = phraseList.get(id);
 			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 
-			//P3、P1の時は、薬剤名のすぐ後ろを手がかり語とする
-			if(pattern == 3 || pattern == 1){
+			//P3、P1、P101の時は、薬剤名のすぐ後ろを手がかり語とする
+			if(pattern == 3 || pattern == 1 || pattern == 101){
 				// 薬剤名の形態素位置取得
 				for(int i = 0; i<morphemeList.size(); i++){
 					String morphemeText = morphemeList.get(i).getMorphemeText();

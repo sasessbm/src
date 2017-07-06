@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("クロミッドでの多胎率は低いみたいだけど普通妊娠よりは、当然高いですよね");
+		Run("解熱剤（ロキソニン）を飲むと、しばらく熱は下がるが長続きせず直ぐに４０℃までアップする事を繰り返していました");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

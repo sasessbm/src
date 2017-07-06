@@ -58,6 +58,7 @@ public class RunFromKeyWordSeed {
 				//System.out.println("\r\n" + keyWordText);
 				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText);
 				tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText));
+				tripleSetInfoList.addAll(P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText));
 				
 				if(tripleSetInfoList.size() == 0){ continue; }
 				
@@ -66,6 +67,7 @@ public class RunFromKeyWordSeed {
 				//tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSet(tripleSetInfoList, tripleSetIncreaseFinalList);
 				//tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
 				ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+				//tripleSetTmpList = Logic.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetTmpList);
 				tripleSetTmpList = Logic.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
 				Filtering.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
 				if(tripleSetTmpList.size() == 0){ continue; }
@@ -89,7 +91,7 @@ public class RunFromKeyWordSeed {
 			}
 
 			//三つ組探索用リストの重複削除
-			tripleSetForSearchList = Logic.deleteSameSet(tripleSetForSearchList);
+			//tripleSetForSearchList = Logic.deleteSameSet(tripleSetForSearchList);
 
 			//閾値計算
 //			if(i > 2){

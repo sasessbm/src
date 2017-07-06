@@ -297,6 +297,8 @@ public class Logic {
 
 		int correctExtractionNum = correctTripleSetList.size();
 
+		//sentenceID順にソート
+		correctTripleSetList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 
 		ArrayList<Double> resultList = Calculator.getResultList(allExtractionNum, correctExtractionNum, correctAnswerNum);
 		

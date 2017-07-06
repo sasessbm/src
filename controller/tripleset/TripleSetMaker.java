@@ -217,40 +217,30 @@ public class TripleSetMaker {
 
 
 	public static Element getOriginalElement(ArrayList<Morpheme> morphemeList, int elementType){
-
 		Element element = new Element();
 		String text = "";
 		ArrayList<Morpheme> elementMorphemeList = new ArrayList<Morpheme>();
 		boolean isVerb = false;
-
 		for(Morpheme morpheme : morphemeList){
-
 			//助詞が出現("の"以外) 
 			//if(morpheme.getPartOfSpeech().equals("助詞") & !morpheme.getOriginalForm().equals("の") ){ break; }
 			if(morpheme.getPartOfSpeech().equals("助詞")){ break; }
-
 			if(morpheme.getOriginalForm().equals("、") || morpheme.getOriginalForm().equals("。")){ break; }
-
 			if(morpheme.getPartOfSpeech().equals("動詞")){
-
 				isVerb = true;
-
 			}else{
 				isVerb = false;
 			}
-			
 			elementMorphemeList.add(morpheme);
 		}
 
 		for(int i = 0; i < elementMorphemeList.size(); i++){
-
 			if(isVerb && i == elementMorphemeList.size() - 1 && elementType == 2){
 				text += elementMorphemeList.get(i).getOriginalForm(); //「効果」要素で、最後が動詞だった時
 			}else{
 				text += elementMorphemeList.get(i).getMorphemeText();
 			}
 		}
-
 		element.setText(text);
 		element.setMorphemeList(elementMorphemeList);
 
