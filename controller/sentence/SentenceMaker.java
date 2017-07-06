@@ -29,7 +29,7 @@ public class SentenceMaker {
 		int spaceIndex = 0;
 		
 		for(String text : testDataContentsList){
-			if(sentenceCount == 539){ break; }
+			//if(sentenceCount == 781){ break; }
 			int lineType = lineCount % 3;
 			switch(lineType){
 			case 0:

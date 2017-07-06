@@ -104,7 +104,7 @@ public class TripleSetMaker {
 		effectElement.setPhraseIndex(effectPhraseId);
 
 		TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyWord(),
-				sentenceText, sentenceId, medicinePhraseId);
+				sentenceText, sentenceId, medicinePhraseId, tripleSetInfo.getPatternType());
 		
 		tripleSet.setTargetOriginalElement(targetOriginalElement);
 		

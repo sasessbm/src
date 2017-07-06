@@ -12,6 +12,7 @@ public class P3P4TripleSetInfoSearcher {
 	private static int medicinePhraseId;
 	private static int sentenceId;
 	private static String sentenceText;
+	private static int patternType;
 
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
@@ -47,6 +48,7 @@ public class P3P4TripleSetInfoSearcher {
 				// 同じ文節内にある（P3）
 				if(keywordPlaceIndex > 0){
 					if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } // 隣り合っていなければ不適切
+					patternType = 3;
 					// 自身のIDを渡す
 					judgeKeywordPhrase(phrase.getId());
 				}
@@ -59,6 +61,7 @@ public class P3P4TripleSetInfoSearcher {
 					if(keywordPlaceIndex != 0){ continue; } // 最初の位置か
 					//if(morphemeList.size() <= medicinePlaceIndex + 1){ continue; }
 					//if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
+					patternType = 4;
 					//係り先番号を渡す
 					judgeKeywordPhrase(dIndex);
 				}
@@ -129,6 +132,7 @@ public class P3P4TripleSetInfoSearcher {
 				if(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") || lastMorphemeText.equals("を")){
 					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
 					tripleSetInfo.setUsedKeyWord(keyWordText);
+					tripleSetInfo.setPatternType(patternType);
 					tripleSetInfoList.add(tripleSetInfo);
 				}
 			}

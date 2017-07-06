@@ -303,7 +303,8 @@ public class Logic {
 		System.out.println("\r\n＜正解出力結果＞");
 
 		for(TripleSet tripleSet : correctTripleSetList){
-			System.out.println("\r\nsentenceID = " + tripleSet.getSentenceId() + "　　　　使われた手がかり語・・・" + tripleSet.getUsedKeyWord());
+			System.out.println("\r\nsentenceID = " + tripleSet.getSentenceId() + "       使われた手がかり語・・・" + tripleSet.getUsedKeyWord()
+					             + "     抽出パターン・・・" + tripleSet.getPatternType());
 			System.out.println("「"+ tripleSet.getSentenceText() + "」");
 			System.out.println("（" + tripleSet.getMedicineName()+ " , " + tripleSet.getTargetElement().getText() + " , " 
 					+tripleSet.getEffectElement().getText() + "）（" + tripleSet.getMedicinePhraseIndex() + " , " 
@@ -311,6 +312,7 @@ public class Logic {
 		}
 
 		System.out.println("\r\n＜評価結果＞");
+		System.out.println("\r\n全正解数　　　　：" + correctAnswerNum);
 		System.out.println("\r\n出力数　　　　：" + allExtractionNum);
 		System.out.println("正解三つ組み数：" + correctExtractionNum);
 		System.out.println("誤り三つ組み数：" + (allExtractionNum - correctExtractionNum));

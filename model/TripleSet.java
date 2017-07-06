@@ -13,6 +13,7 @@ public class TripleSet {
 	int sentenceId;
 	int medicinePhraseIndex;
 	private Element targetOriginalElement;
+	private int patternType;
 
 
 //	public TripleSet() {
@@ -21,7 +22,7 @@ public class TripleSet {
 	
 	public TripleSet(String medicineName, Element targetElement,
 			Element effectElement, String usedKeyWord, String sentenceText,
-			int sentenceId, int medicinePhraseIndex) {
+			int sentenceId, int medicinePhraseIndex, int patternType) {
 		keyWordList = new ArrayList<KeyWord>();
 		this.medicineName = medicineName;
 		this.targetElement = targetElement;
@@ -30,6 +31,7 @@ public class TripleSet {
 		this.sentenceText = sentenceText;
 		this.sentenceId = sentenceId;
 		this.medicinePhraseIndex = medicinePhraseIndex;
+		this.patternType = patternType;
 	}
 	
 
@@ -115,6 +117,16 @@ public class TripleSet {
 
 	public void setTargetOriginalElement(Element targetOriginalElement) {
 		this.targetOriginalElement = targetOriginalElement;
+	}
+	
+
+	public int getPatternType() {
+		return patternType;
+	}
+
+
+	public void setPatternType(int patternType) {
+		this.patternType = patternType;
 	}
 
 

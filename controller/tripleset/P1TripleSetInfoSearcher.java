@@ -72,6 +72,7 @@ public class P1TripleSetInfoSearcher {
 
 			TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, targetPhraseId, phraseId);
 			tripleSetInfo.setUsedKeyWord(keyWordText);
+			tripleSetInfo.setPatternType(1);
 			tripleSetInfoList.add(tripleSetInfo);
 		}
 	}

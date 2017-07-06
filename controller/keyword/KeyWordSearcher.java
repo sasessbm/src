@@ -131,16 +131,17 @@ public class KeyWordSearcher {
 //					|| morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("読点"))){ continue; }
 			if(keyWordPlace >= morphemeList.size()){ continue; } //形態素存在チェック
 			Morpheme morpheme = morphemeList.get(keyWordPlace);
-			if(morpheme.getPartOfSpeechDetails().equals("数")){ 
+			if(morpheme.getPartOfSpeechDetails().equals("数") || morpheme.getPartOfSpeechDetails().contains("括弧")){ 
 				if(keyWordPlace + 1 >= morphemeList.size()){ continue; } //形態素存在チェック
 				morpheme = morphemeList.get(keyWordPlace + 1); 
 			}
 
 			//手がかり語の適切性判断
-			if(Logic.properKeyWord(morpheme) == false){ continue; }
+			//if(Logic.properKeyWord(morpheme) == false){ continue; }
 
 			//ゴミ取り
-			String morphemeText = Logic.cleanWord(morpheme.getMorphemeText());
+			String morphemeText = morpheme.getMorphemeText();
+			//morphemeText = Logic.cleanWord(morphemeText);
 			if(morphemeText.equals("")){ continue; }
 			String morphemeOriginalText = morpheme.getOriginalForm();
 

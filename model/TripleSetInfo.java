@@ -9,6 +9,7 @@ public class TripleSetInfo {
 	//private ArrayList<Integer> targetPhraseIdList;
 	private int effectPhraseId;
 	private String usedKeyWord;
+	private int patternType;
 	
 	
 	
@@ -88,5 +89,15 @@ public class TripleSetInfo {
 	public void setUsedKeyWord(String usedKeyWord){
 		this.usedKeyWord = usedKeyWord;
 	}
+
+	public int getPatternType() {
+		return patternType;
+	}
+
+	public void setPatternType(int patternType) {
+		this.patternType = patternType;
+	}
+	
+	
 
 }
