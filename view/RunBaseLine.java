@@ -13,7 +13,7 @@ import controller.logic.Logic;
 import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
 import controller.tripleset.PEvalDicSearcher;
-import controller.tripleset.Filtering;
+import controller.tripleset.Filter;
 import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.TripleSetMaker;
 
@@ -76,7 +76,7 @@ public class RunBaseLine {
 		}
 		
 		//フィルタリング
-		Filtering.filter(tripleSetFinalList, targetFilteringList);
+		Filter.filter(tripleSetFinalList, targetFilteringList);
 		
 		System.out.println("\r\nフィルタ後");
 		

@@ -58,8 +58,7 @@ public class P1TripleSetInfoSearcher {
 			if(phraseId != medicineDIndex){ continue; }
 			String lastMorphemeText = phrase.getMorphemeList().
 					get(phrase.getMorphemeList().size()-1).getMorphemeText();
-			if(!(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") 
-					|| lastMorphemeText.equals("を")|| lastMorphemeText.equals("も"))){ continue; }
+			//if(!Filter.isSpecificParticle(lastMorphemeText)){ return; } //助詞の条件付け
 			judgeEffectPhrase(phraseId, phrase.getDependencyIndex());
 		}
 	}

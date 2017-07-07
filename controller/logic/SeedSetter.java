@@ -73,6 +73,7 @@ public class SeedSetter {
 		seedList.add("で");
 		seedList.add("の");
 		seedList.add("は");
+		//seedList.add("出る");
 		
 		return seedList;
 	}

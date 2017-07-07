@@ -22,14 +22,14 @@ public class SentenceMaker {
 		ArrayList<String> testDataContentsList = FileOperator.fileRead(testDataPath);
 		int recordId = 0;
 		int sentenceId = 0;
-		int sentenceCount = 1;
+		int sentenceCount = 0;
 		int lineCount = 0;
 		int recordIdPlaceIndex = 0;
 		int sentenceIdPlaceIndex = 0;
 		int spaceIndex = 0;
 		
 		for(String text : testDataContentsList){
-			//if(sentenceCount == 781){ break; }
+			//if(sentenceCount == 408){ break; }
 			int lineType = lineCount % 3;
 			switch(lineType){
 			case 0:
@@ -44,9 +44,10 @@ public class SentenceMaker {
 				break;
 				
 			case 2:
+				sentenceCount++;
+				//if(sentenceCount != 597){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
-				sentenceCount++;
 				break;
 			}
 			lineCount++ ;

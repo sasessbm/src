@@ -61,9 +61,7 @@ public class PEvalDicSearcher {
 			if(phrase.getDependencyIndex() != id){ continue; }
 			String lastCharacter 
 			= phrase.getPhraseText().substring(phrase.getPhraseText().length() - 1, phrase.getPhraseText().length());
-			if(lastCharacter.equals("が") || lastCharacter.equals("は") 
-					|| lastCharacter.equals("を") || lastCharacter.equals("も")){
-
+			if(Filter.isSpecificParticle(lastCharacter)){
 				for(int medicinePhraseId : medicinePhraseIdList){
 					TripleSetInfo tripleSetInfo 
 					= new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phrase.getId(), id);

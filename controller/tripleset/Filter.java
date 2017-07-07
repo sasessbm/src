@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import controller.logic.Logic;
 import model.*;
 
-public class Filtering {
+public class Filter {
 
 	//	private static ArrayList<String> targetFilteringList = 
 	//			GetTextFileList.fileRead("C:\\Users\\sase\\Desktop\\実験\\リスト\\medicine_dic_110_2_clean_human2.txt");
@@ -40,18 +40,14 @@ public class Filtering {
 
 	//110番辞書フィルタ
 	public static boolean isProper(ArrayList<Morpheme> morphemeList, ArrayList<String> targetFilteringList){
-
 		boolean existInTargetFilteringList = false;
-
 		String targetWord = "";
-
 		//String dicWord = "";
 		boolean nounFlag = false;
 
 		for(Morpheme morpheme : morphemeList){
 			String morphemeText = morpheme.getMorphemeText();
 			String pos = morpheme.getPartOfSpeech();
-
 			if(pos.equals("接頭詞")){
 				if(nounFlag){
 					//dicWord = Preprocessor.preprocessorTargetWord(dicWord);
@@ -65,9 +61,7 @@ public class Filtering {
 						targetWord = "";
 					}
 					nounFlag = false;
-				}else{
-					targetWord += morphemeText;
-				}
+				}else{ targetWord += morphemeText; }
 			}
 			else if(pos.equals("名詞")){
 				targetWord += morphemeText;
@@ -75,7 +69,6 @@ public class Filtering {
 			}
 			else{
 				if(!nounFlag){ continue; }
-
 				//dicWord = Preprocessor.preprocessorTargetWord(dicWord);
 				if(targetWord != ""){
 					//pw.println(dicWord);
@@ -89,23 +82,19 @@ public class Filtering {
 				nounFlag = false;
 			}
 		}
-
 		if(targetWord.length() != 0){
 			if(searchTargetFilteringList(targetWord, targetFilteringList)){
 				existInTargetFilteringList = true;
 				targetWord = "";
 			}
 		}
-
 		return existInTargetFilteringList;
 	}
 
 
 
 	public static boolean searchTargetFilteringList(String word, ArrayList<String> targetFilteringList){
-
 		boolean existInList = false;
-
 		for(String dicWord : targetFilteringList){
 			//			if(word.contains(dicWord)){
 			//				exist = true;
@@ -116,8 +105,11 @@ public class Filtering {
 				System.out.println("辞書単語: " + dicWord);
 			}
 		}
-
 		return existInList;
+	}
+	
+	public static boolean isSpecificParticle(String text){
+		return (text.equals("が") || text.equals("は") || text.equals("を")|| text.equals("も"));
 	}
 
 

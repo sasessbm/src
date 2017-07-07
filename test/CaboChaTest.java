@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("ふーん、そうなのかあ？と疑惑いっぱいでしたが、よく考えてみるとHR補充移植でデュファストン飲んでましたがP4は低いままでした");
+		Run("１時間半遅れでプレドニンを飲み、徐々に腫れと痛みが引いてきました");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

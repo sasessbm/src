@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import controller.logic.Logic;
+import controller.tripleset.Filter;
 import controller.tripleset.TripleSetMaker;
 import model.*;
 
@@ -80,8 +81,7 @@ public class KeyWordSearcher {
 			ArrayList<Morpheme> morphemeList = phraseList.get(phraseId).getMorphemeList();
 			targetMorphemeList.addAll(morphemeList);
 			String lastMorphemeText = targetMorphemeList.get(targetMorphemeList.size()-1).getMorphemeText();
-			if(!(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") 
-					|| lastMorphemeText.equals("を"))){ continue; }
+			//if(!Filter.isSpecificParticle(lastMorphemeText)){ continue; } //助詞の条件付け
 
 			Element targetOriginalElement = TripleSetMaker.getOriginalElement(targetMorphemeList, 1);
 			String targetText = targetOriginalElement.getText();

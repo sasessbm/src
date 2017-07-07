@@ -9,14 +9,14 @@ import model.*;
 
 public class TripleSetMaker {
 	
-	//public static void main(String[] args) throws Exception {
-		
+//	public static void main(String[] args) throws Exception {
+//		
 //		ArrayList<Morpheme> morphemeList = new ArrayList<Morpheme>();
 //		morphemeList.add(new Morpheme())
 //		
 //		Element element = getElement("胃腸が");
 //		
-	//}
+//	}
 
 	//	public static ArrayList<TripleSet> getTripleSetList
 	//	(String keyWord, ArrayList<Sentence> sentenceList, ArrayList<String> medicineNameList){
@@ -46,19 +46,22 @@ public class TripleSetMaker {
 
 		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
 			ArrayList<Phrase> phraseRestoreList = sentenceList.get(tripleSetInfo.getSentenceId()-1).getPhraseRestoreList();
-			tripleSetList.add(getTripleSet(tripleSetInfo, phraseRestoreList, medicineNameList));
+			//ArrayList<Phrase> phraseRestoreList = sentenceList.get(0).getPhraseRestoreList(); // デバグ用
+			tripleSetList.addAll(getTripleSet(tripleSetInfo, phraseRestoreList, medicineNameList));
 		}
 		
 		return tripleSetList;
 	}
 
-	public static TripleSet getTripleSet
+	public static ArrayList<TripleSet> getTripleSet
 	(TripleSetInfo tripleSetInfo, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList) {
 
+		ArrayList<TripleSet> tripleSetList = new ArrayList<TripleSet>();
 		int targetPhraseId = tripleSetInfo.getTargetPhraseId();
 		int effectPhraseId = tripleSetInfo.getEffectPhraseId();
 		int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
-		String medicineName = "";
+		//String medicineName = "";
+		ArrayList<String> medicineNameListInPhrase = new ArrayList<String>(); 
 		String sentenceText = tripleSetInfo.getSentenceText();
 		int sentenceId = tripleSetInfo.getSentenceId();
 
@@ -70,8 +73,9 @@ public class TripleSetMaker {
 			for(String text : medicineNameList){
 				String morphemeText = morpheme.getMorphemeText();
 				if(morphemeText.contains(text)){
-					medicineName = text;
-					break;
+					medicineNameListInPhrase.add(text);
+					//medicineName = text;
+					//break;
 				}
 			}
 		}
@@ -103,14 +107,15 @@ public class TripleSetMaker {
 		Element effectElement = getOriginalElement(phraseList.get(effectPhraseId).getMorphemeList(), 2);
 		effectElement.setPhraseIndex(effectPhraseId);
 
-		TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyWord(),
-				sentenceText, sentenceId, medicinePhraseId, tripleSetInfo.getPatternType());
+		for(String medicineName : medicineNameListInPhrase){
+			TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyWord(),
+					sentenceText, sentenceId, medicinePhraseId, tripleSetInfo.getPatternType());
+			tripleSet.setTargetOriginalElement(targetOriginalElement);
+			PostProcessor.deleteParentheses(tripleSet);
+			tripleSetList.add(tripleSet);
+		}
 		
-		tripleSet.setTargetOriginalElement(targetOriginalElement);
-		
-		PostProcessor.deleteParentheses(tripleSet);
-		
-		return tripleSet;
+		return tripleSetList;
 	}
 	
 	public static Element getTargetElement(ArrayList<Phrase> phraseList, int elementType, boolean isRelation){
@@ -131,21 +136,29 @@ public class TripleSetMaker {
 			//存在文節に最も近くに係っている助詞の位置特定
 			for(int i = searchIndex; i >= 0; i--){
 				searchMorphemeList = searchPhraseList.get(i).getMorphemeList();
-				Collections.reverse(searchMorphemeList);
+				//Collections.reverse(searchMorphemeList);
 				for(int j = 0; j < searchMorphemeList.size(); j++){
 					Morpheme morpheme = searchMorphemeList.get(j);
 					if(isParticle(morpheme)){
-						particlePhraseIndex = searchIndex;
+						particlePhraseIndex = i;
 						particleMorphemeIndex = j;
 						break;
 					}
 				}
+//				for(int j = 0; j < searchMorphemeList.size(); j++){
+//					Morpheme morpheme = searchMorphemeList.get(j);
+//					if(isParticle(morpheme)){
+//						particlePhraseIndex = searchIndex;
+//						particleMorphemeIndex = j;
+//						break;
+//					}
+//				}
 				//助詞が見つかった
 				if(particlePhraseIndex != -1 && particleMorphemeIndex != -1){
-					Collections.reverse(searchMorphemeList);
+//					Collections.reverse(searchMorphemeList);
 					break;
 				}
-				Collections.reverse(searchMorphemeList);
+//				Collections.reverse(searchMorphemeList);
 			}
 			//助詞が見つからなかった場合
 			if(particlePhraseIndex == -1 && particleMorphemeIndex == -1){

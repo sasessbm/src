@@ -68,17 +68,24 @@ public class RunFromKeyWordSeed {
 				//tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSet(tripleSetInfoList, tripleSetIncreaseFinalList);
 				//tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
 				ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+				tripleSetTmpList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 				tripleSetTmpList = Logic.deleteSameSet(tripleSetTmpList);
 				tripleSetTmpList = Logic.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
-				Filtering.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
+				
+				Filter.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
 				if(tripleSetTmpList.size() == 0){ continue; }
 				
 				tripleSetForSearchList.addAll(tripleSetTmpList);
 				
 				System.out.println("\r\n「"+keyWordText + "」から、以下の三つ組を抽出");
 				for(TripleSet tripleSet : tripleSetTmpList){
-					System.out.println("（" + tripleSet.getMedicineName()+ "，" + tripleSet.getTargetElement().getText() 
-							+ "，" +tripleSet.getEffectElement().getText() + "）  　　sID = " + tripleSet.getSentenceId());
+					Element targetElement = tripleSet.getTargetElement();
+					Element effectElement = tripleSet.getEffectElement();
+					
+					System.out.println("（" + tripleSet.getMedicineName()+ "，" + targetElement.getText() 
+					+ "，" + effectElement.getText() + "）（" + tripleSet.getMedicinePhraseIndex() + 
+					"，" + targetElement.getPhraseIndex() + "，" + effectElement.getPhraseIndex() +
+					" ） 　　p = "+ tripleSet.getPatternType() +"   sID = " + tripleSet.getSentenceId());
 				}
 
 				//手がかり語に三つ組リストセット
@@ -95,11 +102,11 @@ public class RunFromKeyWordSeed {
 			//tripleSetForSearchList = Logic.deleteSameSet(tripleSetForSearchList);
 
 			//閾値計算
-//			if(i > 2){
-//				//System.out.println("keyWordUsedNum・・・"+keyWordUsedNum);
-//				threshold = constant * (Math.log(keyWordUsedNum) / Math.log(2.0));
-//				System.out.println("閾値・・・" + threshold);
-//			}
+			if(i > 1){
+				//System.out.println("keyWordUsedNum・・・"+keyWordUsedNum);
+				threshold = constant * (Math.log(keyWordUsedNum) / Math.log(2.0));
+				System.out.println("閾値・・・" + threshold);
+			}
 
 			System.out.println("\r\n＜抽出した対象要素のエントロピー計算＞\r\n");
 			
@@ -172,11 +179,11 @@ public class RunFromKeyWordSeed {
 			keyWordTextForSearchList = new ArrayList<String>(new LinkedHashSet<>(keyWordTextForSearchList));
 
 			//閾値計算
-			//if(i != 1){
+			if(i != 1){
 				//System.out.println("tripleSetUsedNum・・・"+tripleSetUsedNum);
-//				threshold = constant * (Math.log(tripleSetUsedNum) / Math.log(2.0));
-//				System.out.println("閾値・・・" + threshold);
-			//}
+				threshold = constant * (Math.log(tripleSetUsedNum) / Math.log(2.0));
+				System.out.println("閾値・・・" + threshold);
+			}
 
 			System.out.println("\r\n＜抽出した手がかり語のエントロピー計算＞\r\n");
 			

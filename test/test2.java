@@ -16,7 +16,7 @@ import controller.logic.FileOperator;
 import controller.logic.Logic;
 import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
-import controller.tripleset.Filtering;
+import controller.tripleset.Filter;
 import controller.tripleset.P1TripleSetInfoSearcher;
 import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.PEvalDicSearcher;

@@ -129,29 +129,40 @@ public class Logic {
 	public static ArrayList<TripleSet> deleteSameSet(ArrayList<TripleSet> tripleSetList){
 		
 		//sentenceID順にソート
-		tripleSetList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
+		//tripleSetList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 		
 		//ArrayList<TripleSet> tripleSetListBase = tripleSetList;
 		
-		for(int i = 0 ; i < tripleSetList.size() - 1 ;){
+		for(int i = 0; i < tripleSetList.size() - 1; i++){
 			//int sameCount = 0;
-			int sentenceIdBase = tripleSetList.get(i).getSentenceId();
-			int medicinePhraseIdBase = tripleSetList.get(i).getMedicinePhraseIndex();
-			int targetPhraseIdBase = tripleSetList.get(i).getTargetElement().getPhraseIndex();
-			int effectPhraseIdBase = tripleSetList.get(i).getEffectElement().getPhraseIndex();
+			TripleSet tripleSetBase = tripleSetList.get(i);
+			int sentenceIdBase = tripleSetBase.getSentenceId();
+			int medicinePhraseIdBase = tripleSetBase.getMedicinePhraseIndex();
+			int targetPhraseIdBase = tripleSetBase.getTargetElement().getPhraseIndex();
+			int effectPhraseIdBase = tripleSetBase.getEffectElement().getPhraseIndex();
+			String medicineNameBase = tripleSetBase.getMedicineName();
+			String targetBase = tripleSetBase.getTargetElement().getText();
+			String effectBase = tripleSetBase.getEffectElement().getText();
 			
-			int sentenceId = tripleSetList.get(i+1).getSentenceId();
-			int medicinePhraseId = tripleSetList.get(i+1).getMedicinePhraseIndex();
-			int targetPhraseId = tripleSetList.get(i+1).getTargetElement().getPhraseIndex();
-			int effectPhraseId = tripleSetList.get(i+1).getEffectElement().getPhraseIndex();
-			
-			if(sentenceIdBase == sentenceId && medicinePhraseIdBase == medicinePhraseId 
-					&& targetPhraseIdBase == targetPhraseId && effectPhraseIdBase == effectPhraseId){
-				tripleSetList.remove(tripleSetList.get(i+1));
-				i = 0;
-				continue;
+			for(int j = i+1; j < tripleSetList.size();){
+				TripleSet tripleSet = tripleSetList.get(j);
+				int sentenceId = tripleSet.getSentenceId();
+				int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
+				int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
+				int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
+				String medicineName = tripleSet.getMedicineName();
+				String target = tripleSet.getTargetElement().getText();
+				String effect = tripleSet.getEffectElement().getText();
+				
+				if(sentenceIdBase == sentenceId && medicinePhraseIdBase == medicinePhraseId 
+					&& targetPhraseIdBase == targetPhraseId && effectPhraseIdBase == effectPhraseId
+					&& medicineNameBase.equals(medicineName) && targetBase.equals(target) && effectBase.equals(effect)){
+					tripleSetList.remove(tripleSet);
+					j = i+1;
+					continue;
+				}
+				 j++;
 			}
-			 i++;
 		}
 		return tripleSetList;
 	}
@@ -395,6 +406,7 @@ public class Logic {
 				if(correctAnswer.getSentenceId() == sentenceId && correctAnswer.getMedicinePhraseId() == medicinePhraseId
 						&& correctAnswer.getTargetPhraseId() == targetPhraseId && correctAnswer.getEffectPhraseId() == effectPhraseId){
 					correctTripleSetList.add(tripleSet);
+					break;
 				}
 			}
 		}

@@ -1,6 +1,7 @@
 package controller.tripleset;
 
 import java.util.ArrayList;
+
 import model.*;
 
 public class P3P4TripleSetInfoSearcher {
@@ -129,12 +130,12 @@ public class P3P4TripleSetInfoSearcher {
 				String lastMorphemeText = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1)
 						.getMorphemeText();
-				if(lastMorphemeText.equals("が") || lastMorphemeText.equals("は") || lastMorphemeText.equals("を")){
+				//if(Filter.isSpecificParticle(lastMorphemeText)){
 					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
 					tripleSetInfo.setUsedKeyWord(keyWordText);
 					tripleSetInfo.setPatternType(patternType);
 					tripleSetInfoList.add(tripleSetInfo);
-				}
+				//}
 			}
 		}
 	}
