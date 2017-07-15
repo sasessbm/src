@@ -31,7 +31,7 @@ public class RunBaseLine {
 		ArrayList<TripleSet> tripleSetFinalList = new ArrayList<TripleSet>();
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
 		
-		//手がかり語から三つ組抽出
+		//手がかり語から三つ組の位置抽出
 		for(String keyWordText : keyWordSeedList){
 			//System.out.println("\r\n" + keyWordText);
 			tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText);
@@ -50,7 +50,7 @@ public class RunBaseLine {
 			}
 		}
 		
-		//評価表現辞書のパターンから三つ組抽出
+		//評価表現辞書のパターンから三つ組の位置抽出
 		tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
 		if(tripleSetInfoList.size() != 0){
 			//すでに取得しているものは取得しない
@@ -66,6 +66,7 @@ public class RunBaseLine {
 			tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);
 		}
 		
+		//三つ組生成
 		tripleSetFinalList = TripleSetMaker.getTripleSetList(tripleSetInfoIncreaseFinalList, sentenceList, medicineNameList);
 		
 		System.out.println("\r\nフィルタ前");

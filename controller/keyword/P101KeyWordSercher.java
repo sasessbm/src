@@ -7,7 +7,7 @@ import controller.logic.Logic;
 
 public class P101KeyWordSercher {
 
-	public static int getEffectId(int targetDependencyIndex, String effect, ArrayList<Phrase> phraseList){
+	public static int getEffectId(int targetDependencyIndex, ArrayList<Phrase> phraseList){
 		int effectId = -1;
 		for(Phrase phrase : phraseList){
 			int phraseId = phrase.getId();

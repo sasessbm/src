@@ -28,7 +28,7 @@ public class test3 {
 		ArrayList<Phrase> phraseRestoreList = sentenceList.get(989).getPhraseRestoreList();
 		
 		ArrayList<Integer> P101keyWordIdList = new ArrayList<Integer>();
-		P101keyWordIdList.addAll(KeyWordSearcher.getKeyWordIdList(medicineNameList, phraseRestoreList, "副作用", "強く", 101));
+		P101keyWordIdList.addAll(KeyWordSearcher.getKeyWordIdList(medicineNameList, phraseRestoreList, "副作用", 101));
 		ArrayList<KeyWord> keyWordList = new ArrayList<KeyWord>();
 		keyWordList = KeyWordSearcher.addKeyWord(keyWordList, P101keyWordIdList, phraseRestoreList, 101);
 		System.out.println(keyWordList.get(0).getKeyWordText());

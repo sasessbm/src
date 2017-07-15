@@ -46,7 +46,7 @@ public class Main {
 		//RunBaseLine.run(keyWordSeedList, testDataPath, medicineNameList, targetFilteringList);
 		
 		//ブートストラップ
-		RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath);
+		RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
 		
 	}
 

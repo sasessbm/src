@@ -28,8 +28,6 @@ public class Calculator {
 
 		ans = calculateEntropy(candidateCooccurrenceList, 2);
 
-
-
 		System.out.println(ans);
 
 	}
@@ -56,7 +54,8 @@ public class Calculator {
 		if(entropy != 0.0){
 			entropy = -entropy;
 		}
-		return roundOff(entropy).doubleValue();
+		//return roundOff(entropy).doubleValue();
+		return entropy;
 	}
 
 	// 再現率・適合率・F値計算                            　　出力数　　　　　　　　抽出した正解数           本来の正解数

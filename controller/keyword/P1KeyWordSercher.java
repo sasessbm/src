@@ -7,7 +7,7 @@ import model.Phrase;
 
 public class P1KeyWordSercher {
 
-	public static int getEffectId(int targetDependencyIndex, String effect, ArrayList<Phrase> phraseList){
+	public static int getEffectId(int targetDependencyIndex, ArrayList<Phrase> phraseList){
 		int effectId = -1;
 		for(Phrase phrase : phraseList){
 			int phraseId = phrase.getId();

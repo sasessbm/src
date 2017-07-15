@@ -125,6 +125,43 @@ public class Logic {
 //		return tripleSetList;
 //	}
 	
+	//重複した手がかり語削除
+	public static ArrayList<KeyWord> deleteSamekeyWord(ArrayList<KeyWord> keyWordList){
+		for(int i = 0; i < keyWordList.size() - 1; i++){
+			KeyWord keyWordBase = keyWordList.get(i);
+			String keyWordTextBase = keyWordBase.getKeyWordText();
+			for(int j = i+1; j < keyWordList.size();){
+				KeyWord keyWord = keyWordList.get(j);
+				String keyWordText = keyWord.getKeyWordText();
+				if(keyWordTextBase.equals(keyWordText)){
+					keyWordList.remove(keyWord);
+					j = i+1;
+					continue;
+				}
+				 j++;
+			}
+		}
+		return keyWordList;
+	}
+	//重複した対象要素を削除
+	public static ArrayList<TripleSet> deleteSameTarget(ArrayList<TripleSet> tripleSetList){
+		for(int i = 0; i < tripleSetList.size() - 1; i++){
+			TripleSet tripleSetBase = tripleSetList.get(i);
+			String targetBase = tripleSetBase.getTargetOriginalElement().getText();
+			for(int j = i+1; j < tripleSetList.size();){
+				TripleSet tripleSet = tripleSetList.get(j);
+				String target = tripleSet.getTargetOriginalElement().getText();
+				if(targetBase.equals(target)){
+					tripleSetList.remove(tripleSet);
+					j = i+1;
+					continue;
+				}
+				 j++;
+			}
+		}
+		return tripleSetList;
+	}
+	
 	//重複した三つ組を削除
 	public static ArrayList<TripleSet> deleteSameSet(ArrayList<TripleSet> tripleSetList){
 		

@@ -28,7 +28,7 @@ public class KeyWordSearcher {
 	//	}
 
 	public static ArrayList<KeyWord> getKeyWordList
-	(ArrayList<String> medicineNameList, ArrayList<Sentence> sentenceList, String target, String effect) 
+	(ArrayList<String> medicineNameList, ArrayList<Sentence> sentenceList, String target) 
 			throws SAXException, IOException, ParserConfigurationException{
 		ArrayList<KeyWord> keyWordList = new ArrayList<KeyWord>();
 
@@ -41,11 +41,11 @@ public class KeyWordSearcher {
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 
 			//手がかり語探索
-			P1keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 1));
-			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 3));
-			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 4));
-			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 101));
-			P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, effect, 102));
+			P1keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 1));
+			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 3));
+			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 4));
+			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
+			P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 102));
 			
 
 			//手がかり語リストに追加
@@ -69,7 +69,7 @@ public class KeyWordSearcher {
 	}
 
 	public static ArrayList<Integer> getKeyWordIdList
-	(ArrayList<String> medicineNameList, ArrayList<Phrase> phraseList, String target, String effect, int patternType){
+	(ArrayList<String> medicineNameList, ArrayList<Phrase> phraseList, String target, int patternType){
 		ArrayList<Integer> keyWordIdList = new ArrayList<Integer>(); 
 		int keyWordId = -1;
 		int targetDependencyIndex = -1;
@@ -91,22 +91,22 @@ public class KeyWordSearcher {
 			
 			switch(patternType){
 			case 1:
-				effectId = P1KeyWordSercher.getEffectId(targetDependencyIndex, effect, phraseList);
+				effectId = P1KeyWordSercher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P1KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
 				break;
 			case 3:
-				effectId = P3KeyWordSearcher.getEffectId(targetDependencyIndex, effect, phraseList);
+				effectId = P3KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P3KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			case 4:
-				effectId = P4KeyWordSearcher.getEffectId(targetDependencyIndex, effect, phraseList);
+				effectId = P4KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P4KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			case 101:
-				effectId = P101KeyWordSercher.getEffectId(targetDependencyIndex, effect, phraseList);
+				effectId = P101KeyWordSercher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P101KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
 				break;

@@ -28,9 +28,9 @@ public class KeyWord {
 		this.tripleSetList = tripleSetList;
 	}
 	
-	public int getTripleSetNum(TripleSet tripleSet){
+	public int getTargetNum(TripleSet tripleSet){
 		int count = 0;
-		String target = tripleSet.getTargetElement().getText();
+		String target = tripleSet.getTargetOriginalElement().getText();
 		//String effect = tripleSet.getEffectElement().getText();
 		//String keyWordText = keyWord.getKeyWordText();
 		for(TripleSet set : tripleSetList){
