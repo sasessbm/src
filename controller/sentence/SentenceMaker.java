@@ -10,6 +10,7 @@ import org.xml.sax.SAXException;
 
 import controller.logic.FileOperator;
 import controller.logic.Logic;
+import controller.logic.OverlapDeleter;
 import controller.logic.PostProcessor;
 import controller.logic.PreProcessor;
 import model.*;
@@ -129,7 +130,7 @@ public class SentenceMaker {
 			additionalRandomIdList = Logic.getAdditionalRandomIdList(diff, startIdIndex, endIdIndex, usedIdList);
 			recordList = DBConnecter.getRecordList(additionalRandomIdList);
 			sentenceList.addAll(makeTestDataSentenceList(recordList, medicineNameList));
-			sentenceList = Logic.deleteSameSentence(sentenceList); // 重複文削除
+			sentenceList = OverlapDeleter.deleteSameSentence(sentenceList); // 重複文削除
 			usedIdList.addAll(additionalRandomIdList);
 		}
 		

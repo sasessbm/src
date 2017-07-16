@@ -8,8 +8,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import model.*;
-import controller.*;
+import controller.logic.Displayer;
 import controller.logic.Logic;
+import controller.logic.OverlapDeleter;
 import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
 import controller.tripleset.PEvalDicSearcher;
@@ -54,7 +55,7 @@ public class RunBaseLine {
 		tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
 		if(tripleSetInfoList.size() != 0){
 			//すでに取得しているものは取得しない
-			tripleSetInfoList = Logic.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);
+			tripleSetInfoList = OverlapDeleter.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);
 			tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
 			System.out.println("\r\n評価表現辞書抽出から、以下の三つ組を取得");
 			for(TripleSet tripleSet : tripleSetTmpList){
@@ -91,7 +92,7 @@ public class RunBaseLine {
 		//ArrayList<TripleSet> correctTripleSetList = TripleSetMaker.getTripleSetList(correctTripleSetInfoList, sentenceList, medicineNameList);
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 		
-		Logic.displayResult
+		Displayer.displayResult
 		(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size());
 	}
 	

@@ -12,6 +12,7 @@ import model.TripleSetInfo;
 
 import org.xml.sax.SAXException;
 
+import controller.logic.Displayer;
 import controller.logic.FileOperator;
 import controller.logic.Logic;
 import controller.logic.SeedSetter;
@@ -131,7 +132,7 @@ public class test2 {
 		//ArrayList<TripleSet> correctTripleSetList = TripleSetMaker.getTripleSetList(correctTripleSetInfoList, sentenceList, medicineNameList);
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 
-		Logic.displayResult
+		Displayer.displayResult
 		(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size());
 	}
 

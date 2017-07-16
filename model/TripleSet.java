@@ -134,7 +134,7 @@ public class TripleSet {
 		int count = 0;
 		//String keyWordText = keyWord.getKeyWordText();
 		for(KeyWord key : keyWordList){
-			if(key.getKeyWordText().equals(keyWordText)){ count++; }
+			if(key.getText().equals(keyWordText)){ count++; }
 		}
 		return count;
 	}

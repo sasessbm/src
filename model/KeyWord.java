@@ -4,20 +4,21 @@ import java.util.ArrayList;
 
 public class KeyWord {
 	
-	private String keyWordText;
+	private String text;
 	private ArrayList<TripleSet> tripleSetList;
+	private int sentenceId;
 	
-	public KeyWord(String keyWordText){
-		this.keyWordText = keyWordText;
+	public KeyWord(String text){
+		this.text = text;
 		tripleSetList = new ArrayList<TripleSet>();
 	}
 
-	public String getKeyWordText() {
-		return keyWordText;
+	public String getText() {
+		return text;
 	}
 
-	public void setKeyWordText(String keyWordText) {
-		this.keyWordText = keyWordText;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public ArrayList<TripleSet> getTripleSetList() {
@@ -28,6 +29,14 @@ public class KeyWord {
 		this.tripleSetList = tripleSetList;
 	}
 	
+	public int getSentenceId() {
+		return sentenceId;
+	}
+
+	public void setSentenceId(int sentenceId) {
+		this.sentenceId = sentenceId;
+	}
+
 	public int getTargetNum(TripleSet tripleSet){
 		int count = 0;
 		String target = tripleSet.getTargetOriginalElement().getText();

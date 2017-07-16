@@ -39,6 +39,7 @@ public class KeyWordSearcher {
 			ArrayList<Integer> P101keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P102keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
+			int sentenceId = sentence.getSentenceId();
 
 			//手がかり語探索
 			P1keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 1));
@@ -50,19 +51,19 @@ public class KeyWordSearcher {
 
 			//手がかり語リストに追加
 			if(P1keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P1keyWordIdList, phraseRestoreList, 1);
+				keyWordList = addKeyWord(keyWordList, P1keyWordIdList, phraseRestoreList, sentenceId, 1);
 			}
 			if(P3keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P3keyWordIdList, phraseRestoreList, 3);
+				keyWordList = addKeyWord(keyWordList, P3keyWordIdList, phraseRestoreList, sentenceId, 3);
 			}
 			if(P4keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P4keyWordIdList, phraseRestoreList, 4);
+				keyWordList = addKeyWord(keyWordList, P4keyWordIdList, phraseRestoreList, sentenceId, 4);
 			}
 			if(P101keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P101keyWordIdList, phraseRestoreList, 101);
+				keyWordList = addKeyWord(keyWordList, P101keyWordIdList, phraseRestoreList, sentenceId, 101);
 			}
 			if(P102keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P102keyWordIdList, phraseRestoreList, 102);
+				keyWordList = addKeyWord(keyWordList, P102keyWordIdList, phraseRestoreList, sentenceId, 102);
 			}
 		}
 		return keyWordList;
@@ -123,7 +124,7 @@ public class KeyWordSearcher {
 	}
 
 	public static ArrayList<KeyWord> addKeyWord
-	(ArrayList<KeyWord> keyWordList, ArrayList<Integer> keyWordIdList, ArrayList<Phrase> phraseList, int pattern){
+	(ArrayList<KeyWord> keyWordList, ArrayList<Integer> keyWordIdList, ArrayList<Phrase> phraseList, int sentenceId, int pattern){
 		int keyWordPlace = -1;
 		int medicinePlaceIndex = -1;
 		for(int id : keyWordIdList){
@@ -163,12 +164,18 @@ public class KeyWordSearcher {
 			//morphemeText = Logic.cleanWord(morphemeText);
 			if(morphemeText.equals("")){ continue; }
 			String morphemeOriginalText = morpheme.getOriginalForm();
+			//System.out.println(morphemeText);
 
 			if(!morphemeOriginalText.equals("*")){
-				keyWordList.add(new KeyWord(morphemeOriginalText));
+				KeyWord keyWord = new KeyWord(morphemeOriginalText);
+				keyWord.setSentenceId(sentenceId);
+				keyWordList.add(keyWord);
 			}else{
-				keyWordList.add(new KeyWord(morphemeText));
+				KeyWord keyWord = new KeyWord(morphemeText);
+				keyWord.setSentenceId(sentenceId);
+				keyWordList.add(keyWord);
 			}
+			
 		}
 		return keyWordList;
 	}
