@@ -63,7 +63,7 @@ public class Displayer {
 				+tripleSet.getEffectElement().getText() +"）　→　" + entropy + "   閾値・・・" + threshold);
 	}
 
-	public static void dixplayKeyWordSetEntropyAndThreshold(KeyWord keyWord, double entropy, double threshold){
+	public static void dixplayKeyWordEntropyAndThreshold(KeyWord keyWord, double entropy, double threshold){
 		System.out.println("「" + keyWord.getText() + "」 →　" + entropy + "   閾値・・・" + 
 				threshold + "  sId=" + keyWord.getSentenceId());
 	}
@@ -72,7 +72,15 @@ public class Displayer {
 		String str = "";
 		for(int num : targetNumList){ str += num + ","; }
 		str += " AllNum・・・" + targetAllNum;
-		//System.out.println(str);
+		System.out.println(str);
+	}
+	
+	public static void displayExtractedKeyWord(String target, ArrayList<KeyWord> keyWordList){
+		System.out.println("\r\n「"+target + "」から、以下の手がかり語を抽出");
+		for(KeyWord keyWord : keyWordList){
+			System.out.println("「"+ keyWord.getText() + "」");
+		}
+		
 	}
 
 }

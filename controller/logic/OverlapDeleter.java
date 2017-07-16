@@ -153,7 +153,8 @@ public class OverlapDeleter {
 			int targetPhraseIdBase = tripleSetBase.getTargetElement().getPhraseIndex();
 			int effectPhraseIdBase = tripleSetBase.getEffectElement().getPhraseIndex();
 			String medicineNameBase = tripleSetBase.getMedicineName();
-			String targetBase = tripleSetBase.getTargetElement().getText();
+			//String targetBase = tripleSetBase.getTargetElement().getText();
+			String targetBase = tripleSetBase.getTargetOriginalElement().getText();
 			String effectBase = tripleSetBase.getEffectElement().getText();
 
 			for(int j = i+1; j < tripleSetList.size();){
@@ -163,7 +164,8 @@ public class OverlapDeleter {
 				int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
 				int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
 				String medicineName = tripleSet.getMedicineName();
-				String target = tripleSet.getTargetElement().getText();
+				//String target = tripleSet.getTargetElement().getText();
+				String target = tripleSet.getTargetOriginalElement().getText();
 				String effect = tripleSet.getEffectElement().getText();
 
 				if(sentenceIdBase == sentenceId && medicinePhraseIdBase == medicinePhraseId 

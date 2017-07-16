@@ -48,7 +48,6 @@ public class KeyWordSearcher {
 			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
 			P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 102));
 			
-
 			//手がかり語リストに追加
 			if(P1keyWordIdList.size() != 0){
 				keyWordList = addKeyWord(keyWordList, P1keyWordIdList, phraseRestoreList, sentenceId, 1);
@@ -131,7 +130,7 @@ public class KeyWordSearcher {
 			Phrase phrase = phraseList.get(id);
 			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 
-			//P3、P1、P101の時は、薬剤名のすぐ後ろを手がかり語とする
+			//P3、P1、P101、P102の時は、薬剤名のすぐ後ろを手がかり語とする
 			if(pattern == 3 || pattern == 1 || pattern == 101 || pattern == 102){
 				// 薬剤名の形態素位置取得
 				for(int i = 0; i<morphemeList.size(); i++){
