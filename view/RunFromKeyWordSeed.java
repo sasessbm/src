@@ -20,30 +20,28 @@ public class RunFromKeyWordSeed {
 
 	public static void run(ArrayList<String> keyWordSeedList, ArrayList<String> medicineNameList, 
 								String testDataPath, ArrayList<String> targetFilteringList) throws Exception {
+		
 		ArrayList<TripleSet> tripleSetFinalList = new ArrayList<TripleSet>();
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
+		ArrayList<KeyWord> keyWordIncreaseList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		System.out.println("テストデータ読み込み中・・・");
 		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
 		double constant = 0.9;
 		int repeatCount = 10;
 		
-		ArrayList<KeyWord> keyWordIncreaseList = new ArrayList<KeyWord>();
-		ArrayList<KeyWord> keyWordForSearchList = new ArrayList<KeyWord>();
-		ArrayList<TripleSet> tripleSetIncreaseList = new ArrayList<TripleSet>();
-
 		for(int i=1; i <= repeatCount; i++){
 			System.out.println("\r\n" + i + "回目");
 			
-			ArrayList<TripleSet> tripleSetForSearchList = new ArrayList<TripleSet>();
-			
-			//手がかり語
-			if(i==1){ keyWordForSearchList = Transformation.stringToKeyWord(keyWordSeedList); } //シードセット
+			//リスト初期化
+			ArrayList<TripleSet> tripleSetCandidateList = new ArrayList<TripleSet>();
+			ArrayList<TripleSet> tripleSetIncreaseList = new ArrayList<TripleSet>();
+			ArrayList<KeyWord> keyWordCandidateList = new ArrayList<KeyWord>();
 
 			//手がかり語から三つ組取得
 			if(i==1){ System.out.println("\r\n＜以下の初期手がかり語から三つ組探索＞"); }
 			else{ System.out.println("\r\n＜以下の手がかり語から新たな三つ組探索＞"); }
-			for(KeyWord keyWord : keyWordForSearchList){
+			for(KeyWord keyWord : keyWordIncreaseList){
 				String keyWordText = keyWord.getText();
 				
 				//三つ組情報取得
@@ -65,21 +63,21 @@ public class RunFromKeyWordSeed {
 				//手がかり語に三つ組リストセット
 				keyWord.setTripleSetList(tripleSetTmpList);
 				
-				//三つ組探索用リストに追加
-				tripleSetForSearchList.addAll(tripleSetTmpList);
+				//三つ組候補リストに追加
+				tripleSetCandidateList.addAll(tripleSetTmpList);
 				Displayer.displayExtractedTripleSet(keyWordText, tripleSetTmpList); //抽出三つ組表示
 			}
-			if(tripleSetForSearchList.size() == 0){
+			if(tripleSetCandidateList.size() == 0){
 				System.out.println("\r\n＜三つ組を抽出できませんでした＞");
 				break;
 			}
 			
-			//三つ組探索用リストの三つ組重複削除
-			tripleSetForSearchList = OverlapDeleter.deleteSameSet(tripleSetForSearchList);
+			//三つ組候補リストの三つ組重複削除
+			tripleSetCandidateList = OverlapDeleter.deleteSameSet(tripleSetCandidateList);
 
 			//対象要素のエントロピー計算
 			System.out.println("\r\n＜抽出した対象要素のエントロピー計算＞\r\n");
-			for(TripleSet tripleSet : tripleSetForSearchList){
+			for(TripleSet tripleSet : tripleSetCandidateList){
 				double threshold = -1;
 				double entropy = 0;
 				int targetAllNum = 0;
@@ -87,7 +85,7 @@ public class RunFromKeyWordSeed {
 				ArrayList<Integer> targetNumList = new ArrayList<Integer>();
 				
 				//三つ組カウント
-				for(KeyWord keyWord : keyWordForSearchList){
+				for(KeyWord keyWord : keyWordIncreaseList){
 					targetNum = keyWord.getTargetNum(tripleSet);
 					if(targetNum == 0){ continue; }
 					targetNumList.add(targetNum);
@@ -109,18 +107,15 @@ public class RunFromKeyWordSeed {
 			}
 			
 			//三つ組リスト更新
-			tripleSetFinalList.addAll(tripleSetIncreaseList);
-			tripleSetForSearchList = tripleSetIncreaseList;
-			tripleSetForSearchList = OverlapDeleter.deleteSameTarget(tripleSetForSearchList);
+			tripleSetFinalList.addAll(tripleSetIncreaseList); //最終リスト追加
+			tripleSetIncreaseList = OverlapDeleter.deleteSameTarget(tripleSetIncreaseList); //対象重複削除
 			
-			//三つ組増加リスト初期化
-			tripleSetIncreaseList.clear();
-			
-			keyWordForSearchList.clear();
+			//手がかり語増加リスト初期化
+			keyWordIncreaseList.clear();
 
 			//対象要素から手がかり語取得
 			System.out.println("\r\n＜以下の対象要素から新たな手がかり語探索＞");
-			for(TripleSet tripleSet : tripleSetForSearchList){
+			for(TripleSet tripleSet : tripleSetIncreaseList){
 				ArrayList<KeyWord> keyWordTmpList = new ArrayList<KeyWord>();
 				String target = tripleSet.getTargetOriginalElement().getText();
 				//System.out.println("<" + target + ">");
@@ -135,22 +130,22 @@ public class RunFromKeyWordSeed {
 				//対象に手がかり語リストセット
 				tripleSet.setKeyWordList(keyWordTmpList);
 				
-				//手がかり語探索用リストに追加
+				//手がかり語候補リストに追加
 				keyWordTmpList = OverlapDeleter.deleteSameKeyWord(keyWordTmpList); //重複削除
-				keyWordForSearchList.addAll(keyWordTmpList);
+				keyWordCandidateList.addAll(keyWordTmpList);
 				Displayer.displayExtractedKeyWord(target, keyWordTmpList); //抽出手がかり語表示
 			}
-			if(keyWordForSearchList.size() == 0){
+			if(keyWordCandidateList.size() == 0){
 				System.out.println("\r\n＜手がかり語を抽出できませんでした＞");
 				break;
 			}
 			
-			//手がかり語探索用リストの重複削除
-			keyWordForSearchList = OverlapDeleter.deleteSameKeyWord(keyWordForSearchList);
+			//手がかり語候補リストの重複削除
+			keyWordCandidateList = OverlapDeleter.deleteSameKeyWord(keyWordCandidateList);
 
 			//手がかり語のエントロピー計算
 			System.out.println("\r\n＜抽出した手がかり語のエントロピー計算＞\r\n");
-			for(KeyWord keyWord : keyWordForSearchList){
+			for(KeyWord keyWord : keyWordCandidateList){
 				String keyWordText = keyWord.getText();
 				double threshold = -1;
 				double entropy = 0;
@@ -159,7 +154,7 @@ public class RunFromKeyWordSeed {
 				ArrayList<Integer> keyWordNumList = new ArrayList<Integer>();
 				
 				//手がかり語カウント
-				for(TripleSet tripleSet : tripleSetForSearchList){
+				for(TripleSet tripleSet : tripleSetIncreaseList){
 					keyWordTextNum = tripleSet.getKeyWordNum(keyWordText);
 					if(keyWordTextNum == 0){ continue; }
 					keyWordNumList.add(keyWordTextNum);
@@ -178,22 +173,16 @@ public class RunFromKeyWordSeed {
 				//閾値以上の手がかり語をリストに追加
 				if(entropy >= threshold){ keyWordIncreaseList.add(keyWord); }
 			}
-			//手がかり語増加リスト更新
-			//keyWordIncreaseList = Transformation.stringToKeyWord(keyWordTextIncreaseList);
 
 			//手がかり語リスト更新
+			keyWordIncreaseList = OverlapDeleter.deleteSameKeyWord(keyWordIncreaseList); //重複削除
 			keyWordFinalList.addAll(keyWordIncreaseList); //手がかり語最終リストに追加
-			keyWordForSearchList = keyWordIncreaseList;
-			
-			//手がかり語探索用リストの重複削除
-			keyWordForSearchList = OverlapDeleter.deleteSameKeyWord(keyWordForSearchList);
-
 		}
 		//フィルタリング
 		//Filter.filter(tripleSetFinalList, targetFilteringList);
 
 		//全抽出結果表示
-		//Displayer.displayAllKeyWordAndTripleSet(keyWordIncreaseFinalList, tripleSetFinalList);
+		Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
 
 		//最終結果表示
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
