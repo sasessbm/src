@@ -17,12 +17,12 @@ public class Displayer {
 		System.out.println("\r\n＜三つ組＞");
 		for(TripleSet tripleSet : tripleSetList){
 			System.out.println("（" + tripleSet.getMedicineName()+ "，" + tripleSet.getTargetElement().getText() + "，" 
-					+tripleSet.getEffectElement().getText() + "）");
+					+tripleSet.getEffectElement().getText() + "）   ・・・" + tripleSet.getUsedKeyWord());
 		}
 	}
 
 	// 結果表示                                   出力数　　　　　　　　　　　　　　　正解三つ組リスト　　　     本来の正解数　　　　　　
-	public static void displayResult(int allExtractionNum, ArrayList<TripleSet> correctTripleSetList,  int correctAnswerNum){
+	public static void displayResult(int allExtractionNum, ArrayList<TripleSet> correctTripleSetList,  int correctAnswerNum, int keyWordNum){
 		int correctExtractionNum = correctTripleSetList.size();
 		//sentenceID順にソート
 		correctTripleSetList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
@@ -37,6 +37,7 @@ public class Displayer {
 					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）");
 		}
 		System.out.println("\r\n＜評価結果＞");
+		System.out.println("\r\n抽出手がかり語数　　　：" + keyWordNum);
 		System.out.println("\r\n全正解数　　　：" + correctAnswerNum);
 		System.out.println("\r\n出力数　　　：" + allExtractionNum);
 		System.out.println("正解三つ組数：" + correctExtractionNum);

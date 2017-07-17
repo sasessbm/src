@@ -156,11 +156,11 @@ public class KeyWordSearcher {
 			}
 
 			//手がかり語の適切性判断
-			//if(Logic.properKeyWord(morpheme) == false){ continue; }
+			if(Logic.properKeyWord(morpheme) == false){ continue; }
 
 			//ゴミ取り
 			String morphemeText = morpheme.getMorphemeText();
-			//morphemeText = Logic.cleanWord(morphemeText);
+			morphemeText = Logic.cleanWord(morphemeText);
 			if(morphemeText.equals("")){ continue; }
 			String morphemeOriginalText = morpheme.getOriginalForm();
 			//System.out.println(morphemeText);

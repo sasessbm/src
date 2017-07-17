@@ -51,11 +51,13 @@ public class OverlapDeleter {
 			int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
 			int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
 			int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
+			String medicineName = tripleSet.getMedicineName();
 
 			for(int i = removeList.size() - 1; i >= 0; i--){
 				TripleSet ts = removeList.get(i);
 				if(ts.getSentenceId() == sentenceId && ts.getMedicinePhraseIndex() == medicinePhraseId && 
-						ts.getTargetElement().getPhraseIndex() == targetPhraseId && ts.getEffectElement().getPhraseIndex() == effectPhraseId){
+					ts.getTargetElement().getPhraseIndex() == targetPhraseId && 
+					ts.getEffectElement().getPhraseIndex() == effectPhraseId && ts.getMedicineName().equals(medicineName)){
 					removeList.remove(i);
 				}
 			}

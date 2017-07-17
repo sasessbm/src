@@ -133,7 +133,7 @@ public class test2 {
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 
 		Displayer.displayResult
-		(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size());
+		(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), 0);
 	}
 
 }

@@ -58,6 +58,10 @@ public class Logic {
 		word = word.replace(")", "");
 		word = word.replace("-", "");
 		word = word.replace(",", "");
+		word = word.replace("＆", "");
+		word = word.replace("？", "");
+		word = word.replace("・", "");
+		word = word.replace("β", "");
 
 		return word;
 	}

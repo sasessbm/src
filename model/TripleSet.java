@@ -76,6 +76,12 @@ public class TripleSet {
 
 
 	public void setKeyWordList(ArrayList<KeyWord> keyWordList) {
+		
+//		for(KeyWord keyWord : keyWordList){
+//			KeyWord copyKeyWord = new KeyWord(keyWord.getText());
+//			copyKeyWord.setSentenceId(keyWord.getSentenceId());
+//			this.keyWordList.add(copyKeyWord);
+//		}
 		this.keyWordList = keyWordList;
 	}
 	
