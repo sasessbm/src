@@ -16,8 +16,11 @@ public class Displayer {
 		}
 		System.out.println("\r\n＜三つ組＞");
 		for(TripleSet tripleSet : tripleSetList){
-			System.out.println("（" + tripleSet.getMedicineName()+ "，" + tripleSet.getTargetElement().getText() + "，" 
-					+tripleSet.getEffectElement().getText() + "）   ・・・" + tripleSet.getUsedKeyWord());
+			Element targetElement = tripleSet.getTargetElement();
+			Element effectElement = tripleSet.getEffectElement();
+			System.out.println("（" + tripleSet.getMedicineName()+ "，" + targetElement.getText() + "，" 
+			+effectElement.getText() + "）（"  + tripleSet.getSentenceId() + "，" + tripleSet.getMedicinePhraseIndex() + 
+			"，" + targetElement.getPhraseIndex() + "，" + effectElement.getPhraseIndex() +  "）・・・" + tripleSet.getUsedKeyWord());
 		}
 	}
 
