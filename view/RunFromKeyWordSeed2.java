@@ -27,7 +27,7 @@ public class RunFromKeyWordSeed2 {
 		System.out.println("テストデータ読み込み中・・・");
 		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
-		double constant = 0.7;
+		double constant = 0.1;
 		//double constant2 = 0.9;
 		int repeatCountMax = 10;
 		int repeatCount = 0;
