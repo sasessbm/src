@@ -94,12 +94,12 @@ public class P3P4TripleSetInfoSearcher {
 				//一番最後の文節が、格助詞または接続助詞か確認
 				String partOfSpeechDetails = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
-				if(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点")){
+				//if(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点")){
 					//System.out.println("手がかり語存在文節:"+ phrase.getPhraseText());
 					judgeEffectPhrase(phrase.getDependencyIndex(), dependencyIndex);
 					break;
-				}
-				break;
+				//}
+				//break;
 			}
 		}
 	}
@@ -130,7 +130,7 @@ public class P3P4TripleSetInfoSearcher {
 				String lastMorphemeText = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1)
 						.getMorphemeText();
-				//if(Filter.isSpecificParticle(lastMorphemeText)){
+				//if(Filter.isSpecificParticle(lastMorphemeText)){ //助詞の条件付け
 					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
 					tripleSetInfo.setUsedKeyWord(keyWordText);
 					tripleSetInfo.setPatternType(patternType);

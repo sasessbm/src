@@ -88,8 +88,6 @@ public class RunBaseLine {
 		}
 		
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
-		//ArrayList<TripleSetInfo> correctTripleSetInfoList = Logic.getCorrectTripleSetInfoList(tripleSetInfoIncreaseFinalList, correctAnswerList);
-		//ArrayList<TripleSet> correctTripleSetList = TripleSetMaker.getTripleSetList(correctTripleSetInfoList, sentenceList, medicineNameList);
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 		
 		Displayer.displayResult

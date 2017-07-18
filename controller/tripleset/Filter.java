@@ -12,7 +12,7 @@ public class Filter {
 
 	//	private static ArrayList<String> targetFilteringList = 
 	//			GetTextFileList.fileRead("C:\\Users\\sase\\Desktop\\実験\\辞書\\110&body.txt");
-	
+
 	//対象要素に薬剤名が入っていたら不適切
 	public static void filterMedicineName(ArrayList<TripleSet> tripleSetList){
 		for(int i = tripleSetList.size() - 1; i >= 0; i--){
@@ -30,7 +30,7 @@ public class Filter {
 		for(int i = tripleSetList.size() - 1; i >= 0; i--){
 			TripleSet tripleSet = tripleSetList.get(i);
 			ArrayList<Morpheme> morphemeList = tripleSet.getTargetOriginalElement().getMorphemeList();
-			
+
 			if(!isProper(morphemeList, targetFilteringList)){
 				tripleSetList.remove(i);
 			}
@@ -96,10 +96,10 @@ public class Filter {
 	public static boolean searchTargetFilteringList(String word, ArrayList<String> targetFilteringList){
 		boolean existInList = false;
 		for(String dicWord : targetFilteringList){
-			//			if(word.contains(dicWord)){
-			//				exist = true;
-			//				System.out.println("辞書単語: " + dicWord);
-			//			}
+//			if(word.contains(dicWord)){
+//				existInList = true;
+//				System.out.println("辞書単語: " + dicWord);
+//			}
 			if(word.equals(dicWord)){
 				existInList = true;
 				System.out.println("辞書単語: " + dicWord);
@@ -107,7 +107,7 @@ public class Filter {
 		}
 		return existInList;
 	}
-	
+
 	public static boolean isSpecificParticle(String text){
 		return (text.equals("が") || text.equals("は") || text.equals("を")|| text.equals("も"));
 	}

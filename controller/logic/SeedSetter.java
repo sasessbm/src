@@ -106,7 +106,7 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(14,6,8,9));
 		correctAnswerList.add(new CorrectAnswer(20,3,4,5));
 		correctAnswerList.add(new CorrectAnswer(32,3,10,12));
-		correctAnswerList.add(new CorrectAnswer(38,1,2,4));
+		correctAnswerList.add(new CorrectAnswer(38,1,3,4));
 		correctAnswerList.add(new CorrectAnswer(39,0,5,2));
 		correctAnswerList.add(new CorrectAnswer(39,0,7,8));
 		correctAnswerList.add(new CorrectAnswer(39,0,7,9));

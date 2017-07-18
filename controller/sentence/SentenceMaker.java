@@ -30,7 +30,7 @@ public class SentenceMaker {
 		int spaceIndex = 0;
 		
 		for(String text : testDataContentsList){
-			if(sentenceCount == 1000){ break; }
+			//if(sentenceCount == 1000){ break; }
 			int lineType = lineCount % 3;
 			switch(lineType){
 			case 0:

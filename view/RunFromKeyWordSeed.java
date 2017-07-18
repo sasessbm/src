@@ -49,7 +49,7 @@ public class RunFromKeyWordSeed {
 				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 				tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				tripleSetInfoList.addAll(P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
-				tripleSetInfoList.addAll(P102TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
+				//tripleSetInfoList.addAll(P102TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				if(tripleSetInfoList.size() == 0){ continue; }
 
 				//三つ組取得

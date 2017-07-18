@@ -8,11 +8,11 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-public class CaboChaTest {
-
+public class CheckSyntax {
+	
 	public static void main(String[] args) {
 
-		Run("イレッサの副作用でできた足の爪わきの膨れは肉芽腫というしこりで痛くて出血していた");
+		Run("アモキサンにも眠りを誘う成分が入っているため、その方が良いだろうとのことだ");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数
@@ -75,4 +75,5 @@ public class CaboChaTest {
 		}
 		return xmlList;
 	}
+
 }

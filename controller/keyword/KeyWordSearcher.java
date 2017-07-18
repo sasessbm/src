@@ -37,7 +37,7 @@ public class KeyWordSearcher {
 			ArrayList<Integer> P3keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P4keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P101keyWordIdList = new ArrayList<Integer>();
-			ArrayList<Integer> P102keyWordIdList = new ArrayList<Integer>();
+			//ArrayList<Integer> P102keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 			int sentenceId = sentence.getSentenceId();
 
@@ -46,7 +46,7 @@ public class KeyWordSearcher {
 			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 3));
 			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 4));
 			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
-			P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 102));
+			//P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 102));
 			
 			//手がかり語リストに追加
 			if(P1keyWordIdList.size() != 0){
@@ -61,9 +61,9 @@ public class KeyWordSearcher {
 			if(P101keyWordIdList.size() != 0){
 				keyWordList = addKeyWord(keyWordList, P101keyWordIdList, phraseRestoreList, sentenceId, 101);
 			}
-			if(P102keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P102keyWordIdList, phraseRestoreList, sentenceId, 102);
-			}
+			//if(P102keyWordIdList.size() != 0){
+				//keyWordList = addKeyWord(keyWordList, P102keyWordIdList, phraseRestoreList, sentenceId, 102);
+			//}
 		}
 		return keyWordList;
 	}

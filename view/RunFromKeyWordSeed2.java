@@ -14,6 +14,7 @@ import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
 import controller.tripleset.Filter;
 import controller.tripleset.P3P4TripleSetInfoSearcher;
+import controller.tripleset.PEvalDicSearcher;
 import controller.tripleset.TripleSetMaker;
 
 public class RunFromKeyWordSeed2 {
@@ -26,7 +27,7 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0.5;
+		double constant = 0.93;
 		int repeatCountMax = 10;
 		int repeatCount = 0;
 		
@@ -56,7 +57,8 @@ public class RunFromKeyWordSeed2 {
 				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 				tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				tripleSetInfoList.addAll(P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
-				tripleSetInfoList.addAll(P102TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
+				
+				//tripleSetInfoList.addAll(P102TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				if(tripleSetInfoList.size() == 0){ continue; }
 
 				//三つ組取得
@@ -196,8 +198,18 @@ public class RunFromKeyWordSeed2 {
 			keyWordFinalList.addAll(keyWordIncreaseList); //手がかり語最終リストに追加
 		}
 		
+		//ベースライン２による抽出
+		ArrayList<TripleSetInfo> tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
+		ArrayList<TripleSet> tripleSetList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+		//tripleSetFinalList.addAll(PEvalDicSearcher.getTripleSetInfoList(sentenceList));
+		Filter.filterMedicineName(tripleSetList); //対象要素には薬剤名を含めない
+		tripleSetList = OverlapDeleter.deleteSameSet(tripleSetList); //三つ組重複削除
+		tripleSetList = OverlapDeleter.deleteOverlappingFromListForTripleSet
+												(tripleSetList, tripleSetFinalList); //すでに取得しているものは取得しない
+		tripleSetFinalList.addAll(tripleSetList);
+		
 		//フィルタリング
-		//Filter.filter(tripleSetFinalList, targetFilteringList);
+		Filter.filter(tripleSetFinalList, targetFilteringList);
 		
 		//シードを削除
 		keyWordFinalList = OverlapDeleter.deleteOverlappingFromListForKey(keyWordFinalList, seedList);
