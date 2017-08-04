@@ -108,8 +108,17 @@ public class Filter {
 		return existInList;
 	}
 
-	public static boolean isSpecificParticle(String text){
-		return (text.equals("が") || text.equals("は") || text.equals("を")|| text.equals("も"));
+	public static boolean isGAorHAorWOorMO(String text){
+		return (text.equals("が") || text.equals("は") || text.equals("を") || text.equals("も"));
+	}
+	
+	public static boolean isGAorHAorWO(String text){
+		return (text.equals("が") || text.equals("は") || text.equals("を"));
+	}
+	
+	public static boolean isGAorHAorWOorNIorMOorNIMO(String text){
+		return (text.equals("が") || text.equals("は") || text.equals("を") 
+				|| text.equals("に") || text.equals("も") || text.equals("にも"));
 	}
 
 

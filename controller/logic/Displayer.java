@@ -24,7 +24,7 @@ public class Displayer {
 		}
 	}
 
-	// 結果表示                                   出力数　　　　　　　　　　　　　　　正解三つ組リスト　　　     本来の正解数　　　　　　
+	// 結果表示                                   出力数　　　　　　　　　　　　　　　正解三つ組リスト　　　     本来の正解数　　抽出手がかり語数　
 	public static void displayResult(int allExtractionNum, ArrayList<TripleSet> correctTripleSetList,  int correctAnswerNum, int keyWordNum){
 		int correctExtractionNum = correctTripleSetList.size();
 		//sentenceID順にソート

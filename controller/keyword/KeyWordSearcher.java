@@ -49,9 +49,9 @@ public class KeyWordSearcher {
 			//P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 102));
 			
 			//手がかり語リストに追加
-			if(P1keyWordIdList.size() != 0){
-				keyWordList = addKeyWord(keyWordList, P1keyWordIdList, phraseRestoreList, sentenceId, 1);
-			}
+//			if(P1keyWordIdList.size() != 0){
+//				keyWordList = addKeyWord(keyWordList, P1keyWordIdList, phraseRestoreList, sentenceId, 1);
+//			}
 			if(P3keyWordIdList.size() != 0){
 				keyWordList = addKeyWord(keyWordList, P3keyWordIdList, phraseRestoreList, sentenceId, 3);
 			}
@@ -81,7 +81,6 @@ public class KeyWordSearcher {
 			ArrayList<Morpheme> morphemeList = phraseList.get(phraseId).getMorphemeList();
 			targetMorphemeList.addAll(morphemeList);
 			String lastMorphemeText = targetMorphemeList.get(targetMorphemeList.size()-1).getMorphemeText();
-			//if(!Filter.isSpecificParticle(lastMorphemeText)){ continue; } //助詞の条件付け
 
 			Element targetOriginalElement = TripleSetMaker.getOriginalElement(targetMorphemeList, 1);
 			String targetText = targetOriginalElement.getText();
@@ -96,16 +95,22 @@ public class KeyWordSearcher {
 				keyWordId = P1KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
 				break;
 			case 3:
+				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				effectId = P3KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P3KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			case 4:
+				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				effectId = P4KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P4KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			case 101:
+				//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } //助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				effectId = P101KeyWordSercher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P101KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);

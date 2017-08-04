@@ -27,7 +27,7 @@ public class RunFromKeyWordSeed {
 		System.out.println("テストデータ読み込み中・・・");
 		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
-		double constant = 0.7;
+		double constant = 0.1;
 		//double constant2 = 0.9;
 		int repeatCount = 10;
 		
@@ -47,7 +47,7 @@ public class RunFromKeyWordSeed {
 				
 				//三つ組情報取得
 				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
-				tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
+				//tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				tripleSetInfoList.addAll(P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				//tripleSetInfoList.addAll(P102TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				if(tripleSetInfoList.size() == 0){ continue; }

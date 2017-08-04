@@ -61,7 +61,7 @@ public class P3P4TripleSetInfoSearcher {
 					keywordPlaceIndex = getKeywordPlaceIndex(phraseList.get(dIndex).getMorphemeList());
 					if(keywordPlaceIndex != 0){ continue; } // 最初の位置か
 					//if(morphemeList.size() <= medicinePlaceIndex + 1){ continue; }
-					//if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
+					if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
 					patternType = 4;
 					//係り先番号を渡す
 					judgeKeywordPhrase(dIndex);
@@ -79,7 +79,6 @@ public class P3P4TripleSetInfoSearcher {
 			morphemeIndex ++;
 			String originalForm = morpheme.getOriginalForm();
 			if(originalForm.equals(keyWordText)){
-				//System.out.println(keyword);
 				keywordPlaceIndex = morphemeIndex;
 			}
 		}
@@ -94,12 +93,11 @@ public class P3P4TripleSetInfoSearcher {
 				//一番最後の文節が、格助詞または接続助詞か確認
 				String partOfSpeechDetails = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
-				//if(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点")){
-					//System.out.println("手がかり語存在文節:"+ phrase.getPhraseText());
-					judgeEffectPhrase(phrase.getDependencyIndex(), dependencyIndex);
-					break;
-				//}
-				//break;
+				//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
+				//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
+				//if(!(partOfSpeechDetails.contains("助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
+				judgeEffectPhrase(phrase.getDependencyIndex(), dependencyIndex);
+				break;
 			}
 		}
 	}
@@ -124,18 +122,17 @@ public class P3P4TripleSetInfoSearcher {
 			int phraseDependencyIndex = phrase.getDependencyIndex();
 			int phraseId = phrase.getId();
 			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
-			
+
 			//対象文節候補発見
 			if(phraseDependencyIndex == effectId){
 				String lastMorphemeText = phrase.getMorphemeList()
-						.get(phrase.getMorphemeList().size()-1)
-						.getMorphemeText();
-				//if(Filter.isSpecificParticle(lastMorphemeText)){ //助詞の条件付け
-					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
-					tripleSetInfo.setUsedKeyWord(keyWordText);
-					tripleSetInfo.setPatternType(patternType);
-					tripleSetInfoList.add(tripleSetInfo);
-				//}
+						.get(phrase.getMorphemeList().size()-1).getMorphemeText();
+				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
+				tripleSetInfo.setUsedKeyWord(keyWordText);
+				tripleSetInfo.setPatternType(patternType);
+				tripleSetInfoList.add(tripleSetInfo);
 			}
 		}
 	}

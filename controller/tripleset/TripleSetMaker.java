@@ -85,7 +85,7 @@ public class TripleSetMaker {
 		boolean isRelation = false;
 
 		// 対象要素の形態素リスト取得
-		Phrase targetPhrase = phraseList.get(targetPhraseId);
+		Phrase targetPhrase = phraseList.get(searchIndex);
 		while(true){
 			targetPhraseList.add(targetPhrase);
 			if(searchIndex == 0){ break; } // 最初の文節まで到達した場合
@@ -96,15 +96,31 @@ public class TripleSetMaker {
 			isRelation = true;
 		}
 		Collections.reverse(targetPhraseList);
-
-		// 効果要素の形態素リスト取得
-		effectPhraseList.add(phraseList.get(effectPhraseId));
-
 		// 要素取得
 		Element targetOriginalElement = getOriginalElement(phraseList.get(targetPhraseId).getMorphemeList(), 1);
 		Element targetElement = getTargetElement(targetPhraseList, 1, isRelation);
 		targetElement.setPhraseIndex(targetPhraseId);
+		
+
+		// 効果要素の形態素リスト取得
+		//effectPhraseList.add(phraseList.get(effectPhraseId));
+		searchIndex = effectPhraseId;
+		isRelation = false;
+		Phrase effectPhrase = phraseList.get(searchIndex);
+		while(true){
+			effectPhraseList.add(effectPhrase);
+			if(searchIndex == 0){ break; } // 最初の文節まで到達した場合
+			searchIndex--;
+			effectPhrase = phraseList.get(searchIndex);
+			//係り受け関係になっている場合は続ける
+			if(effectPhrase.getDependencyIndex() != phraseList.get(searchIndex + 1).getId()){ break; }
+			isRelation = true;
+		}
+		Collections.reverse(effectPhraseList);
+		
+		//Element effectElement = getOriginalElement(phraseList.get(effectPhraseId).getMorphemeList(), 1);
 		Element effectElement = getOriginalElement(phraseList.get(effectPhraseId).getMorphemeList(), 2);
+		//Element effectElement = getTargetElement(effectPhraseList, 2, isRelation);
 		effectElement.setPhraseIndex(effectPhraseId);
 
 		for(String medicineName : medicineNameListInPhrase){

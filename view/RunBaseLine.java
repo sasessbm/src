@@ -70,22 +70,22 @@ public class RunBaseLine {
 		//三つ組生成
 		tripleSetFinalList = TripleSetMaker.getTripleSetList(tripleSetInfoIncreaseFinalList, sentenceList, medicineNameList);
 		
-		System.out.println("\r\nフィルタ前");
-		
-		for(TripleSet tripleSet : tripleSetFinalList){
-			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
-								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
-		}
+//		System.out.println("\r\nフィルタ前");
+//		
+//		for(TripleSet tripleSet : tripleSetFinalList){
+//			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
+//								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
+//		}
 		
 		//フィルタリング
 		Filter.filter(tripleSetFinalList, targetFilteringList);
 		
-		System.out.println("\r\nフィルタ後");
-		
-		for(TripleSet tripleSet : tripleSetFinalList){
-			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
-								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
-		}
+//		System.out.println("\r\nフィルタ後");
+//		
+//		for(TripleSet tripleSet : tripleSetFinalList){
+//			System.out.println(tripleSet.getMedicineName() + " , " + tripleSet.getTargetElement().getText() 
+//								+ " , " +tripleSet.getEffectElement().getText() + "    sID =  " + tripleSet.getSentenceId());
+//		}
 		
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);

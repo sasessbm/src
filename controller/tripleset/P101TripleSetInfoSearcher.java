@@ -55,7 +55,8 @@ public class P101TripleSetInfoSearcher {
 		Phrase phrase = phraseList.get(medicinePhraseId + 1);
 		String lastMorphemeText = phrase.getMorphemeList().
 				get(phrase.getMorphemeList().size()-1).getMorphemeText();
-		//if(!Filter.isSpecificParticle(lastMorphemeText)){ return; } //助詞の条件付け
+		//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ return; } //助詞の条件付け
+		if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return; } // 助詞の条件付け
 		judgeEffectPhrase(phrase.getId(), phrase.getDependencyIndex());
 	}
 
@@ -64,7 +65,6 @@ public class P101TripleSetInfoSearcher {
 		for(Phrase phrase : phraseList){
 			int phraseId = phrase.getId();
 			if(phraseId != targetDIndex){ continue; }
-
 			TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, targetPhraseId, phraseId);
 			tripleSetInfo.setUsedKeyWord(keyWordText);
 			tripleSetInfo.setPatternType(101);

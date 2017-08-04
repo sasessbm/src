@@ -69,7 +69,7 @@ public class SeedSetter {
 		seedList.add("やめる");
 		seedList.add("mg");
 		seedList.add("なくなる");
-		
+//		
 		//seedList.add("で");
 		//seedList.add("の");
 		//seedList.add("は");

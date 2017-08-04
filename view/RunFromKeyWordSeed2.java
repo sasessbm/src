@@ -27,8 +27,9 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0.93;
-		int repeatCountMax = 10;
+		//double constant = 0.93;
+		double constant = 0.5; //0.9
+		int repeatCountMax = 2; //3
 		int repeatCount = 0;
 		
 		//文取得
@@ -55,9 +56,8 @@ public class RunFromKeyWordSeed2 {
 				
 				//三つ組情報取得
 				ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
-				tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
+				//tripleSetInfoList.addAll(P1TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				tripleSetInfoList.addAll(P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
-				
 				//tripleSetInfoList.addAll(P102TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText));
 				if(tripleSetInfoList.size() == 0){ continue; }
 
@@ -198,18 +198,13 @@ public class RunFromKeyWordSeed2 {
 			keyWordFinalList.addAll(keyWordIncreaseList); //手がかり語最終リストに追加
 		}
 		
-		//ベースライン２による抽出
-		ArrayList<TripleSetInfo> tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
-		ArrayList<TripleSet> tripleSetList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
-		//tripleSetFinalList.addAll(PEvalDicSearcher.getTripleSetInfoList(sentenceList));
-		Filter.filterMedicineName(tripleSetList); //対象要素には薬剤名を含めない
-		tripleSetList = OverlapDeleter.deleteSameSet(tripleSetList); //三つ組重複削除
-		tripleSetList = OverlapDeleter.deleteOverlappingFromListForTripleSet
-												(tripleSetList, tripleSetFinalList); //すでに取得しているものは取得しない
-		tripleSetFinalList.addAll(tripleSetList);
+		if(repeatCount == 0){repeatCount = repeatCountMax;}
+		
+		//評価表現辞書抽出
+		//extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
 		
 		//フィルタリング
-		Filter.filter(tripleSetFinalList, targetFilteringList);
+		//Filter.filter(tripleSetFinalList, targetFilteringList);
 		
 		//シードを削除
 		keyWordFinalList = OverlapDeleter.deleteOverlappingFromListForKey(keyWordFinalList, seedList);
@@ -226,6 +221,18 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 		Displayer.displayResult(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), keyWordFinalList.size());
 		System.out.println("\r\n" + repeatCount + "回目で終了");
+	}
+	
+	
+	public static void extractEvalDicPattern
+				(ArrayList<Sentence> sentenceList, ArrayList<String> medicineNameList, ArrayList<TripleSet> tripleSetFinalList){
+		ArrayList<TripleSetInfo> tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
+		ArrayList<TripleSet> tripleSetList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+		Filter.filterMedicineName(tripleSetList); //対象要素には薬剤名を含めない
+		tripleSetList = OverlapDeleter.deleteSameSet(tripleSetList); //三つ組重複削除
+		tripleSetList = OverlapDeleter.deleteOverlappingFromListForTripleSet
+												(tripleSetList, tripleSetFinalList); //すでに取得しているものは取得しない
+		tripleSetFinalList.addAll(tripleSetList);
 	}
 
 }
