@@ -36,8 +36,9 @@ public class P3KeyWordSearcher {
 	public static boolean judgeKeyWordPhrase(Phrase phrase, ArrayList<String> medicineNameList){
 		//文節の中身が1形態素以下なら不適
 		if(phrase.getMorphemeList().size() < 2){ return false; }
-		String partOfSpeechDetails = phrase.getMorphemeList().get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
-		if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ return false; }
+		String lastPartOfSpeechDetails = phrase.getMorphemeList().get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
+		//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ return false; }
+		//if(!(lastPartOfSpeechDetails.contains("助詞"))){ return false; }
 		return Logic.containsMedicine(phrase.getPhraseText());
 	}
 

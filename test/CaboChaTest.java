@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("イレッサの副作用でできた足の爪わきの膨れは肉芽腫というしこりで痛くて出血していた");
+		Run("リリカの副作用で目がかすみます");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

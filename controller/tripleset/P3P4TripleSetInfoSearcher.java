@@ -96,6 +96,7 @@ public class P3P4TripleSetInfoSearcher {
 				//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
 				//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 				//if(!(partOfSpeechDetails.contains("助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
+				//if(!(partOfSpeechDetails.contains("助詞"))){ continue; }
 				judgeEffectPhrase(phrase.getDependencyIndex(), dependencyIndex);
 				break;
 			}
@@ -128,7 +129,7 @@ public class P3P4TripleSetInfoSearcher {
 				String lastMorphemeText = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1).getMorphemeText();
 				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
-				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
 				tripleSetInfo.setUsedKeyWord(keyWordText);
 				tripleSetInfo.setPatternType(patternType);

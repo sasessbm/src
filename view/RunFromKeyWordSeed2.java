@@ -28,8 +28,8 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
 		//double constant = 0.93;
-		double constant = 0.5; //0.9
-		int repeatCountMax = 2; //3
+		double constant = 0.1; //0.9
+		int repeatCountMax = 10; //3
 		int repeatCount = 0;
 		
 		//文取得

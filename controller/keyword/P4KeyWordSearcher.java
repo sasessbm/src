@@ -27,7 +27,7 @@ public class P4KeyWordSearcher {
 			//if(phrase.getId() == targetId){ break; } //対象文節まで到達した時
 			if(dependencyIndex == effectId){
 				String partOfSpeechDetails = phrase.getMorphemeList().get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
-				if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
+				//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
 				keyWordId = phrase.getId();
 				isKeyWordPhrase = judgeKeyWordPhrase(keyWordId, phraseList ,medicineNameList);
 				if(isKeyWordPhrase){ break; }
@@ -43,7 +43,7 @@ public class P4KeyWordSearcher {
 			int dependencyIndex = phrase.getDependencyIndex();
 			if(dependencyIndex == keyWordId && Logic.containsMedicine(phrase.getPhraseText())){
 				String partOfSpeech = phrase.getMorphemeList().get(phrase.getMorphemeList().size()-1).getPartOfSpeech();
-				if(!partOfSpeech.contains("助詞")){ continue; }
+				//if(!partOfSpeech.contains("助詞")){ continue; }
 				return true;
 			}
 		}

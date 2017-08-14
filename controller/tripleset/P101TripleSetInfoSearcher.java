@@ -55,8 +55,9 @@ public class P101TripleSetInfoSearcher {
 		Phrase phrase = phraseList.get(medicinePhraseId + 1);
 		String lastMorphemeText = phrase.getMorphemeList().
 				get(phrase.getMorphemeList().size()-1).getMorphemeText();
+		//if(!Filter.isGAorHAorWO(lastMorphemeText)){ return; } // 助詞の条件付け
 		//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ return; } //助詞の条件付け
-		if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return; } // 助詞の条件付け
+		//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return; } // 助詞の条件付け
 		judgeEffectPhrase(phrase.getId(), phrase.getDependencyIndex());
 	}
 
