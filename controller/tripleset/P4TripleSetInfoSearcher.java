@@ -2,10 +2,13 @@ package controller.tripleset;
 
 import java.util.ArrayList;
 
-import model.*;
+import model.Morpheme;
+import model.Phrase;
+import model.Sentence;
+import model.TripleSetInfo;
 
-public class P3P4TripleSetInfoSearcher {
-
+public class P4TripleSetInfoSearcher {
+	
 	public static final String MEDICINE = "MEDICINE";
 	private static  ArrayList<Phrase> phraseList;
 	private static String keyWordText;
@@ -14,14 +17,14 @@ public class P3P4TripleSetInfoSearcher {
 	private static int sentenceId;
 	private static String sentenceText;
 	private static int patternType;
-
+	
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
-		P3P4TripleSetInfoSearcher.keyWordText = keyWordText;
+		P4TripleSetInfoSearcher.keyWordText = keyWordText;
 
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
-			P3P4TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
+			P4TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
 
@@ -31,7 +34,7 @@ public class P3P4TripleSetInfoSearcher {
 				if(!phraseText.contains(MEDICINE)){ continue; }
 
 				// 手がかり語の形態素位置取得
-				int keywordPlaceIndex = getKeywordPlaceIndex(phrase.getMorphemeList());
+				//int keywordPlaceIndex = getKeywordPlaceIndex(phrase.getMorphemeList());
 				ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 				int medicinePlaceIndex = -1;
 
@@ -47,25 +50,25 @@ public class P3P4TripleSetInfoSearcher {
 
 				// 対象薬剤名のすぐ後ろに手がかり語があるか探索
 				// 同じ文節内にある（P3）
-				if(keywordPlaceIndex > 0){
-					if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } // 隣り合っていなければ不適切
-					patternType = 3;
-					// 自身のIDを渡す
-					judgeKeywordPhrase(phrase.getId());
-				}
+//				if(keywordPlaceIndex > 0){
+//					if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } // 隣り合っていなければ不適切
+//					patternType = 3;
+//					// 自身のIDを渡す
+//					judgeKeywordPhrase(phrase.getId());
+//				}
 
 				// 同じ文節内にはない (が、「対象薬剤名＋助詞」になっている)（P4）
-				else{
+				//else{
 					if(dIndex == -1){ continue; } // 係り先がそもそも無い
 					//係り先の手がかり語の位置を取得
-					keywordPlaceIndex = getKeywordPlaceIndex(phraseList.get(dIndex).getMorphemeList());
+					int keywordPlaceIndex = getKeywordPlaceIndex(phraseList.get(dIndex).getMorphemeList());
 					if(keywordPlaceIndex != 0){ continue; } // 最初の位置か
 					//if(morphemeList.size() <= medicinePlaceIndex + 1){ continue; }
 					if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
 					patternType = 4;
 					//係り先番号を渡す
 					judgeKeywordPhrase(dIndex);
-				}
+				//}
 			}
 		}
 		return tripleSetInfoList;
