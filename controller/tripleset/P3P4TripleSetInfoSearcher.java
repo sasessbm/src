@@ -20,7 +20,7 @@ public class P3P4TripleSetInfoSearcher {
 		P3P4TripleSetInfoSearcher.keyWordText = keyWordText;
 
 		for(Sentence sentence : sentenceList){
-			//if(sentence.getSentenceId() != 252){ continue; } //デバッグ用
+			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
 			P3P4TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
@@ -129,11 +129,12 @@ public class P3P4TripleSetInfoSearcher {
 				String lastMorphemeText = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1).getMorphemeText();
 				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
-				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
 				tripleSetInfo.setUsedKeyWord(keyWordText);
 				tripleSetInfo.setPatternType(patternType);
 				tripleSetInfoList.add(tripleSetInfo);
+				//break; //最も近くかどうか
 			}
 		}
 	}

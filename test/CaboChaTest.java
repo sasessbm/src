@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("リリカの副作用で目がかすみます");
+		Run("ピブカⅡの測定値もビタミンＫ欠乏症や血液凝固阻止剤（ワーファリン）の服用中には、異常に高い値を示すので注意が必要");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

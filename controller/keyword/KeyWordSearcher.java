@@ -96,14 +96,14 @@ public class KeyWordSearcher {
 				break;
 			case 3:
 				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
-				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				effectId = P3KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P3KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
 			case 4:
 				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
-				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				effectId = P4KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P4KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
@@ -111,7 +111,7 @@ public class KeyWordSearcher {
 			case 101:
 				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
 				//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } //助詞の条件付け
-				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				effectId = P101KeyWordSercher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
 				keyWordId = P101KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);

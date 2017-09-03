@@ -33,8 +33,8 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
 		//double constant = 0.93;
-		double constant = 0.1; //0.9
-		int repeatCountMax = 10; //3
+		double constant = 0.5; //0.9
+		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 		
 		//文取得
@@ -101,7 +101,8 @@ public class RunFromKeyWordSeed2 {
 
 				//閾値計算
 				//if(i != 1){ threshold = constant * (Math.log(targetNumList.size()) / Math.log(2.0)); }
-				threshold = constant * (Math.log(targetNumList.size()) / Math.log(2.0));
+				//threshold = constant * (Math.log(targetNumList.size()) / Math.log(2.0));
+				threshold = constant * (Math.log(targetAllNum) / Math.log(2.0));
 				entropy = Calculator.calculateEntropy(targetNumList, targetAllNum); //エントロピー計算
 				
 				//エントロピーと閾値表示
@@ -175,7 +176,8 @@ public class RunFromKeyWordSeed2 {
 				
 				//閾値計算
 				//if(i != 1){ threshold = constant * (Math.log(keyWordNumList.size()) / Math.log(2.0)); }
-				threshold = constant * (Math.log(keyWordNumList.size()) / Math.log(2.0));
+				//threshold = constant * (Math.log(keyWordNumList.size()) / Math.log(2.0));
+				threshold = constant * (Math.log(keyWordTextAllNum) / Math.log(2.0));
 				entropy = Calculator.calculateEntropy(keyWordNumList, keyWordTextAllNum); //エントロピー計算
 				
 				//エントロピーと閾値表示
