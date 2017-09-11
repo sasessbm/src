@@ -73,6 +73,10 @@ public class RunFromKeyWordSeed2 {
 				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
+				//三つ組取得(P10)
+				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
+				
 				//三つ組候補リストに追加
 				//tripleSetCandidateList.addAll(tripleSetForKeyWordSetList);
 				

@@ -7,8 +7,8 @@ import model.Phrase;
 import model.Sentence;
 import model.TripleSetInfo;
 
-public class P3TripleSetInfoSearcher {
-	
+public class P10TripleSetInfoSearcher {
+
 	public static final String MEDICINE = "MEDICINE";
 	private static  ArrayList<Phrase> phraseList;
 	private static String keyWordText;
@@ -17,14 +17,14 @@ public class P3TripleSetInfoSearcher {
 	private static int sentenceId;
 	private static String sentenceText;
 	private static int patternType;
-	
+
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
-		P3TripleSetInfoSearcher.keyWordText = keyWordText;
+		P10TripleSetInfoSearcher.keyWordText = keyWordText;
 
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
-			P3TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
+			P10TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
 			sentenceId = sentence.getSentenceId();
 			sentenceText = sentence.getText();
 
@@ -34,7 +34,7 @@ public class P3TripleSetInfoSearcher {
 				if(!phraseText.contains(MEDICINE)){ continue; }
 
 				// 手がかり語の形態素位置取得
-				int keywordPlaceIndex = getKeywordPlaceIndex(phrase.getMorphemeList());
+				//int keywordPlaceIndex = getKeywordPlaceIndex(phrase.getMorphemeList());
 				ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 				int medicinePlaceIndex = -1;
 
@@ -48,27 +48,18 @@ public class P3TripleSetInfoSearcher {
 				if(medicinePlaceIndex == -1){ continue; } // 薬剤名がない
 				medicinePhraseId = phrase.getId();
 
-				// 対象薬剤名のすぐ後ろに手がかり語があるか探索
-				// 同じ文節内にある（P3）
-				if(keywordPlaceIndex > 0){
-					if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } // 隣り合っていなければ不適切
-					patternType = 3;
-					// 自身のIDを渡す
-					judgeKeywordPhrase(phrase.getId());
-				}
+				// 同じ文節内にはない (が、「対象薬剤名＋助詞」になっている)（P4）
 
-//				// 同じ文節内にはない (が、「対象薬剤名＋助詞」になっている)（P4）
-//				else{
-//					if(dIndex == -1){ continue; } // 係り先がそもそも無い
-//					//係り先の手がかり語の位置を取得
-//					keywordPlaceIndex = getKeywordPlaceIndex(phraseList.get(dIndex).getMorphemeList());
-//					if(keywordPlaceIndex != 0){ continue; } // 最初の位置か
-//					//if(morphemeList.size() <= medicinePlaceIndex + 1){ continue; }
-//					if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
-//					patternType = 4;
-//					//係り先番号を渡す
-//					judgeKeywordPhrase(dIndex);
-//				}
+				if(dIndex == -1){ continue; } // 係り先がそもそも無い
+				//係り先の手がかり語の位置を取得
+				int keywordPlaceIndex = getKeywordPlaceIndex(phraseList.get(dIndex).getMorphemeList());
+				if(keywordPlaceIndex != 0){ continue; } // 最初の位置か
+				//if(morphemeList.size() <= medicinePlaceIndex + 1){ continue; }
+				//if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
+				patternType = 10;
+				//係り先番号を渡す
+				judgeKeywordPhrase(dIndex);
+
 			}
 		}
 		return tripleSetInfoList;
@@ -90,18 +81,34 @@ public class P3TripleSetInfoSearcher {
 
 	//「手がかり語」要素存在文節判定
 	public static void judgeKeywordPhrase(int keyId){
+		
+		int dIndex = -1;
 		for(Phrase phrase : phraseList){
 			if(phrase.getId() != keyId){ continue; }
 			//一番最後の文節が、格助詞または接続助詞か確認
 			String partOfSpeechDetails = phrase.getMorphemeList()
 					.get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
+			dIndex = phrase.getDependencyIndex();
 			//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("助詞"))){ continue; }
-			judgeEffectPhrase(phrase.getDependencyIndex(), keyId);
+			searchEffectPhrase(dIndex, keyId);
 			break;
 		}
+	}
+	
+	//「効果」要素存在文節探索
+	public static void searchEffectPhrase(int keyDIndex, int keyId){
+		// 逆から探索
+		for(int i=1; i<=phraseList.size(); i++){
+			int currentIndex = phraseList.size()-i;
+			Phrase phrase = phraseList.get(currentIndex);
+			if(phrase.getDependencyIndex() != keyDIndex){ continue; }
+			judgeEffectPhrase(phrase.getId(), keyId);
+			//break;
+		}
+		
 	}
 
 	//「効果」要素存在文節判定
@@ -139,6 +146,5 @@ public class P3TripleSetInfoSearcher {
 			}
 		}
 	}
-
 
 }

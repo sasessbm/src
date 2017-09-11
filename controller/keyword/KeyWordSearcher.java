@@ -37,6 +37,7 @@ public class KeyWordSearcher {
 			ArrayList<Integer> P3keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P4keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Integer> P101keyWordIdList = new ArrayList<Integer>();
+			ArrayList<Integer> P10keyWordIdList = new ArrayList<Integer>();
 			//ArrayList<Integer> P102keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 			int sentenceId = sentence.getSentenceId();
@@ -46,6 +47,7 @@ public class KeyWordSearcher {
 			P3keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 3));
 			P4keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 4));
 			P101keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
+			P10keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 10));
 			//P102keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 102));
 			
 			//手がかり語リストに追加
@@ -60,6 +62,9 @@ public class KeyWordSearcher {
 			}
 			if(P101keyWordIdList.size() != 0){
 				keyWordList = addKeyWord(keyWordList, P101keyWordIdList, phraseRestoreList, sentenceId, 101);
+			}
+			if(P10keyWordIdList.size() != 0){
+				keyWordList = addKeyWord(keyWordList, P10keyWordIdList, phraseRestoreList, sentenceId, 10);
 			}
 			//if(P102keyWordIdList.size() != 0){
 				//keyWordList = addKeyWord(keyWordList, P102keyWordIdList, phraseRestoreList, sentenceId, 102);
@@ -112,14 +117,22 @@ public class KeyWordSearcher {
 				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
 				//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } //助詞の条件付け
 				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
-				effectId = P101KeyWordSercher.getEffectId(targetDependencyIndex, phraseList);
+				effectId = P101KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
 				if(effectId == -1){ continue; }
-				keyWordId = P101KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
+				keyWordId = P101KeyWordSearcher.getKeyWordId(phraseId, phraseList, medicineNameList);
 				break;
-			case 102:
-				effectId = phraseId + 1;
-				keyWordId = P102KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
+			case 10:
+				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } //助詞の条件付け
+				//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } //助詞の条件付け
+				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				effectId = P10KeyWordSearcher.getEffectId(targetDependencyIndex, phraseList);
+				if(effectId == -1){ continue; }
+				keyWordId = P10KeyWordSearcher.getKeyWordId(phraseId, effectId, phraseList, medicineNameList);
 				break;
+//			case 102:
+//				effectId = phraseId + 1;
+//				keyWordId = P102KeyWordSercher.getKeyWordId(phraseId, phraseList, medicineNameList);
+//				break;
 			}
 			if(keyWordId == -1 || phraseId == keyWordId){ continue; }
 			keyWordIdList.add(keyWordId);
@@ -147,8 +160,8 @@ public class KeyWordSearcher {
 				}
 				keyWordPlace = medicinePlaceIndex + 1;
 			}
-			//P4の時は、最初の形態素を手がかり語とする
-			else if(pattern == 4){ keyWordPlace = 0; }
+			//P4、P10の時は、最初の形態素を手がかり語とする
+			else if(pattern == 4 || pattern == 10){ keyWordPlace = 0; }
 
 			//文節の末尾確認
 //			if(!(morphemeList.get(morphemeList.size()-1).getPartOfSpeechDetails().contains("格助詞")

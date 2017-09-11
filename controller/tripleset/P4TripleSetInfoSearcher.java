@@ -64,7 +64,7 @@ public class P4TripleSetInfoSearcher {
 					int keywordPlaceIndex = getKeywordPlaceIndex(phraseList.get(dIndex).getMorphemeList());
 					if(keywordPlaceIndex != 0){ continue; } // 最初の位置か
 					//if(morphemeList.size() <= medicinePlaceIndex + 1){ continue; }
-					if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
+					//if(!morphemeList.get(morphemeList.size()-1).getPartOfSpeech().equals("助詞")){ continue; }
 					patternType = 4;
 					//係り先番号を渡す
 					judgeKeywordPhrase(dIndex);
@@ -89,9 +89,9 @@ public class P4TripleSetInfoSearcher {
 	}
 
 	//「手がかり語」要素存在文節判定
-	public static void judgeKeywordPhrase(int dependencyIndex){
+	public static void judgeKeywordPhrase(int keyId){
 		for(Phrase phrase : phraseList){
-			if(phrase.getId() != dependencyIndex){ continue; }
+			if(phrase.getId() != keyId){ continue; }
 			//一番最後の文節が、格助詞または接続助詞か確認
 			String partOfSpeechDetails = phrase.getMorphemeList()
 					.get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
@@ -99,7 +99,7 @@ public class P4TripleSetInfoSearcher {
 			//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("助詞"))){ continue; }
-			judgeEffectPhrase(phrase.getDependencyIndex(), dependencyIndex);
+			judgeEffectPhrase(phrase.getDependencyIndex(), keyId);
 			break;
 		}
 	}

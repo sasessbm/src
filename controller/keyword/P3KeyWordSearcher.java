@@ -25,7 +25,7 @@ public class P3KeyWordSearcher {
 		//上から探索
 		for(Phrase phrase : phraseList){
 			int dependencyIndex = phrase.getDependencyIndex();
-			//if(phrase.getId() == targetId){ break; } //対象文節まで到達した時
+			if(phrase.getId() == targetId){ break; } //対象文節まで到達した時
 			if(dependencyIndex == effectId && judgeKeyWordPhrase(phrase, medicineNameList)){
 				keyWordId = phrase.getId();
 			}

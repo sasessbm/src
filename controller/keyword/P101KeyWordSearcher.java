@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import model.Phrase;
 import controller.logic.Logic;
 
-public class P101KeyWordSercher {
+public class P101KeyWordSearcher {
 
 	public static int getEffectId(int targetDependencyIndex, ArrayList<Phrase> phraseList){
 		int effectId = -1;
