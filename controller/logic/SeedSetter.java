@@ -113,8 +113,8 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(41,3,5,6));
 		correctAnswerList.add(new CorrectAnswer(41,3,5,9));
 		correctAnswerList.add(new CorrectAnswer(43,5,9,10));
-		correctAnswerList.add(new CorrectAnswer(50,0,4,5));
-		correctAnswerList.add(new CorrectAnswer(50,1,4,5));
+		correctAnswerList.add(new CorrectAnswer(50,0,6,7)); //変更
+		correctAnswerList.add(new CorrectAnswer(50,1,6,7)); //変更
 		
 		correctAnswerList.add(new CorrectAnswer(56,4,8,9));
 		correctAnswerList.add(new CorrectAnswer(64,7,3,4));
@@ -147,6 +147,7 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(159,8,0,11));
 		correctAnswerList.add(new CorrectAnswer(160,10,17,18));
 		correctAnswerList.add(new CorrectAnswer(161,7,4,10));
+		correctAnswerList.add(new CorrectAnswer(171,3,7,8)); //追加
 		correctAnswerList.add(new CorrectAnswer(171,4,7,8));
 		correctAnswerList.add(new CorrectAnswer(180,4,10,11));
 		correctAnswerList.add(new CorrectAnswer(183,0,3,5));
@@ -159,8 +160,8 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(188,0,1,2));
 		correctAnswerList.add(new CorrectAnswer(190,2,5,6));
 		correctAnswerList.add(new CorrectAnswer(191,0,3,4));
-		correctAnswerList.add(new CorrectAnswer(195,5,11,12));
-		correctAnswerList.add(new CorrectAnswer(195,7,11,12));
+		correctAnswerList.add(new CorrectAnswer(195,5,13,14)); //変更
+		//correctAnswerList.add(new CorrectAnswer(195,7,11,12)); //削除
 		correctAnswerList.add(new CorrectAnswer(197,0,4,4));
 		
 		correctAnswerList.add(new CorrectAnswer(212,8,6,7));
@@ -178,7 +179,7 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(232,0,4,6));
 		correctAnswerList.add(new CorrectAnswer(233,0,2,5));
 		correctAnswerList.add(new CorrectAnswer(233,0,3,5));
-		correctAnswerList.add(new CorrectAnswer(233,0,6,8));
+		correctAnswerList.add(new CorrectAnswer(233,0,9,10)); //変更
 		correctAnswerList.add(new CorrectAnswer(234,1,2,3));
 		correctAnswerList.add(new CorrectAnswer(236,0,4,6));
 		correctAnswerList.add(new CorrectAnswer(241,0,2,3));
@@ -191,8 +192,8 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(252,1,4,6));
 		correctAnswerList.add(new CorrectAnswer(253,10,14,15));
 		correctAnswerList.add(new CorrectAnswer(255,3,9,10));
-		correctAnswerList.add(new CorrectAnswer(257,0,3,4));
-		correctAnswerList.add(new CorrectAnswer(257,0,3,5));
+		//correctAnswerList.add(new CorrectAnswer(257,0,3,4)); //削除
+		correctAnswerList.add(new CorrectAnswer(257,0,6,7)); //変更
 		correctAnswerList.add(new CorrectAnswer(262,3,6,7));
 		correctAnswerList.add(new CorrectAnswer(263,1,3,4));
 		correctAnswerList.add(new CorrectAnswer(267,2,5,6));
@@ -236,7 +237,7 @@ public class SeedSetter {
 		
 		correctAnswerList.add(new CorrectAnswer(408,10,13,14)); //一応2個
 		correctAnswerList.add(new CorrectAnswer(408,10,13,14));
-		correctAnswerList.add(new CorrectAnswer(412,3,6,7));
+		correctAnswerList.add(new CorrectAnswer(412,3,8,9)); //変更
 		correctAnswerList.add(new CorrectAnswer(417,4,7,9));
 		correctAnswerList.add(new CorrectAnswer(418,1,4,5));
 		correctAnswerList.add(new CorrectAnswer(421,0,2,3));
@@ -274,6 +275,7 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(505,3,5,6));
 		correctAnswerList.add(new CorrectAnswer(510,0,3,5));
 		correctAnswerList.add(new CorrectAnswer(514,3,12,14));
+		correctAnswerList.add(new CorrectAnswer(514,4,12,14)); //追加
 		correctAnswerList.add(new CorrectAnswer(520,10,12,13));
 		correctAnswerList.add(new CorrectAnswer(526,0,4,5));
 		correctAnswerList.add(new CorrectAnswer(533,1,4,5));
@@ -340,7 +342,7 @@ public class SeedSetter {
 		correctAnswerList.add(new CorrectAnswer(753,0,3,4));
 		correctAnswerList.add(new CorrectAnswer(753,0,9,10));
 		correctAnswerList.add(new CorrectAnswer(755,0,2,3));
-		correctAnswerList.add(new CorrectAnswer(756,8,10,10));
+		//correctAnswerList.add(new CorrectAnswer(756,8,10,10)); //削除
 		correctAnswerList.add(new CorrectAnswer(758,3,8,9));
 		correctAnswerList.add(new CorrectAnswer(758,4,8,9));
 		correctAnswerList.add(new CorrectAnswer(758,5,8,9));

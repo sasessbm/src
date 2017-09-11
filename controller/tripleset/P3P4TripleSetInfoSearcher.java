@@ -92,7 +92,7 @@ public class P3P4TripleSetInfoSearcher {
 			//一番最後の文節が、格助詞または接続助詞か確認
 			String partOfSpeechDetails = phrase.getMorphemeList()
 					.get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
-			//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
+			if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("助詞") || partOfSpeechDetails.contains("読点"))){ continue; }
 			//if(!(partOfSpeechDetails.contains("助詞"))){ continue; }
@@ -126,8 +126,8 @@ public class P3P4TripleSetInfoSearcher {
 			if(phraseDependencyIndex == effectId){
 				String lastMorphemeText = phrase.getMorphemeList()
 						.get(phrase.getMorphemeList().size()-1).getMorphemeText();
-				//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
-				if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
+				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
 				tripleSetInfo.setUsedKeyWord(keyWordText);
 				tripleSetInfo.setPatternType(patternType);
