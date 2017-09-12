@@ -10,83 +10,46 @@ import model.TripleSetInfo;
 public class P101TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
-	private static  ArrayList<Phrase> phraseList;
-	private static String keyWordText;
-	private static ArrayList<TripleSetInfo> tripleSetInfoList;
-	private static int medicinePhraseId;
-	private static int sentenceId;
-	private static String sentenceText;
 
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
+		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 
-		tripleSetInfoList = new ArrayList<TripleSetInfo>();
-		P101TripleSetInfoSearcher.keyWordText = keyWordText;
 		for(Sentence sentence : sentenceList){
-			P101TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
-			sentenceId = sentence.getSentenceId();
-			sentenceText = sentence.getText();
-
+			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
+			ArrayList<Phrase> phraseList = sentence.getPhraseReplaceList();
+			int sentenceId = sentence.getSentenceId();
+			String sentenceText = sentence.getText();
 			for(Phrase phrase : phraseList){
-				String phraseText = phrase.getPhraseText();
-				if(!phraseText.contains(MEDICINE)){ continue; }
-				medicinePhraseId = phrase.getId();
-				ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-				int medicinePlaceIndex = -1;
+				//薬剤名文節探索
+				if(!phrase.getPhraseText().contains(MEDICINE)){ continue; } //薬剤名がない
 
-				// 薬剤名の形態素位置取得
-				for(int i = morphemeList.size() - 1; i >= 0; i--){
-					String morphemeText = morphemeList.get(i).getMorphemeText();
-					if(!morphemeText.contains(MEDICINE)){ continue; }
-					medicinePlaceIndex = i;
-					break;
-				}
-				//薬剤名のすぐ後ろが手がかり語でない場合
-				if(getKeywordPlaceIndex(phrase.getMorphemeList()) - 1 != medicinePlaceIndex){ continue; }
-				//薬剤名文節が最後または最後から2番目だった場合
-				if(medicinePhraseId > phraseList.size()-3){ continue; }
-				judgeTargetPhrase(medicinePhraseId);
+				//薬剤名・手がかり語の形態素位置取得
+				ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
+				int medicinePlaceIndex = PhraseChecker.getMedicinePlaceIndex(morphemeList);
+				int keywordPlaceIndex = PhraseChecker.getKeywordPlaceIndex(morphemeList, keyWordText);
+
+				//手がかり語文節の確定
+				if(medicinePlaceIndex == -1 || keywordPlaceIndex == -1){ continue; } //存在するか
+				if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } //隣り合っているか
+				//if(!PhraseChecker.particleConditioning(morphemeList)){ continue; } //末尾の助詞確認
+				
+				//効果・対象文節探索
+				int keyId = phrase.getId();
+				if(keyId > phraseList.size() - 2){ continue; } //薬剤名文節が最後または最後から2番目だった場合
+				//int keyDIndex = phrase.getDependencyIndex();
+				int targetId = keyId + 1;
+				int effectId = phraseList.get(targetId).getDependencyIndex();
+				if(effectId == -1){ continue; } //対象要素の係り先があるか
+				ArrayList<Morpheme> targetMorphemeList = phraseList.get(targetId).getMorphemeList();
+				if(!PhraseChecker.judgeTargetPhrase(targetMorphemeList)){ continue; } // 助詞の条件付け
+				
+				//三つ組情報生成
+				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, keyId, targetId, effectId);
+				tripleSetInfo.setUsedKeyWord(keyWordText);
+				tripleSetInfo.setPatternType(101);
+				tripleSetInfoList.add(tripleSetInfo);
 			}
 		}
 		return tripleSetInfoList;
 	}
-
-	//「対象」要素存在文節判定
-	public static void judgeTargetPhrase(int medicinePhraseId){
-		Phrase phrase = phraseList.get(medicinePhraseId + 1);
-		String lastMorphemeText = phrase.getMorphemeList().
-				get(phrase.getMorphemeList().size()-1).getMorphemeText();
-		//if(!Filter.isGAorHAorWO(lastMorphemeText)){ return; } // 助詞の条件付け
-		//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ return; } //助詞の条件付け
-		if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return; } // 助詞の条件付け
-		judgeEffectPhrase(phrase.getId(), phrase.getDependencyIndex());
-	}
-
-	//「効果」要素存在文節判定
-	public static void judgeEffectPhrase(int targetPhraseId, int targetDIndex){
-		for(Phrase phrase : phraseList){
-			int phraseId = phrase.getId();
-			if(phraseId != targetDIndex){ continue; }
-			TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, targetPhraseId, phraseId);
-			tripleSetInfo.setUsedKeyWord(keyWordText);
-			tripleSetInfo.setPatternType(101);
-			tripleSetInfoList.add(tripleSetInfo);
-		}
-	}
-
-	// 手がかり語の位置を探索
-	public static int getKeywordPlaceIndex(ArrayList<Morpheme> morphemeList){
-		int keywordPlaceIndex = -1;
-		int morphemeIndex = -1;
-		for(Morpheme morpheme : morphemeList){
-			morphemeIndex ++;
-			String originalForm = morpheme.getOriginalForm();
-			if(originalForm.equals(keyWordText)){
-				//System.out.println(keyword);
-				keywordPlaceIndex = morphemeIndex;
-			}
-		}
-		return keywordPlaceIndex;
-	}
-
-
 }

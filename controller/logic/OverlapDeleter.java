@@ -11,7 +11,7 @@ public class OverlapDeleter {
 	//重複したKeyWordを削除
 	public static ArrayList<KeyWord> deleteOverlappingFromListForKey
 	(ArrayList<KeyWord> removeList, ArrayList<KeyWord> compareList){
-		
+
 		for(KeyWord key : compareList){
 			String textBase = key.getText();
 			for(int i = removeList.size() - 1; i >= 0; i--){
@@ -25,7 +25,7 @@ public class OverlapDeleter {
 
 	public static ArrayList<TripleSetInfo> deleteOverlappingFromListForTripleSetInfo
 	(ArrayList<TripleSetInfo> removeList, ArrayList<TripleSetInfo> compareList){
-		
+
 		for(TripleSetInfo tripleSetInfo : compareList){
 			int sentenceId = tripleSetInfo.getSentenceId();
 			int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
@@ -44,7 +44,7 @@ public class OverlapDeleter {
 
 	public static ArrayList<TripleSet> deleteOverlappingFromListForTripleSet
 	(ArrayList<TripleSet> removeList, ArrayList<TripleSet> compareList){
-		
+
 		for(TripleSet tripleSet : compareList){
 			int sentenceId = tripleSet.getSentenceId();
 			int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
@@ -54,8 +54,8 @@ public class OverlapDeleter {
 			for(int i = removeList.size() - 1; i >= 0; i--){
 				TripleSet ts = removeList.get(i);
 				if(ts.getSentenceId() == sentenceId && ts.getMedicinePhraseIndex() == medicinePhraseId && 
-					ts.getTargetElement().getPhraseIndex() == targetPhraseId && 
-					ts.getEffectElement().getPhraseIndex() == effectPhraseId && ts.getMedicineName().equals(medicineName)){
+						ts.getTargetElement().getPhraseIndex() == targetPhraseId && 
+						ts.getEffectElement().getPhraseIndex() == effectPhraseId && ts.getMedicineName().equals(medicineName)){
 					removeList.remove(i);
 				}
 			}
@@ -65,7 +65,7 @@ public class OverlapDeleter {
 
 	public static ArrayList<KeyWord> deleteOverlappingFromListForStringAndKey
 	(ArrayList<KeyWord> removeList, ArrayList<String> compareList){
-		
+
 		for(String word : compareList){
 			//String textBase = key.getKeyWordText();
 			for(int i = removeList.size() - 1; i >= 0; i--){
@@ -79,7 +79,7 @@ public class OverlapDeleter {
 
 	//重複した手がかり語削除
 	public static ArrayList<KeyWord> deleteSameKeyWord(ArrayList<KeyWord> keyWordList){
-		
+
 		for(int i = 0; i < keyWordList.size() - 1; i++){
 			KeyWord keyWordBase = keyWordList.get(i);
 			String keyWordTextBase = keyWordBase.getText();
@@ -98,7 +98,7 @@ public class OverlapDeleter {
 	}
 	//重複した対象要素を削除
 	public static ArrayList<TripleSet> deleteSameTarget(ArrayList<TripleSet> tripleSetList){
-		
+
 		for(int i = 0; i < tripleSetList.size() - 1; i++){
 			TripleSet tripleSetBase = tripleSetList.get(i);
 			String targetBase = tripleSetBase.getTargetOriginalElement().getText();

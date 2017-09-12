@@ -7,25 +7,11 @@ import controller.logic.Logic;
 
 public class P101KeyWordSearcher {
 
-	public static int getEffectId(int targetDependencyIndex, ArrayList<Phrase> phraseList){
-		int effectId = -1;
-		for(Phrase phrase : phraseList){
-			int phraseId = phrase.getId();
-			if(phraseId == targetDependencyIndex){
-				effectId = phraseId;
-				break;
-			}
-		}
-		return effectId;
-	}
-
-	public static int getKeyWordId(int targetId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
-		int keyWordId = -1;
-		if(targetId == 0){ return keyWordId; }
-		if(judgeKeyWordPhrase(phraseList.get(targetId - 1), medicineNameList)){
-			keyWordId = targetId - 1;
-		}
-		return keyWordId;
+	public static boolean judgeKeyWordId(int targetId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
+		
+		if(targetId == 0){ return false; }
+		if(!judgeKeyWordPhrase(phraseList.get(targetId - 1), medicineNameList)){ return false;}
+		return true;
 	}
 
 	public static boolean judgeKeyWordPhrase(Phrase phrase, ArrayList<String> medicineNameList){

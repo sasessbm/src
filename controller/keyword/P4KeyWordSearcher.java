@@ -3,47 +3,30 @@ package controller.keyword;
 import java.util.ArrayList;
 
 import controller.logic.Logic;
+import controller.tripleset.PhraseChecker;
 import model.*;
 
 public class P4KeyWordSearcher {
 
-	public static int getEffectId(int targetDependencyIndex, ArrayList<Phrase> phraseList){
-		int effectId = -1;
+	public static ArrayList<Integer> getKeyWordIdList(int targetId, int effectId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
+		ArrayList<Integer> keyWordIdList = new ArrayList<Integer>();
 		for(Phrase phrase : phraseList){
-			int phraseId = phrase.getId();
-			if(phraseId == targetDependencyIndex){
-				effectId = phraseId;
-				break;
-			}
+			int id = phrase.getId();
+			int dIndex = phrase.getDependencyIndex();
+			if(id == targetId){ break; } //対象文節まで到達した時
+			if(dIndex != effectId){ continue; }
+			//if(!PhraseChecker.conditionPartOfSpeechDetails(phrase.getMorphemeList())){ continue; } //助詞の条件付け
+			if(!judgeKeyWordPhrase(id, phraseList, medicineNameList)){ continue; }
+			keyWordIdList.add(id);
 		}
-		return effectId;
-	}
-
-	public static int getKeyWordId(int targetId, int effectId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
-		int keyWordId = -1;
-		boolean isKeyWordPhrase = false;
-		for(Phrase phrase : phraseList){
-			int dependencyIndex = phrase.getDependencyIndex();
-			if(phrase.getId() == targetId){ break; } //対象文節まで到達した時
-			if(dependencyIndex == effectId){
-				String partOfSpeechDetails = phrase.getMorphemeList().get(phrase.getMorphemeList().size()-1).getPartOfSpeechDetails();
-				//if(!(partOfSpeechDetails.contains("格助詞") || partOfSpeechDetails.contains("接続助詞"))){ continue; }
-				keyWordId = phrase.getId();
-				isKeyWordPhrase = judgeKeyWordPhrase(keyWordId, phraseList, medicineNameList);
-				if(isKeyWordPhrase){ break; }
-			}
-			keyWordId = -1;
-		}
-		return keyWordId;
+		return keyWordIdList;
 	}
 
 	public static boolean judgeKeyWordPhrase(int keyWordId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
 		for(Phrase phrase : phraseList){
-			//String text = phrase.getPhraseText();
-			int dependencyIndex = phrase.getDependencyIndex();
-			if(dependencyIndex == keyWordId && Logic.containsMedicine(phrase.getPhraseText())){
-				String partOfSpeech = phrase.getMorphemeList().get(phrase.getMorphemeList().size()-1).getPartOfSpeech();
-				//if(!partOfSpeech.contains("助詞")){ continue; }
+			int dIndex = phrase.getDependencyIndex();
+			if(dIndex == keyWordId && Logic.containsMedicine(phrase.getPhraseText())){
+				//if(!PhraseChecker.conditionPartOfSpeech(phrase.getMorphemeList())){ return false; } //薬剤名文節の助詞の条件付け
 				return true;
 			}
 		}

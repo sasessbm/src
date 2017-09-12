@@ -32,9 +32,8 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		//double constant = 0.93;
-		double constant = 0.6; //0.5
-		int repeatCountMax = 3; //3
+		double constant = 0; //0.5
+		int repeatCountMax = 10; //3
 		int repeatCount = 0;
 		
 		//文取得
@@ -61,11 +60,11 @@ public class RunFromKeyWordSeed2 {
 				System.out.println("「" + keyWordText + "」");
 				ArrayList<TripleSet> tripleSetForKeyWordSetList = new ArrayList<TripleSet>();
 				
-				//三つ組取得(P3,P4)
-				//ArrayList<TripleSetInfo> tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				//三つ組取得(P3)
 				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
+				//三つ組取得(P4)
 				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
@@ -76,9 +75,6 @@ public class RunFromKeyWordSeed2 {
 				//三つ組取得(P10)
 				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
-				
-				//三つ組候補リストに追加
-				//tripleSetCandidateList.addAll(tripleSetForKeyWordSetList);
 				
 				if(tripleSetForKeyWordSetList.size() == 0){ continue; }
 				
@@ -111,8 +107,6 @@ public class RunFromKeyWordSeed2 {
 				Displayer.displayExtractionNum(targetNumList, targetAllNum); //抽出数表示
 
 				//閾値計算
-				//if(i != 1){ threshold = constant * (Math.log(targetNumList.size()) / Math.log(2.0)); }
-				//threshold = constant * (Math.log(targetNumList.size()) / Math.log(2.0));
 				threshold = constant * (Math.log(targetAllNum) / Math.log(2.0));
 				entropy = Calculator.calculateEntropy(targetNumList, targetAllNum); //エントロピー計算
 				
@@ -186,8 +180,6 @@ public class RunFromKeyWordSeed2 {
 				Displayer.displayExtractionNum(keyWordNumList, keyWordTextAllNum); //抽出数表示
 				
 				//閾値計算
-				//if(i != 1){ threshold = constant * (Math.log(keyWordNumList.size()) / Math.log(2.0)); }
-				//threshold = constant * (Math.log(keyWordNumList.size()) / Math.log(2.0));
 				threshold = constant * (Math.log(keyWordTextAllNum) / Math.log(2.0));
 				entropy = Calculator.calculateEntropy(keyWordNumList, keyWordTextAllNum); //エントロピー計算
 				
@@ -262,7 +254,6 @@ public class RunFromKeyWordSeed2 {
 		//三つ組候補リストに追加
 		tripleSetForKeyWordSetList.addAll(tripleSetTmpList);
 		tripleSetCandidateList.addAll(tripleSetTmpList);
-		
 	}
 
 }
