@@ -2,6 +2,7 @@ package controller.tripleset;
 
 import java.util.ArrayList;
 
+import model.KeyWord;
 import model.Morpheme;
 import model.Phrase;
 import model.TripleSetInfo;
@@ -99,6 +100,31 @@ public class PhraseChecker {
 			effectIdList.add(phraseId);
 		}
 		return effectIdList;
+	}
+	
+	//手がかり語の最終文節ID取得
+	public static ArrayList<Integer> getKeyIdList(int id, ArrayList<Phrase> phraseList, ArrayList<KeyWord> keyList){
+		ArrayList<Integer> keyIdList = new ArrayList<Integer>();
+		keyIdList.add(id);
+		Phrase phrase = phraseList.get(id);
+		int dIndex = phrase.getDependencyIndex();
+		while(true){
+			phrase = phraseList.get(dIndex);
+			if(!judgeContainsKeyInPhrase(phrase, keyList)){ break; } //文節内に手がかり語があるか
+			if(phrase.getDependencyIndex() == -1){ break; } //文節の係り先が存在するか
+			keyIdList.add(dIndex);
+			dIndex = phrase.getDependencyIndex();
+		}
+		return keyIdList;
+	}
+	
+	//文節内に手がかり語が含まれているか確認
+	public static boolean judgeContainsKeyInPhrase(Phrase phrase, ArrayList<KeyWord> keyList){
+		ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
+		for(KeyWord key : keyList){
+			if(getKeywordPlaceIndex(morphemeList, key.getText()) != -1){ return true; }
+		}
+		return false;
 	}
 
 }

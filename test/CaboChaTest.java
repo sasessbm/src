@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("アバスチンも肺がんに効果があるとの情報を仕入れました");
+		Run("クロミッドの副作用のせいか、生理が短い");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

@@ -61,7 +61,7 @@ public class RunFromKeyWordSeed2 {
 				ArrayList<TripleSet> tripleSetForKeyWordSetList = new ArrayList<TripleSet>();
 				
 				//三つ組取得(P3)
-				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
 				//三つ組取得(P4)

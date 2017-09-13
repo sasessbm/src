@@ -69,7 +69,7 @@ public class Logic {
 	//薬剤名を含むか判定
 	public static boolean containsMedicine(String word){
 		for(String medicineName : medicineNameList){
-			if(word.contains(medicineName)){return true;}
+			if(word.contains(medicineName)){ return true; }
 		}
 		return false;
 	}
@@ -91,14 +91,11 @@ public class Logic {
 
 	//ランダムなIDリスト作成
 	public static ArrayList<Integer> getRandomIdList(int idNum, int startIdIndex, int endIdIndex){
-
 		ArrayList<Integer> randomIdList = new ArrayList<Integer>();
 		Random rand = new Random();
 		boolean isCreated;
 		int id = rand.nextInt(endIdIndex + 1 - startIdIndex) + startIdIndex;
-
 		randomIdList.add(id);
-
 		for(int i=0; i < idNum-1; ){
 			isCreated = false;
 			id = rand.nextInt(endIdIndex + 1 - startIdIndex) + startIdIndex;
@@ -172,40 +169,13 @@ public class Logic {
 	
 
 	//正解三つ組情報取得
-//	public static ArrayList<TripleSetInfo> getCorrectTripleSetInfoList
-//	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<CorrectAnswer> correctAnswerList){
-//
-//		ArrayList<TripleSetInfo> correctTripleSetInfoList = new ArrayList<TripleSetInfo>();
-//		//ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
-//
-//		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
-//			int sentenceId = tripleSetInfo.getSentenceId();
-//			int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
-//			int targetPhraseId = tripleSetInfo.getTargetPhraseId();
-//			int effectPhraseId = tripleSetInfo.getEffectPhraseId();
-//
-//			for(CorrectAnswer correctAnswer : correctAnswerList){
-//				if(correctAnswer.getSentenceId() == sentenceId && correctAnswer.getMedicinePhraseId() == medicinePhraseId
-//						&& correctAnswer.getTargetPhraseId() == targetPhraseId && correctAnswer.getEffectPhraseId() == effectPhraseId){
-//					correctTripleSetInfoList.add(tripleSetInfo);
-//				}
-//			}
-//		}
-//		return correctTripleSetInfoList;
-//	}
-	
-	public static ArrayList<TripleSet> getCorrectTripleSetList
-	(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
-
+	public static ArrayList<TripleSet> getCorrectTripleSetList(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
 		ArrayList<TripleSet> correctTripleSetList = new ArrayList<TripleSet>();
-		//ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
-
 		for(TripleSet tripleSet : tripleSetList){
 			int sentenceId = tripleSet.getSentenceId();
 			int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
 			int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
 			int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
-
 			for(CorrectAnswer correctAnswer : correctAnswerList){
 				if(correctAnswer.getSentenceId() == sentenceId && correctAnswer.getMedicinePhraseId() == medicinePhraseId
 						&& correctAnswer.getTargetPhraseId() == targetPhraseId && correctAnswer.getEffectPhraseId() == effectPhraseId){
@@ -218,7 +188,6 @@ public class Logic {
 	}
 
 	public static ArrayList<Phrase> copyPhraseList(ArrayList<Phrase> originPhraseList){
-
 		ArrayList<Phrase> copyPhraseList = new ArrayList<Phrase>();
 		for(Phrase originPhrase : originPhraseList){
 			ArrayList<Morpheme> morphemeRestoreList = new ArrayList<Morpheme>();

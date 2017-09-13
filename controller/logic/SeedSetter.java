@@ -10,7 +10,7 @@ public class SeedSetter {
 	public static ArrayList<String> getKeyWordSeedList(){
 
 		ArrayList<String> seedList = new ArrayList<String>();
-
+		
 		seedList.add("副作用");
 		seedList.add("おかげ");
 		seedList.add("せい");
@@ -74,6 +74,7 @@ public class SeedSetter {
 		//seedList.add("の");
 		//seedList.add("は");
 		//seedList.add("出る");
+		//seedList.add("調整");
 		
 		return seedList;
 	}

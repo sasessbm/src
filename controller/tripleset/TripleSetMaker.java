@@ -65,18 +65,15 @@ public class TripleSetMaker {
 		String sentenceText = tripleSetInfo.getSentenceText();
 		int sentenceId = tripleSetInfo.getSentenceId();
 
-		// とりあえず、薬剤名文節に薬剤名が複数含まれていた場合に対応(してない)
+		// とりあえず、薬剤名文節に薬剤名が複数含まれていた場合に対応
 		for(Morpheme morpheme : phraseList.get(medicinePhraseId).getMorphemeList()){
 			if(!morpheme.getPartOfSpeechDetails().equals("固有名詞") && 
 					!morpheme.getPartOfSpeechDetails().equals("一般")){ continue; }
 
-			for(String text : medicineNameList){
+			for(String name : medicineNameList){
 				String morphemeText = morpheme.getMorphemeText();
-				if(morphemeText.contains(text)){
-					medicineNameListInPhrase.add(text);
-					//medicineName = text;
-					//break;
-				}
+				if(morphemeText.contains(name)){ medicineNameListInPhrase.add(name); }
+				//if(name.contains(morphemeText)){ medicineNameListInPhrase.add(name); }
 			}
 		}
 		ArrayList<Phrase> targetPhraseList = new ArrayList<Phrase>();
