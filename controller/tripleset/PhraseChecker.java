@@ -60,6 +60,7 @@ public class PhraseChecker {
 		ArrayList<Morpheme> morphemeList = medicineDPhrase.getMorphemeList();
 		int keywordPlaceIndex = PhraseChecker.getKeywordPlaceIndex(morphemeList, keyWordText);
 		if(keywordPlaceIndex != 0){ return false; } //最初の位置か
+		if(medicineDPhrase.getDependencyIndex() == -1){ return false; } //係り先が存在するか
 		//if(!conditionPartOfSpeechDetails(morphemeList)){ return false; } //末尾の助詞確認
 		return true;
 	}
@@ -122,7 +123,8 @@ public class PhraseChecker {
 	public static boolean judgeContainsKeyInPhrase(Phrase phrase, ArrayList<KeyWord> keyList){
 		ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 		for(KeyWord key : keyList){
-			if(getKeywordPlaceIndex(morphemeList, key.getText()) != -1){ return true; }
+			if(getKeywordPlaceIndex(morphemeList, key.getText()) == 0){ return true; } //手がかり語が1番目
+			//if(getKeywordPlaceIndex(morphemeList, key.getText()) != -1){ return true; } //手がかり語を含んでいる
 		}
 		return false;
 	}

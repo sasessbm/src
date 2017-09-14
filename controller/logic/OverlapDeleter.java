@@ -154,6 +154,35 @@ public class OverlapDeleter {
 		return tripleSetList;
 	}
 
+	//重複した三つ組情報を削除
+	public static ArrayList<TripleSetInfo> deleteSameInfo(ArrayList<TripleSetInfo> tripleSetInfoList){
+
+		for(int i = 0; i < tripleSetInfoList.size() - 1; i++){
+			TripleSetInfo tripleSetInfoBase = tripleSetInfoList.get(i);
+			int sentenceIdBase = tripleSetInfoBase.getSentenceId();
+			int medicinePhraseIdBase = tripleSetInfoBase.getMedicinePhraseId();
+			int targetPhraseIdBase = tripleSetInfoBase.getTargetPhraseId();
+			int effectPhraseIdBase = tripleSetInfoBase.getEffectPhraseId();
+
+			for(int j = i+1; j < tripleSetInfoList.size();){
+				TripleSetInfo tripleSetInfo = tripleSetInfoList.get(j);
+				int sentenceId = tripleSetInfo.getSentenceId();
+				int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
+				int targetPhraseId = tripleSetInfo.getTargetPhraseId();
+				int effectPhraseId = tripleSetInfo.getEffectPhraseId();
+
+				if(sentenceIdBase == sentenceId && medicinePhraseIdBase == medicinePhraseId 
+						&& targetPhraseIdBase == targetPhraseId && effectPhraseIdBase == effectPhraseId){
+					tripleSetInfoList.remove(tripleSetInfo);
+					j = i+1;
+					continue;
+				}
+				j++;
+			}
+		}
+		return tripleSetInfoList;
+	}
+
 	//重複したSentenceを削除
 	public static ArrayList<Sentence> deleteSameSentence(ArrayList<Sentence> sentenceList){
 

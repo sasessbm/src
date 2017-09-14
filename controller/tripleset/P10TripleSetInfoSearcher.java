@@ -2,6 +2,8 @@ package controller.tripleset;
 
 import java.util.ArrayList;
 
+import controller.logic.OverlapDeleter;
+import model.KeyWord;
 import model.Morpheme;
 import model.Phrase;
 import model.Sentence;
@@ -11,15 +13,13 @@ public class P10TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 
-	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
+	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList) {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
-
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
 			ArrayList<Phrase> phraseList = sentence.getPhraseReplaceList();
 			int sentenceId = sentence.getSentenceId();
 			String sentenceText = sentence.getText();
-
 			for(Phrase phrase : phraseList){
 
 				//薬剤名文節探索
@@ -32,23 +32,36 @@ public class P10TripleSetInfoSearcher {
 
 				//手がかり語文節探索
 				int medicineDIndex = phrase.getDependencyIndex();
-				if(!PhraseChecker.judgeKeyPhrase(medicineDIndex, phraseList, keyWordText)){ continue; }
+				if(!PhraseChecker.judgeKeyPhrase(medicineDIndex, phraseList, keyText)){ continue; }
 
 				//効果・対象文節探索
-				int keyId = medicineDIndex;
-				int keyDIndex = phraseList.get(keyId).getDependencyIndex();
-				ArrayList<Integer> effectIdList = PhraseChecker.getEffectIdList(keyDIndex, keyId, phraseList);
-				for(int effectId : effectIdList){
-					ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(effectId, keyId, phraseList);
-					if(targetIdList.size() == 0){ continue; }
-					//三つ組情報生成
-					for(int targetId : targetIdList){
-						TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, phrase.getId(), targetId, effectId);
-						tripleSetInfo.setUsedKeyWord(keyWordText);
-						tripleSetInfo.setPatternType(10);
-						tripleSetInfoList.add(tripleSetInfo);
+				int medicineId = phrase.getId();
+				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineDIndex, phraseList, keyList);
+				ArrayList<String> usedKeyTmpList = new ArrayList<String>();
+				for(int keyId : keyIdList){
+					
+					//手がかり語リストに追加
+					ArrayList<String> usedKeyList = new ArrayList<String>();
+					String usedKey = LogicOfTripleSetInfoSearcher.getUsedKey(keyId, phraseList);
+					usedKeyTmpList.add(usedKey);
+					usedKeyList.addAll(usedKeyTmpList);
+					
+					//効果文節探索
+					int keyDIndex = phraseList.get(keyId).getDependencyIndex();
+					ArrayList<Integer> effectIdList = PhraseChecker.getEffectIdList(keyDIndex, keyId, phraseList);
+					
+					//対象文節探索
+					for(int effectId : effectIdList){
+						ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(effectId, keyId, phraseList);
+						if(targetIdList.size() == 0){ continue; }
+						//三つ組情報生成
+						for(int targetId : targetIdList){
+							LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+							(tripleSetInfoList, sentenceId, sentenceText, medicineId, targetId, effectId, 10, usedKeyList);
+						}
 					}
 				}
+				OverlapDeleter.deleteSameInfo(tripleSetInfoList);
 			}
 		}
 		return tripleSetInfoList;

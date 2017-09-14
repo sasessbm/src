@@ -129,7 +129,7 @@ public class RunFromKeyWordSeed {
 				if(keyWordTmpList.size() == 0){ continue; }
 
 				//対象に手がかり語リストセット
-				tripleSet.setKeyWordList(keyWordTmpList);
+				tripleSet.setExtractKeyList(keyWordTmpList);
 				
 				//手がかり語候補リストに追加
 				//keyWordTmpList = OverlapDeleter.deleteSameKeyWord(keyWordTmpList); //重複削除

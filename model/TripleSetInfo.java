@@ -1,25 +1,17 @@
 package model;
 
+import java.util.ArrayList;
+
 public class TripleSetInfo {
 	
 	private int sentenceId;
 	private String sentenceText;
 	private int medicinePhraseId;
 	private int targetPhraseId;
-	//private ArrayList<Integer> targetPhraseIdList;
 	private int effectPhraseId;
-	private String usedKeyWord;
+	//private String usedKeyWord;
 	private int patternType;
-	
-	
-	
-//	public TripleSetInfo2() {
-//		medicinePhraseId = -1;
-//		//targetPhraseId = -1;
-//		targetPhraseIdList = new ArrayList<Integer>();
-//		effectPhraseId = -1;
-//		usedKeyWord = "";
-//	}
+	private ArrayList<String> usedKeyList;
 	
 	public TripleSetInfo(int sentenceId, String sentenceText, int medicinePhraseId,
 			int targetPhraseId, int effectPhraseId) {
@@ -28,7 +20,6 @@ public class TripleSetInfo {
 		this.medicinePhraseId = medicinePhraseId;
 		this.targetPhraseId = targetPhraseId;
 		this.effectPhraseId = effectPhraseId;
-		//this.usedKeyWord = usedKeyWord;
 	}
 
 	public int getSentenceId() {
@@ -38,17 +29,6 @@ public class TripleSetInfo {
 	public void setSentenceId(int sentenceId) {
 		this.sentenceId = sentenceId;
 	}
-	
-	
-
-	
-//	public ArrayList<Integer> getTargetPhraseIdList() {
-//		return targetPhraseIdList;
-//	}
-//
-//	public void setTargetPhraseIdList(ArrayList<Integer> targetPhraseIdList) {
-//		this.targetPhraseIdList = targetPhraseIdList;
-//	}
 
 	public String getSentenceText() {
 		return sentenceText;
@@ -82,13 +62,21 @@ public class TripleSetInfo {
 		this.effectPhraseId = effectPhraseId;
 	}
 	
-	public String getUsedKeyWord(){
-		return usedKeyWord;
+	public ArrayList<String> getUsedKeyList(){
+		return usedKeyList;
 	}
 	
-	public void setUsedKeyWord(String usedKeyWord){
-		this.usedKeyWord = usedKeyWord;
+	public void setUsedKeyList(ArrayList<String> usedKeyList){
+		this.usedKeyList = usedKeyList;
 	}
+	
+//	public String getUsedKeyWord(){
+//		return usedKeyWord;
+//	}
+//	
+//	public void setUsedKeyWord(String usedKeyWord){
+//		this.usedKeyWord = usedKeyWord;
+//	}
 
 	public int getPatternType() {
 		return patternType;

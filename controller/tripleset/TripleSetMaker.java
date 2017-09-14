@@ -121,7 +121,7 @@ public class TripleSetMaker {
 		effectElement.setPhraseIndex(effectPhraseId);
 
 		for(String medicineName : medicineNameListInPhrase){
-			TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyWord(),
+			TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyList(),
 					sentenceText, sentenceId, medicinePhraseId, tripleSetInfo.getPatternType());
 			tripleSet.setTargetOriginalElement(targetOriginalElement);
 			PostProcessor.deleteParentheses(tripleSet);

@@ -29,6 +29,10 @@ public class KeyWord {
 		this.tripleSetList = tripleSetList;
 	}
 	
+	public void addTripleSetInList(TripleSet tripleSet){
+		tripleSetList.add(tripleSet);
+	}
+	
 	public int getSentenceId() {
 		return sentenceId;
 	}

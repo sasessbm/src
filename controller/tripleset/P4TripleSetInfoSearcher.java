@@ -2,6 +2,8 @@ package controller.tripleset;
 
 import java.util.ArrayList;
 
+import controller.logic.OverlapDeleter;
+import model.KeyWord;
 import model.Morpheme;
 import model.Phrase;
 import model.Sentence;
@@ -11,7 +13,7 @@ public class P4TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 
-	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
+	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList) {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 
 		for(Sentence sentence : sentenceList){
@@ -32,21 +34,32 @@ public class P4TripleSetInfoSearcher {
 
 				//手がかり語文節探索
 				int medicineDIndex = phrase.getDependencyIndex();
-				if(!PhraseChecker.judgeKeyPhrase(medicineDIndex, phraseList, keyWordText)){ continue; }
+				if(!PhraseChecker.judgeKeyPhrase(medicineDIndex, phraseList, keyText)){ continue; }
 
 				//効果・対象文節探索
-				int keyId = medicineDIndex;
-				int keyDIndex = phraseList.get(keyId).getDependencyIndex();
-				ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(keyDIndex, keyId, phraseList);
-				if(targetIdList.size() == 0){ continue; }
-
-				//三つ組情報生成
-				for(int targetId : targetIdList){
-					TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, phrase.getId(), targetId, keyDIndex);
-					tripleSetInfo.setUsedKeyWord(keyWordText);
-					tripleSetInfo.setPatternType(4);
-					tripleSetInfoList.add(tripleSetInfo);
+				int medicineId = phrase.getId();
+				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineDIndex, phraseList, keyList);
+				ArrayList<String> usedKeyTmpList = new ArrayList<String>();
+				
+				for(int keyId : keyIdList){
+					//手がかり語リストに追加
+					ArrayList<String> usedKeyList = new ArrayList<String>();
+					String usedKey = LogicOfTripleSetInfoSearcher.getUsedKey(keyId, phraseList);
+					usedKeyTmpList.add(usedKey);
+					usedKeyList.addAll(usedKeyTmpList);
+					
+					//対象文節探索
+					int keyDIndex = phraseList.get(keyId).getDependencyIndex();
+					ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(keyDIndex, keyId, phraseList);
+					if(targetIdList.size() == 0){ continue; }
+					
+					//三つ組情報生成
+					for(int targetId : targetIdList){
+						LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+						(tripleSetInfoList, sentenceId, sentenceText, medicineId, targetId, keyDIndex, 4, usedKeyList);
+					}
 				}
+				OverlapDeleter.deleteSameInfo(tripleSetInfoList);
 			}
 		}
 		return tripleSetInfoList;

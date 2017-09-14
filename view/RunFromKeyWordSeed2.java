@@ -65,7 +65,7 @@ public class RunFromKeyWordSeed2 {
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
 				//三つ組取得(P4)
-				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
 				//三つ組取得(P101)
@@ -73,7 +73,7 @@ public class RunFromKeyWordSeed2 {
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
 				//三つ組取得(P10)
-				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetForKeyWordSetList, tripleSetCandidateList);
 				
 				if(tripleSetForKeyWordSetList.size() == 0){ continue; }
@@ -81,7 +81,18 @@ public class RunFromKeyWordSeed2 {
 				Displayer.displayExtractedTripleSet(keyWordText, tripleSetForKeyWordSetList); //抽出三つ組表示
 
 				//手がかり語に三つ組リストセット
-				keyWord.setTripleSetList(tripleSetForKeyWordSetList);
+				//keyWord.setTripleSetList(tripleSetForKeyWordSetList);
+			}
+			
+			//手がかり語に三つ組リストセット
+			for(TripleSet tripleSet : tripleSetCandidateList){
+				ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
+				for(String usedKey : usedKeyList){
+					for(KeyWord key : keyWordFinalList){
+						if(!key.getText().equals(usedKey)){ continue; }
+						key.addTripleSetInList(tripleSet);
+					}
+				}
 			}
 			
 			//三つ組候補リストの三つ組重複削除
@@ -146,7 +157,7 @@ public class RunFromKeyWordSeed2 {
 				if(keyWordTmpList.size() == 0){ continue; }
 
 				//対象に手がかり語リストセット
-				tripleSet.setKeyWordList(keyWordTmpList);
+				tripleSet.setExtractKeyList(keyWordTmpList);
 				
 				//手がかり語候補リストに追加
 				keyWordCandidateList.addAll(keyWordTmpList);

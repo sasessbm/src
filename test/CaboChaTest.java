@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("クロミッドの副作用のせいか、生理が短い");
+		Run("出かけるまでは、腰の痛みがありロキソニンを内服してでの参加でしたが、みんなに会ったら痛みは消えていました");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

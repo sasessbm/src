@@ -18,9 +18,16 @@ public class Displayer {
 		for(TripleSet tripleSet : tripleSetList){
 			Element targetElement = tripleSet.getTargetElement();
 			Element effectElement = tripleSet.getEffectElement();
+			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
+			String usedKey = "";
+			for(int i = 0; i < usedKeyList.size(); i++){
+				usedKey += usedKeyList.get(i);
+				if(i != usedKeyList.size()-1){ usedKey += "→"; }
+			}
 			System.out.println("（" + tripleSet.getMedicineName()+ "，" + targetElement.getText() + "，" 
 			+effectElement.getText() + "）（"  + tripleSet.getSentenceId() + "，" + tripleSet.getMedicinePhraseIndex() + 
-			"，" + targetElement.getPhraseIndex() + "，" + effectElement.getPhraseIndex() +  "）・・・" + tripleSet.getUsedKeyWord());
+			"，" + targetElement.getPhraseIndex() + "，" + effectElement.getPhraseIndex() +  "）・・・" + usedKey);
+			
 		}
 	}
 
@@ -32,7 +39,13 @@ public class Displayer {
 		ArrayList<Double> resultList = Calculator.getResultList(allExtractionNum, correctExtractionNum, correctAnswerNum);
 		System.out.println("\r\n＜正解出力結果＞");
 		for(TripleSet tripleSet : correctTripleSetList){
-			System.out.println("\r\nsentenceID = " + tripleSet.getSentenceId() + "       使われた手がかり語・・・" + tripleSet.getUsedKeyWord()
+			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
+			String usedKey = "";
+			for(int i = 0; i < usedKeyList.size(); i++){
+				usedKey += usedKeyList.get(i);
+				if(i != usedKeyList.size()-1){ usedKey += "→"; }
+			}
+			System.out.println("\r\nsentenceID = " + tripleSet.getSentenceId() + "       使われた手がかり語・・・" + usedKey
 					+ "     抽出パターン・・・" + tripleSet.getPatternType());
 			System.out.println("「"+ tripleSet.getSentenceText() + "」");
 			System.out.println("（" + tripleSet.getMedicineName()+ " , " + tripleSet.getTargetElement().getText() + " , " 
