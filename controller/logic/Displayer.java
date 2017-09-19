@@ -20,9 +20,11 @@ public class Displayer {
 			Element effectElement = tripleSet.getEffectElement();
 			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
 			String usedKey = "";
-			for(int i = 0; i < usedKeyList.size(); i++){
-				usedKey += usedKeyList.get(i);
-				if(i != usedKeyList.size()-1){ usedKey += "→"; }
+			if(usedKeyList != null){
+				for(int i = 0; i < usedKeyList.size(); i++){
+					usedKey += usedKeyList.get(i);
+					if(i != usedKeyList.size()-1){ usedKey += "→"; }
+				}
 			}
 			System.out.println("（" + tripleSet.getMedicineName()+ "，" + targetElement.getText() + "，" 
 			+effectElement.getText() + "）（"  + tripleSet.getSentenceId() + "，" + tripleSet.getMedicinePhraseIndex() + 
@@ -41,9 +43,11 @@ public class Displayer {
 		for(TripleSet tripleSet : correctTripleSetList){
 			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
 			String usedKey = "";
-			for(int i = 0; i < usedKeyList.size(); i++){
-				usedKey += usedKeyList.get(i);
-				if(i != usedKeyList.size()-1){ usedKey += "→"; }
+			if(usedKeyList != null){
+				for(int i = 0; i < usedKeyList.size(); i++){
+					usedKey += usedKeyList.get(i);
+					if(i != usedKeyList.size()-1){ usedKey += "→"; }
+				}
 			}
 			System.out.println("\r\nsentenceID = " + tripleSet.getSentenceId() + "       使われた手がかり語・・・" + usedKey
 					+ "     抽出パターン・・・" + tripleSet.getPatternType());

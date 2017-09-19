@@ -46,9 +46,21 @@ public class P101TripleSetInfoSearcher {
 				ArrayList<String> usedKeyList = new ArrayList<String>();
 				usedKeyList.add(keyText);
 				
-				//三つ組情報生成
-				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, sentenceId, sentenceText, medicineId, targetId, effectId, 101, usedKeyList);
+				ArrayList<Integer> targetIdList = new ArrayList<Integer>();
+				targetIdList.add(targetId);
+				if(phraseList.get(effectId).getDependencyIndex() != -1){
+					keyId = effectId;
+					effectId = phraseList.get(effectId).getDependencyIndex();
+					targetIdList.addAll(PhraseChecker.getTargetIdList(effectId, keyId, phraseList));
+				}
+				
+				for(int tId : targetIdList){
+					effectId = phraseList.get(tId).getDependencyIndex();
+					//三つ組情報生成
+					LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+					(tripleSetInfoList, sentenceId, sentenceText, medicineId, tId, effectId, 101, usedKeyList);
+				}
+				
 			}
 		}
 		return tripleSetInfoList;

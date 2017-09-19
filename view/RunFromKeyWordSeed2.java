@@ -12,6 +12,7 @@ import controller.logic.Logic;
 import controller.logic.OverlapDeleter;
 import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
+import controller.sentence.SentenceMaker2;
 import controller.tripleset.Filter;
 import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.PEvalDicSearcher;
@@ -39,6 +40,7 @@ public class RunFromKeyWordSeed2 {
 		//文取得
 		System.out.println("テストデータ読み込み中・・・");
 		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
+		//ArrayList<Sentence> sentenceList = SentenceMaker2.getSentenceList(testDataPath, medicineNameList);
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
 		RunFromKeyWordSeed2.sentenceList = sentenceList;
 		

@@ -13,6 +13,7 @@ import controller.logic.Logic;
 import controller.logic.OverlapDeleter;
 import controller.logic.SeedSetter;
 import controller.sentence.SentenceMaker;
+import controller.sentence.SentenceMaker2;
 import controller.tripleset.PEvalDicSearcher;
 import controller.tripleset.Filter;
 import controller.tripleset.P3P4TripleSetInfoSearcher;
@@ -35,7 +36,7 @@ public class RunBaseLine {
 		//手がかり語から三つ組の位置抽出
 		for(String keyWordText : keyWordSeedList){
 			//System.out.println("\r\n" + keyWordText);
-			tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList ,keyWordText);
+			tripleSetInfoList = P3P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
 			
 			if(tripleSetInfoList.size() == 0){ continue; }
 			tripleSetInfoIncreaseFinalList.addAll(tripleSetInfoList);

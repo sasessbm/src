@@ -18,7 +18,6 @@ public class P3P4TripleSetInfoSearcher {
 	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyWordText) {
 		tripleSetInfoList = new ArrayList<TripleSetInfo>();
 		P3P4TripleSetInfoSearcher.keyWordText = keyWordText;
-
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
 			P3P4TripleSetInfoSearcher.phraseList = sentence.getPhraseReplaceList();
@@ -129,10 +128,12 @@ public class P3P4TripleSetInfoSearcher {
 				if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicinePhraseId, phraseId, effectId);
-				tripleSetInfo.setUsedKeyWord(keyWordText);
+				ArrayList<String> usedKeyList = new ArrayList<String>();
+				usedKeyList.add(keyWordText);
+				tripleSetInfo.setUsedKeyList(usedKeyList);
 				tripleSetInfo.setPatternType(patternType);
 				tripleSetInfoList.add(tripleSetInfo);
-				//break; //最も近くかどうか
+				break; //最も近くかどうか
 			}
 		}
 	}

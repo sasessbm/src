@@ -78,6 +78,11 @@ public class PhraseChecker {
 			if(!judgeTargetPhrase(morphemeList)){ continue; } // 助詞の条件付け
 			targetIdList.add(phraseId);
 		}
+		keyId = effectId;
+		effectId = phraseList.get(effectId).getDependencyIndex();
+		if(effectId != -1){
+			targetIdList.addAll(getTargetIdList(effectId, keyId, phraseList));
+		}
 		return targetIdList;
 	}
 	

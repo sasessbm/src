@@ -37,6 +37,8 @@ public class P10TripleSetInfoSearcher {
 				//効果・対象文節探索
 				int medicineId = phrase.getId();
 				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineDIndex, phraseList, keyList);
+//				ArrayList<Integer> keyIdList = new ArrayList<Integer>();
+//				keyIdList.add(medicineDIndex);
 				ArrayList<String> usedKeyTmpList = new ArrayList<String>();
 				for(int keyId : keyIdList){
 					
@@ -56,6 +58,7 @@ public class P10TripleSetInfoSearcher {
 						if(targetIdList.size() == 0){ continue; }
 						//三つ組情報生成
 						for(int targetId : targetIdList){
+							effectId = phraseList.get(targetId).getDependencyIndex();
 							LogicOfTripleSetInfoSearcher.addTripleSetInfoList
 							(tripleSetInfoList, sentenceId, sentenceText, medicineId, targetId, effectId, 10, usedKeyList);
 						}

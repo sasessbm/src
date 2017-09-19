@@ -9,7 +9,7 @@ import model.*;
 public class P3KeyWordSearcher {
 
 	public static ArrayList<Integer> getKeyWordIdList(int targetId, int effectId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
-		ArrayList<Integer> keyWordIdList = new ArrayList<Integer>();
+		ArrayList<Integer> keyWordIdList = new ArrayList<Integer>(); 
 		//上から探索
 		for(Phrase phrase : phraseList){
 			int id = phrase.getId();

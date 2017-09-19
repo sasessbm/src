@@ -15,7 +15,7 @@ import controller.logic.PostProcessor;
 import controller.logic.PreProcessor;
 import model.*;
 
-public class SentenceMaker {
+public class SentenceMaker2 {
 	
 	public static ArrayList<Sentence> getSentenceList(String testDataPath, ArrayList<String> medicineNameList) throws SAXException, IOException, ParserConfigurationException{
 		
@@ -46,7 +46,7 @@ public class SentenceMaker {
 				
 			case 2:
 				sentenceCount++;
-				//if(sentenceCount != 71){ break; }
+				//if(sentenceCount != 654){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
 				break;
@@ -65,21 +65,24 @@ public class SentenceMaker {
 		//if(sentenceText.equals("")){ continue; }	//空白の文は対象としない
 		TreeMap<Integer, String> medicineNameMap = 
 				PreProcessor.getMedicineNameMap(text, medicineNameList); //薬剤名取得
-		text = PreProcessor.replaceMedicineName(text, medicineNameMap);	//薬剤名置き換え
+		//text = PreProcessor.replaceMedicineName(text, medicineNameMap);	//薬剤名置き換え
 
 		//構文解析結果をXml形式で取得
 		ArrayList<String> xmlList = new ArrayList<String>();
 		xmlList = SyntaxAnalyzer.GetSyntaxAnalysResultXml(text);
 
 		//文節リスト取得　(phrase,morphemeの生成)
-		ArrayList<Phrase> phraseReplaceList = XmlReader.GetPhraseList(xmlList);
-		ArrayList<Phrase> phraseRestoreList = new ArrayList<Phrase>();
+		ArrayList<Phrase> phraseRestoreList = XmlReader.GetPhraseList(xmlList);
+		ArrayList<Phrase> phraseReplaceList = new ArrayList<Phrase>();
 
 		//文節リスト更新
-		phraseRestoreList = Logic.copyPhraseList(phraseReplaceList);
+		phraseReplaceList = Logic.copyPhraseList(phraseRestoreList);
 		
 		//薬剤名を戻す
-		phraseRestoreList = PostProcessor.restoreMedicineName(phraseRestoreList, medicineNameMap);
+		//phraseRestoreList = PostProcessor.restoreMedicineName(phraseRestoreList, medicineNameMap);
+		for(Phrase phrase : phraseReplaceList){
+			phrase.setPhraseText(PreProcessor.replaceMedicineName(phrase.getPhraseText(), medicineNameMap));
+		}
 		
 		//sentence生成
 		Sentence sentence = new Sentence(textBefore, recordId, sentenceId, phraseReplaceList, phraseRestoreList);
