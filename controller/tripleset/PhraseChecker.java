@@ -78,6 +78,7 @@ public class PhraseChecker {
 			if(!judgeTargetPhrase(morphemeList)){ continue; } // 助詞の条件付け
 			targetIdList.add(phraseId);
 		}
+		if(targetIdList.size() == 0){ return targetIdList; } //取得できなかった場合
 		keyId = effectId;
 		effectId = phraseList.get(effectId).getDependencyIndex();
 		if(effectId != -1){
