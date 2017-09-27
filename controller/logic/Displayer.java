@@ -72,10 +72,18 @@ public class Displayer {
 		for(TripleSet tripleSet : tripleSetList){
 			Element targetElement = tripleSet.getTargetElement();
 			Element effectElement = tripleSet.getEffectElement();
+			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
+			String usedKey = "";
+			if(usedKeyList != null){
+				for(int i = 0; i < usedKeyList.size(); i++){
+					usedKey += usedKeyList.get(i);
+					if(i != usedKeyList.size()-1){ usedKey += "→"; }
+				}
+			}
 			System.out.println("（" + tripleSet.getMedicineName()+ "，" + targetElement.getText() 
 					+ "，" + effectElement.getText() + "）（" + tripleSet.getMedicinePhraseIndex() + 
 					"，" + targetElement.getPhraseIndex() + "，" + effectElement.getPhraseIndex() +
-					" ） 　　p = "+ tripleSet.getPatternType() +"   sID = " + tripleSet.getSentenceId());
+					" ）（" + usedKey +  "）p = "+ tripleSet.getPatternType() +"   sID = " + tripleSet.getSentenceId());
 		}
 	}
 
