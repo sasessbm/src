@@ -38,8 +38,6 @@ public class P3TripleSetInfoSearcher {
 				//効果・対象文節探索
 				int medicineId = phrase.getId();
 				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineId, phraseList, keyList);
-//				ArrayList<Integer> keyIdList = new ArrayList<Integer>();
-//				keyIdList.add(medicineId);
 				ArrayList<String> usedKeyTmpList = new ArrayList<String>();
 				for(int keyId : keyIdList){
 					
@@ -56,11 +54,8 @@ public class P3TripleSetInfoSearcher {
 					if(targetIdList.size() == 0){ continue; }
 					
 					//三つ組情報生成
-					for(int targetId : targetIdList){
-						int effectId = phraseList.get(targetId).getDependencyIndex();
-						LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-						(tripleSetInfoList, sentenceId, sentenceText, medicineId, targetId, effectId, 3, usedKeyList);
-					}
+					LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+					(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 3, usedKeyList);
 				}
 				OverlapDeleter.deleteSameInfo(tripleSetInfoList);
 			}

@@ -74,23 +74,20 @@ public class PhraseChecker {
 			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
 			Phrase phrase = phraseList.get(phraseId);
 			if(phrase.getDependencyIndex() != effectId){ continue; }
-			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-			if(!judgeTargetPhrase(morphemeList)){ continue; } // 助詞の条件付け
 			targetIdList.add(phraseId);
 		}
 		if(targetIdList.size() == 0){ return targetIdList; } //取得できなかった場合
 		keyId = effectId;
 		effectId = phraseList.get(effectId).getDependencyIndex();
-		if(effectId != -1){
-			targetIdList.addAll(getTargetIdList(effectId, keyId, phraseList));
-		}
+		if(effectId != -1){ targetIdList.addAll(getTargetIdList(effectId, keyId, phraseList)); }
 		return targetIdList;
 	}
 	
 	//対象文節の助詞の条件付け
 	public static boolean judgeTargetPhrase(ArrayList<Morpheme> morphemeList){
 		String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
-		//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } 
+		//if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
+		//if(Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ return true; } 
 		if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return true; } 
 		return false;
 	}

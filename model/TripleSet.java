@@ -15,11 +15,8 @@ public class TripleSet {
 	int medicinePhraseIndex;
 	private Element targetOriginalElement;
 	private int patternType;
+	private int effectRepeatCount;
 
-
-//	public TripleSet() {
-//		keyWordList = new ArrayList<KeyWord>();
-//	}
 	
 	public TripleSet(String medicineName, Element targetElement,
 			Element effectElement, ArrayList<String> usedKeyList, String sentenceText,
@@ -125,5 +122,17 @@ public class TripleSet {
 		}
 		return count;
 	}
+
+
+	public int getEffectRepeatCount() {
+		return effectRepeatCount;
+	}
+
+
+	public void setEffectRepeatCount(int effectRepeatCount) {
+		this.effectRepeatCount = effectRepeatCount;
+	}
+	
+	
 	
 }

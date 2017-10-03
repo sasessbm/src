@@ -45,8 +45,8 @@ public class TripleSetMaker {
 		ArrayList<TripleSet> tripleSetList = new ArrayList<TripleSet>();
 
 		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
-			//ArrayList<Phrase> phraseRestoreList = sentenceList.get(tripleSetInfo.getSentenceId()-1).getPhraseRestoreList();
-			ArrayList<Phrase> phraseRestoreList = sentenceList.get(0).getPhraseRestoreList(); // デバグ用
+			ArrayList<Phrase> phraseRestoreList = sentenceList.get(tripleSetInfo.getSentenceId()-1).getPhraseRestoreList();
+			//ArrayList<Phrase> phraseRestoreList = sentenceList.get(0).getPhraseRestoreList(); // デバグ用
 			tripleSetList.addAll(getTripleSet(tripleSetInfo, phraseRestoreList, medicineNameList));
 		}
 		
@@ -60,7 +60,7 @@ public class TripleSetMaker {
 		int targetPhraseId = tripleSetInfo.getTargetPhraseId();
 		int effectPhraseId = tripleSetInfo.getEffectPhraseId();
 		int medicinePhraseId = tripleSetInfo.getMedicinePhraseId();
-		//String medicineName = "";
+		int effectRepeatCount = tripleSetInfo.getEffectRepeatCount();
 		ArrayList<String> medicineNameListInPhrase = new ArrayList<String>(); 
 		String sentenceText = tripleSetInfo.getSentenceText();
 		int sentenceId = tripleSetInfo.getSentenceId();
@@ -124,6 +124,7 @@ public class TripleSetMaker {
 			TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyList(),
 					sentenceText, sentenceId, medicinePhraseId, tripleSetInfo.getPatternType());
 			tripleSet.setTargetOriginalElement(targetOriginalElement);
+			tripleSet.setEffectRepeatCount(effectRepeatCount);
 			PostProcessor.deleteParentheses(tripleSet);
 			tripleSetList.add(tripleSet);
 		}

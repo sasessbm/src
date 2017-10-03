@@ -36,11 +36,17 @@ public class Displayer {
 	// 結果表示                                   出力数　　　　　　　　　　　　　　　正解三つ組リスト　　　     本来の正解数　　抽出手がかり語数　
 	public static void displayResult(int allExtractionNum, ArrayList<TripleSet> correctTripleSetList,  int correctAnswerNum, int keyWordNum){
 		int correctExtractionNum = correctTripleSetList.size();
+		int sentenceId = 0;
+		int sentenceIdTmp = 0;
+		int sentenceCount = 0;
 		//sentenceID順にソート
 		correctTripleSetList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 		ArrayList<Double> resultList = Calculator.getResultList(allExtractionNum, correctExtractionNum, correctAnswerNum);
 		System.out.println("\r\n＜正解出力結果＞");
 		for(TripleSet tripleSet : correctTripleSetList){
+			sentenceId = tripleSet.getSentenceId();
+			if(sentenceId != sentenceIdTmp){ sentenceCount++; }
+			sentenceIdTmp = sentenceId;
 			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
 			String usedKey = "";
 			if(usedKeyList != null){
@@ -50,15 +56,18 @@ public class Displayer {
 				}
 			}
 			System.out.println("\r\nsentenceID = " + tripleSet.getSentenceId() + "       使われた手がかり語・・・" + usedKey
-					+ "     抽出パターン・・・" + tripleSet.getPatternType());
+					+ "    回数・・・"+ tripleSet.getEffectRepeatCount() + "回     抽出パターン・・・" + tripleSet.getPatternType());
 			System.out.println("「"+ tripleSet.getSentenceText() + "」");
 			System.out.println("（" + tripleSet.getMedicineName()+ " , " + tripleSet.getTargetElement().getText() + " , " 
 					+tripleSet.getEffectElement().getText() + "）（" + tripleSet.getMedicinePhraseIndex() + " , " 
 					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）");
 		}
+		
+		System.out.println("\r\n＜正解＞");
+		System.out.println("\r\n全正解数　　　：" + correctAnswerNum);
+		System.out.println("\r\n抽出した文数　：　200文中　" + sentenceCount + "文から抽出");
 		System.out.println("\r\n＜評価結果＞");
 		System.out.println("\r\n抽出手がかり語数　　　：" + keyWordNum);
-		System.out.println("\r\n全正解数　　　：" + correctAnswerNum);
 		System.out.println("\r\n出力数　　　：" + allExtractionNum);
 		System.out.println("正解三つ組数：" + correctExtractionNum);
 		System.out.println("誤り三つ組数：" + (allExtractionNum - correctExtractionNum));

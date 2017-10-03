@@ -14,12 +14,24 @@ public class LogicOfTripleSetInfoSearcher {
 	}
 
 	public static void addTripleSetInfoList
-	(ArrayList<TripleSetInfo> tripleSetInfoList, int sentenceId, String sentenceText, 
-			int medicineId, int targetId, int effectId, int pattern, ArrayList<String> usedKeyList){
-		TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicineId, targetId, effectId);
-		tripleSetInfo.setUsedKeyList(usedKeyList);
-		tripleSetInfo.setPatternType(pattern);
-		tripleSetInfoList.add(tripleSetInfo);
+	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<Integer>targetIdList, ArrayList<Phrase> phraseList, 
+				int sentenceId, String sentenceText, int medicineId, int pattern, ArrayList<String> usedKeyList){
+		int effectIdTmp = -1;
+		int effectRepeatCount = -1;
+		for(int targetId : targetIdList){
+			Phrase targetPhrase = phraseList.get(targetId);
+			int effectId = targetPhrase.getDependencyIndex();
+			if(effectId != effectIdTmp){ effectRepeatCount++; }
+			effectIdTmp = effectId;
+			if(!PhraseChecker.judgeTargetPhrase(targetPhrase.getMorphemeList())){ continue; }// 助詞の条件付け
+			TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicineId, targetId, effectId);
+			tripleSetInfo.setUsedKeyList(usedKeyList);
+			tripleSetInfo.setPatternType(pattern);
+			tripleSetInfo.setEffectRepeatCount(effectRepeatCount);
+			tripleSetInfoList.add(tripleSetInfo);
+		}
 	}
+	
+	
 
 }

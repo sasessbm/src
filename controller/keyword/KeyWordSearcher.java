@@ -65,6 +65,8 @@ public class KeyWordSearcher {
 			ArrayList<Morpheme> morphemeList = phraseList.get(id).getMorphemeList();
 			String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
 			if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+			//if(!Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ continue; } // 助詞の条件付け
+			//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 			Element targetOriginalElement = TripleSetMaker.getOriginalElement(morphemeList, 1);
 			String targetText = targetOriginalElement.getText();
 			if(!targetText.equals(target)){ continue; }

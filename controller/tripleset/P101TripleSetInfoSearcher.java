@@ -39,8 +39,6 @@ public class P101TripleSetInfoSearcher {
 				int targetId = keyId + 1;
 				int effectId = phraseList.get(targetId).getDependencyIndex();
 				if(effectId == -1){ continue; } //対象要素の係り先があるか
-				ArrayList<Morpheme> targetMorphemeList = phraseList.get(targetId).getMorphemeList();
-				if(!PhraseChecker.judgeTargetPhrase(targetMorphemeList)){ continue; } // 助詞の条件付け
 				
 				//手がかり語リストに追加
 				ArrayList<String> usedKeyList = new ArrayList<String>();
@@ -54,12 +52,9 @@ public class P101TripleSetInfoSearcher {
 					targetIdList.addAll(PhraseChecker.getTargetIdList(effectId, keyId, phraseList));
 				}
 				
-				for(int tId : targetIdList){
-					effectId = phraseList.get(tId).getDependencyIndex();
-					//三つ組情報生成
-					LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-					(tripleSetInfoList, sentenceId, sentenceText, medicineId, tId, effectId, 101, usedKeyList);
-				}
+				//三つ組情報生成
+				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 101, usedKeyList);
 				
 			}
 		}

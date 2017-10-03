@@ -9,9 +9,9 @@ public class TripleSetInfo {
 	private int medicinePhraseId;
 	private int targetPhraseId;
 	private int effectPhraseId;
-	//private String usedKeyWord;
 	private int patternType;
 	private ArrayList<String> usedKeyList;
+	private int effectRepeatCount;
 	
 	public TripleSetInfo(int sentenceId, String sentenceText, int medicinePhraseId,
 			int targetPhraseId, int effectPhraseId) {
@@ -69,14 +69,6 @@ public class TripleSetInfo {
 	public void setUsedKeyList(ArrayList<String> usedKeyList){
 		this.usedKeyList = usedKeyList;
 	}
-	
-//	public String getUsedKeyWord(){
-//		return usedKeyWord;
-//	}
-//	
-//	public void setUsedKeyWord(String usedKeyWord){
-//		this.usedKeyWord = usedKeyWord;
-//	}
 
 	public int getPatternType() {
 		return patternType;
@@ -84,6 +76,14 @@ public class TripleSetInfo {
 
 	public void setPatternType(int patternType) {
 		this.patternType = patternType;
+	}
+
+	public int getEffectRepeatCount() {
+		return effectRepeatCount;
+	}
+
+	public void setEffectRepeatCount(int effectRepeatCount) {
+		this.effectRepeatCount = effectRepeatCount;
 	}
 	
 	

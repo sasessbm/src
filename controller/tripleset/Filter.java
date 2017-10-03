@@ -120,6 +120,13 @@ public class Filter {
 		return (text.equals("が") || text.equals("は") || text.equals("を") 
 				|| text.equals("に") || text.equals("も") || text.equals("にも"));
 	}
+	
+	public static boolean isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(String text){
+		return (text.equals("が") || text.equals("は") || text.equals("を") 
+				|| text.equals("に") || text.equals("も") || text.equals("にも")
+				|| text.equals("から") || text.equals("まで") || text.equals("とか")
+				|| text.equals("の") );
+	}
 
 
 }
