@@ -1,7 +1,9 @@
 package controller.tripleset;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
+import model.KeyWord;
 import model.Phrase;
 import model.TripleSetInfo;
 
@@ -32,6 +34,22 @@ public class LogicOfTripleSetInfoSearcher {
 		}
 	}
 	
+	public static ArrayList<String> getUsedKeyList
+	(ArrayList<Integer> keyIdList, ArrayList<Phrase> phraseList, ArrayList<KeyWord> keyList, String keyText){
+		Collections.sort(keyIdList);
+		ArrayList<String> usedKeyList = new ArrayList<String>();
+		usedKeyList.add(keyText);
+		for(int i=1; i<keyIdList.size(); i++){ //1番目は飛ばす（P3に対応）
+			usedKeyList.add(LogicOfTripleSetInfoSearcher.getUsedKey(keyIdList.get(i), phraseList));
+		}
+		return usedKeyList;
+	}
 	
+//	public static ArrayList<Integer> getTargetIdList(ArrayList<Integer> keyIdList, ArrayList<Phrase> phraseList){
+//		int keyId = keyIdList.get(keyIdList.size() - 1); //最後の手がかり語位置から探索
+//		int keyDIndex = phraseList.get(keyId).getDependencyIndex();
+//		ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(keyDIndex, keyId, phraseList);
+//		return targetIdList;
+//	}
 
 }

@@ -74,10 +74,10 @@ public class KeyWordSearcher {
 			if(effectId == -1){ continue; }// 対象文節の係り先がない
 			switch(patternType){
 			case 3:
-				keyWordIdList = P3KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList);
+				keyWordIdList = P3KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList);
 				break;
 			case 4:
-				keyWordIdList.addAll(P4KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList));
+				keyWordIdList.addAll(P4KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList));
 				break;
 			case 101:
 				if(P101KeyWordSearcher.judgeKeyWordId(id, phraseList, medicineNameList)){ keyWordIdList.add(id-1); }

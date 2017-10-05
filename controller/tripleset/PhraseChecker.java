@@ -113,6 +113,7 @@ public class PhraseChecker {
 		Phrase phrase = phraseList.get(id);
 		int dIndex = phrase.getDependencyIndex();
 		while(true){
+			if(dIndex != id+1){ break; } //係り先が隣か
 			phrase = phraseList.get(dIndex);
 			if(!judgeContainsKeyInPhrase(phrase, keyList)){ break; } //文節内に手がかり語があるか
 			if(phrase.getDependencyIndex() == -1){ break; } //文節の係り先が存在するか

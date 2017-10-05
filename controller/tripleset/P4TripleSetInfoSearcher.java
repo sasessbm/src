@@ -21,7 +21,6 @@ public class P4TripleSetInfoSearcher {
 			ArrayList<Phrase> phraseList = sentence.getPhraseReplaceList();
 			int sentenceId = sentence.getSentenceId();
 			String sentenceText = sentence.getText();
-
 			for(Phrase phrase : phraseList){
 
 				//薬剤名文節探索
@@ -35,29 +34,21 @@ public class P4TripleSetInfoSearcher {
 				//手がかり語文節探索
 				int medicineDIndex = phrase.getDependencyIndex();
 				if(!PhraseChecker.judgeKeyPhrase(medicineDIndex, phraseList, keyText)){ continue; }
-
-				//効果・対象文節探索
+				
+				//手がかり語を探索し、リストに追加
 				int medicineId = phrase.getId();
 				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineDIndex, phraseList, keyList);
-				ArrayList<String> usedKeyTmpList = new ArrayList<String>();
+				ArrayList<String> usedKeyList = LogicOfTripleSetInfoSearcher.getUsedKeyList(keyIdList, phraseList, keyList, keyText);
 				
-				for(int keyId : keyIdList){
-					//手がかり語リストに追加
-					ArrayList<String> usedKeyList = new ArrayList<String>();
-					String usedKey = LogicOfTripleSetInfoSearcher.getUsedKey(keyId, phraseList);
-					usedKeyTmpList.add(usedKey);
-					usedKeyList.addAll(usedKeyTmpList);
-					
-					//対象文節探索
-					int keyDIndex = phraseList.get(keyId).getDependencyIndex();
-					ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(keyDIndex, keyId, phraseList);
-					if(targetIdList.size() == 0){ continue; }
-					
-					//三つ組情報生成
-					LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-					(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 4, usedKeyList);
-				}
-				OverlapDeleter.deleteSameInfo(tripleSetInfoList);
+				//対象文節探索
+				int keyId = keyIdList.get(keyIdList.size() - 1); //最後の手がかり語位置から探索
+				int keyDIndex = phraseList.get(keyId).getDependencyIndex();
+				ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(keyDIndex, keyId, phraseList);
+				if(targetIdList.size() == 0){ continue; }
+				
+				//三つ組情報生成
+				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 4, usedKeyList);
 			}
 		}
 		return tripleSetInfoList;
