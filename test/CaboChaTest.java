@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("クロミッドを長く飲んでいると頸菅粘液の減少もあるから、精子がうまく入れてないのかもしれないか心配だなぁ");
+		Run("漢方を始めてから生理が二度ありましたが、痛みが全然違うんです");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

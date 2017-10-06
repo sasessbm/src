@@ -20,12 +20,14 @@ public class LogicOfKeyWord {
 	}
 	
 	//P4,P10用
-	public static ArrayList<Integer> searchKeyWordPhrase(int id, ArrayList<Phrase> phraseList){
+	public static ArrayList<Integer> searchKeyWordPhrase(int effectId, ArrayList<Phrase> phraseList){
 		ArrayList<Integer> keyWordIdList = new ArrayList<Integer>(); 
 		for(Phrase phrase : phraseList){
-			if(phrase.getDependencyIndex() != id){ continue; }
+			int id = phrase.getId();
+			if(id >= effectId){ break; } //効果文節まで到達した時
+			if(phrase.getDependencyIndex() != effectId){ continue; }
 			if(judgeKeyWordPhrase(id, phraseList)){ keyWordIdList.add(id); }
-			else{ keyWordIdList.addAll(searchKeyWordPhrase(phrase.getId(), phraseList)); }
+			else{ keyWordIdList.addAll(searchKeyWordPhrase(id, phraseList)); }
 		}
 		return keyWordIdList;
 	}

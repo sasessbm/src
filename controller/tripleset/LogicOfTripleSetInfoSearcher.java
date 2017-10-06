@@ -44,12 +44,5 @@ public class LogicOfTripleSetInfoSearcher {
 		}
 		return usedKeyList;
 	}
-	
-//	public static ArrayList<Integer> getTargetIdList(ArrayList<Integer> keyIdList, ArrayList<Phrase> phraseList){
-//		int keyId = keyIdList.get(keyIdList.size() - 1); //最後の手がかり語位置から探索
-//		int keyDIndex = phraseList.get(keyId).getDependencyIndex();
-//		ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(keyDIndex, keyId, phraseList);
-//		return targetIdList;
-//	}
 
 }

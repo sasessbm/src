@@ -30,7 +30,6 @@ public class SentenceMaker {
 		int spaceIndex = 0;
 		
 		for(String text : testDataContentsList){
-			//if(sentenceCount == 1000){ break; }
 			int lineType = lineCount % 3;
 			switch(lineType){
 			case 0:
@@ -46,7 +45,7 @@ public class SentenceMaker {
 				
 			case 2:
 				sentenceCount++;
-				//if(sentenceCount != 153){ break; }
+				//if(sentenceCount != 270){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
 				break;
