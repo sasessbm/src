@@ -14,7 +14,7 @@ public class P3TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 
-	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList) {
+	public static ArrayList<TripleSetInfo> getTripleSetInfoList(ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList) {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 
 		for(Sentence sentence : sentenceList){
@@ -36,8 +36,11 @@ public class P3TripleSetInfoSearcher {
 				if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } //隣り合っているか
 				//if(!PhraseChecker.conditionPartOfSpeechDetails(morphemeList)){ continue; } //末尾の助詞確認
 				
-				//手がかり語を探索し、リストに追加
+				//薬剤名文節獲得
 				int medicineId = phrase.getId();
+				ArrayList<Integer> medicineIdList = LogicOfTripleSetInfoSearcher.getMedicineIdList(medicineId, phraseList);
+				
+				//手がかり語を探索し、リストに追加
 				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineId, phraseList, keyList);
 				ArrayList<String> usedKeyList = LogicOfTripleSetInfoSearcher.getUsedKeyList(keyIdList, phraseList, keyList, keyText);
 				
@@ -49,7 +52,7 @@ public class P3TripleSetInfoSearcher {
 
 				//三つ組情報生成
 				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 3, usedKeyList);
+				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineIdList, 3, usedKeyList);
 			}
 		}
 		return tripleSetInfoList;

@@ -115,6 +115,30 @@ public class OverlapDeleter {
 		}
 		return tripleSetList;
 	}
+	
+	public static ArrayList<TripleSet> deleteSameSetUsedTargetPosition(ArrayList<TripleSet> tripleSetList){
+		
+		for(int i = 0; i < tripleSetList.size() - 1; i++){
+			TripleSet tripleSetBase = tripleSetList.get(i);
+			int sentenceIdBase = tripleSetBase.getSentenceId();
+			int targetPhraseIdBase = tripleSetBase.getTargetElement().getPhraseIndex();
+			String targetBase = tripleSetBase.getTargetOriginalElement().getText();
+			
+			for(int j = i+1; j < tripleSetList.size();){
+				TripleSet tripleSet = tripleSetList.get(j);
+				int sentenceId = tripleSet.getSentenceId();
+				int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
+				String target = tripleSet.getTargetOriginalElement().getText();
+				if(sentenceIdBase == sentenceId && targetPhraseIdBase == targetPhraseId && targetBase.equals(target)){
+					tripleSetList.remove(tripleSet);
+					j = i+1;
+					continue;
+				}
+				j++;
+			}
+		}
+		return tripleSetList;
+	}
 
 	//重複した三つ組を削除
 	public static ArrayList<TripleSet> deleteSameSet(ArrayList<TripleSet> tripleSetList){

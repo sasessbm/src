@@ -45,7 +45,7 @@ public class SentenceMaker {
 				
 			case 2:
 				sentenceCount++;
-				//if(sentenceCount != 270){ break; }
+				//if(sentenceCount != 356){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
 				break;

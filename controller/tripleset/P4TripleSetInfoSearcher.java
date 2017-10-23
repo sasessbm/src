@@ -35,8 +35,11 @@ public class P4TripleSetInfoSearcher {
 				int medicineDIndex = phrase.getDependencyIndex();
 				if(!PhraseChecker.judgeKeyPhrase(medicineDIndex, phraseList, keyText)){ continue; }
 				
-				//手がかり語を探索し、リストに追加
+				//薬剤名文節獲得
 				int medicineId = phrase.getId();
+				ArrayList<Integer> medicineIdList = LogicOfTripleSetInfoSearcher.getMedicineIdList(medicineId, phraseList);
+				
+				//手がかり語を探索し、リストに追加
 				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineDIndex, phraseList, keyList);
 				ArrayList<String> usedKeyList = LogicOfTripleSetInfoSearcher.getUsedKeyList(keyIdList, phraseList, keyList, keyText);
 				
@@ -48,7 +51,7 @@ public class P4TripleSetInfoSearcher {
 				
 				//三つ組情報生成
 				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 4, usedKeyList);
+				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineIdList, 4, usedKeyList);
 			}
 		}
 		return tripleSetInfoList;

@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("漢方を始めてから生理が二度ありましたが、痛みが全然違うんです");
+		Run("まとめると、いままでの治療は間接的インターフェロン（IFN）は、体の免疫細胞を活性化させて、ウイルスを攻撃させるのを手伝う");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

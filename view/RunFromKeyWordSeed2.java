@@ -85,7 +85,8 @@ public class RunFromKeyWordSeed2 {
 					for(KeyWord key : keyWordFinalList){
 						if(!key.getText().equals(usedKey)){ continue; }
 						key.addTripleSetInList(tripleSet);
-						key.setTripleSetList(OverlapDeleter.deleteSameSet(key.getTripleSetList())); //重複削除
+						//key.setTripleSetList(OverlapDeleter.deleteSameSet(key.getTripleSetList())); //重複削除
+						key.setTripleSetList(OverlapDeleter.deleteSameSetUsedTargetPosition(key.getTripleSetList())); //重複削除
 					}
 				}
 			}

@@ -32,8 +32,11 @@ public class P101TripleSetInfoSearcher {
 				if((keywordPlaceIndex - 1) != medicinePlaceIndex){ continue; } //隣り合っているか
 				//if(!PhraseChecker.particleConditioning(morphemeList)){ continue; } //末尾の助詞確認
 				
-				//効果・対象文節探索
+				//薬剤名文節獲得
 				int medicineId = phrase.getId();
+				ArrayList<Integer> medicineIdList = LogicOfTripleSetInfoSearcher.getMedicineIdList(medicineId, phraseList);
+				
+				//効果・対象文節探索
 				int keyId = phrase.getId();
 				if(keyId > phraseList.size() - 2){ continue; } //薬剤名文節が最後または最後から2番目だった場合
 				int targetId = keyId + 1;
@@ -54,7 +57,7 @@ public class P101TripleSetInfoSearcher {
 				
 				//三つ組情報生成
 				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineId, 101, usedKeyList);
+				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineIdList, 101, usedKeyList);
 				
 			}
 		}

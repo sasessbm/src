@@ -75,11 +75,25 @@ public class PhraseChecker {
 			Phrase phrase = phraseList.get(phraseId);
 			if(phrase.getDependencyIndex() != effectId){ continue; }
 			targetIdList.add(phraseId);
+			//targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
 		}
 		if(targetIdList.size() == 0){ return targetIdList; } //取得できなかった場合
 		keyId = effectId;
 		effectId = phraseList.get(effectId).getDependencyIndex();
 		if(effectId != -1){ targetIdList.addAll(getTargetIdList(effectId, keyId, phraseList)); }
+		return targetIdList;
+	}
+	
+	public static ArrayList<Integer> searchTargetId(int targetId, int keyId, ArrayList<Integer> targetIdList, ArrayList<Phrase> phraseList){
+		
+		for(int i=1; i<=phraseList.size(); i++){
+			int phraseId = phraseList.size() - i;
+			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
+			Phrase phrase = phraseList.get(phraseId);
+			if(phrase.getDependencyIndex() != targetId){ continue; }
+			targetIdList.add(phraseId);
+			targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
+		}
 		return targetIdList;
 	}
 	

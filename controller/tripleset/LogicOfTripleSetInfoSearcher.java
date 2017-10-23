@@ -3,6 +3,7 @@ package controller.tripleset;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import controller.logic.Logic;
 import model.KeyWord;
 import model.Phrase;
 import model.TripleSetInfo;
@@ -17,7 +18,7 @@ public class LogicOfTripleSetInfoSearcher {
 
 	public static void addTripleSetInfoList
 	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<Integer>targetIdList, ArrayList<Phrase> phraseList, 
-				int sentenceId, String sentenceText, int medicineId, int pattern, ArrayList<String> usedKeyList){
+				int sentenceId, String sentenceText, ArrayList<Integer> medicineIdList, int pattern, ArrayList<String> usedKeyList){
 		int effectIdTmp = -1;
 		int effectRepeatCount = -1;
 		for(int targetId : targetIdList){
@@ -26,11 +27,13 @@ public class LogicOfTripleSetInfoSearcher {
 			if(effectId != effectIdTmp){ effectRepeatCount++; }
 			effectIdTmp = effectId;
 			if(!PhraseChecker.judgeTargetPhrase(targetPhrase.getMorphemeList())){ continue; }// 助詞の条件付け
-			TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicineId, targetId, effectId);
-			tripleSetInfo.setUsedKeyList(usedKeyList);
-			tripleSetInfo.setPatternType(pattern);
-			tripleSetInfo.setEffectRepeatCount(effectRepeatCount);
-			tripleSetInfoList.add(tripleSetInfo);
+			for(int medicineId : medicineIdList){
+				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicineId, targetId, effectId);
+				tripleSetInfo.setUsedKeyList(usedKeyList);
+				tripleSetInfo.setPatternType(pattern);
+				tripleSetInfo.setEffectRepeatCount(effectRepeatCount);
+				tripleSetInfoList.add(tripleSetInfo);
+			}
 		}
 	}
 	
@@ -43,6 +46,20 @@ public class LogicOfTripleSetInfoSearcher {
 			usedKeyList.add(LogicOfTripleSetInfoSearcher.getUsedKey(keyIdList.get(i), phraseList));
 		}
 		return usedKeyList;
+	}
+	
+	public static ArrayList<Integer> getMedicineIdList(int medicineId, ArrayList<Phrase> phraseList){
+		ArrayList<Integer> medicineIdList = new ArrayList<Integer>();
+		medicineIdList.add(medicineId);
+		medicineId = medicineId - 1;
+		while(medicineId != -1){
+			Phrase phrase = phraseList.get(medicineId);
+			if(!phrase.getPhraseText().contains("MEDICINE")){ break; } //薬剤名が含まれているか
+			if(phrase.getDependencyIndex() != medicineId + 1){ break; } //係り先か
+			medicineIdList.add(medicineId);
+			medicineId = medicineId - 1;
+		}
+		return medicineIdList;
 	}
 
 }
