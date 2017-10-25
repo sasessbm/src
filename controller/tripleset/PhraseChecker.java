@@ -1,6 +1,7 @@
 package controller.tripleset;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import model.KeyWord;
 import model.Morpheme;
@@ -53,7 +54,7 @@ public class PhraseChecker {
 		if(!(partOfSpeech.contains("助詞"))){ return true; }
 		return false;
 	}
-	
+
 	//手がかり語文節の適切性判断
 	public static boolean judgeKeyPhrase(int medicineDIndex, ArrayList<Phrase> phraseList, String keyWordText){
 		Phrase medicineDPhrase = phraseList.get(medicineDIndex);
@@ -83,29 +84,69 @@ public class PhraseChecker {
 		if(effectId != -1){ targetIdList.addAll(getTargetIdList(effectId, keyId, phraseList)); }
 		return targetIdList;
 	}
-	
-	public static ArrayList<Integer> searchTargetId(int targetId, int keyId, ArrayList<Integer> targetIdList, ArrayList<Phrase> phraseList){
-		
+
+	//対象文節ID取得(マップ)
+	public static TreeMap<Integer, Integer> getTargetEffectIdMap
+	(int effectId, int keyId, ArrayList<Phrase> phraseList, TreeMap<Integer, Integer> targetEffectIdMap){
+		//ArrayList<Integer> targetIdList = new ArrayList<Integer>();
+		// 逆から探索
+		for(int i=1; i<=phraseList.size(); i++){
+			int phraseId = phraseList.size() - i;
+			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
+			Phrase phrase = phraseList.get(phraseId);
+			if(phrase.getDependencyIndex() != effectId){ continue; }
+			targetEffectIdMap.put(phraseId, effectId);
+			//targetIdList.add(phraseId);
+			//targetEffectIdMap = searchTargetId(phraseId, effectId, keyId, phraseList, targetEffectIdMap);
+			//targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
+		}
+		if(targetEffectIdMap.size() == 0){ return targetEffectIdMap; } //取得できなかった場合
+		keyId = effectId;
+		effectId = phraseList.get(effectId).getDependencyIndex();
+		if(effectId != -1){ targetEffectIdMap = getTargetEffectIdMap(effectId, keyId, phraseList, targetEffectIdMap); }
+		return targetEffectIdMap;
+	}
+
+	//対象文節の並列部分探索
+	//	public static ArrayList<Integer> searchTargetId(int targetId, int keyId, ArrayList<Integer> targetIdList, ArrayList<Phrase> phraseList){
+	//
+	//		for(int i=1; i<=phraseList.size(); i++){
+	//			int phraseId = phraseList.size() - i;
+	//			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
+	//			Phrase phrase = phraseList.get(phraseId);
+	//			if(phrase.getDependencyIndex() != targetId){ continue; }
+	//			targetIdList.add(phraseId);
+	//			targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
+	//		}
+	//		return targetIdList;
+	//	}
+
+	//対象文節の並列部分探索(マップ)
+	public static TreeMap<Integer, Integer> searchTargetId
+	(int targetId, int effectId, int keyId, ArrayList<Phrase> phraseList, TreeMap<Integer, Integer> targetEffectIdMap){
+
 		for(int i=1; i<=phraseList.size(); i++){
 			int phraseId = phraseList.size() - i;
 			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
 			Phrase phrase = phraseList.get(phraseId);
 			if(phrase.getDependencyIndex() != targetId){ continue; }
-			targetIdList.add(phraseId);
-			targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
+			targetEffectIdMap.put(phraseId, effectId);
+			targetEffectIdMap = searchTargetId(phraseId, effectId, keyId, phraseList, targetEffectIdMap);
 		}
-		return targetIdList;
+		return targetEffectIdMap;
 	}
-	
+
 	//対象文節の助詞の条件付け
 	public static boolean judgeTargetPhrase(ArrayList<Morpheme> morphemeList){
 		String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
 		//if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
 		//if(Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ return true; } 
+		
+		//if(Filter.isGAorHAorWOorNIorMOorNIMOorTOorMADEorTOKAorYAorNO(lastMorphemeText)){ return true; } 
 		if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return true; } 
 		return false;
 	}
-	
+
 	//効果文節ID取得（P10用）
 	public static ArrayList<Integer> getEffectIdList(int keyDIndex, int keyId, ArrayList<Phrase> phraseList){
 		ArrayList<Integer> effectIdList = new ArrayList<Integer>();
@@ -119,7 +160,7 @@ public class PhraseChecker {
 		}
 		return effectIdList;
 	}
-	
+
 	//手がかり語の最終文節ID取得
 	public static ArrayList<Integer> getKeyIdList(int id, ArrayList<Phrase> phraseList, ArrayList<KeyWord> keyList){
 		ArrayList<Integer> keyIdList = new ArrayList<Integer>();
@@ -136,7 +177,7 @@ public class PhraseChecker {
 		}
 		return keyIdList;
 	}
-	
+
 	//文節内に手がかり語が含まれているか確認
 	public static boolean judgeContainsKeyInPhrase(Phrase phrase, ArrayList<KeyWord> keyList){
 		ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();

@@ -1,6 +1,7 @@
 package controller.tripleset;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import model.Morpheme;
 import model.Phrase;
@@ -47,17 +48,21 @@ public class P101TripleSetInfoSearcher {
 				ArrayList<String> usedKeyList = new ArrayList<String>();
 				usedKeyList.add(keyText);
 				
-				ArrayList<Integer> targetIdList = new ArrayList<Integer>();
-				targetIdList.add(targetId);
-				if(phraseList.get(effectId).getDependencyIndex() != -1){
-					keyId = effectId;
-					effectId = phraseList.get(effectId).getDependencyIndex();
-					targetIdList.addAll(PhraseChecker.getTargetIdList(effectId, keyId, phraseList));
-				}
+				//ArrayList<Integer> targetIdList = new ArrayList<Integer>();
+				//targetIdList.add(targetId);
+				TreeMap<Integer, Integer> targetEffectIdMap = new TreeMap<Integer, Integer>();
+				targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(effectId, keyId, phraseList, targetEffectIdMap);
+//				if(phraseList.get(effectId).getDependencyIndex() != -1){
+//					keyId = effectId;
+//					effectId = phraseList.get(effectId).getDependencyIndex();
+//					//targetIdList.addAll(PhraseChecker.getTargetIdList(effectId, keyId, phraseList));
+//					
+//					
+//				}
 				
 				//三つ組情報生成
 				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineIdList, 101, usedKeyList);
+				(tripleSetInfoList, targetEffectIdMap, phraseList, sentenceId, sentenceText, medicineIdList, 101, usedKeyList);
 				
 			}
 		}

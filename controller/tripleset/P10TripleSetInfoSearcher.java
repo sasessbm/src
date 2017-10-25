@@ -1,6 +1,7 @@
 package controller.tripleset;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import controller.logic.OverlapDeleter;
 import model.KeyWord;
@@ -49,12 +50,15 @@ public class P10TripleSetInfoSearcher {
 				
 				for(int effectId : effectIdList){
 					//対象文節探索
-					ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(effectId, keyId, phraseList);
-					if(targetIdList.size() == 0){ continue; }
+//					ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(effectId, keyId, phraseList);
+//					if(targetIdList.size() == 0){ continue; }
+					TreeMap<Integer, Integer> targetEffectIdMap = new TreeMap<Integer, Integer>();
+					targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(keyDIndex, keyId, phraseList, targetEffectIdMap);
+					if(targetEffectIdMap.size() == 0){ continue; }
 					
 					//三つ組情報生成
 					LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-					(tripleSetInfoList, targetIdList, phraseList, sentenceId, sentenceText, medicineIdList, 10, usedKeyList);
+					(tripleSetInfoList, targetEffectIdMap, phraseList, sentenceId, sentenceText, medicineIdList, 10, usedKeyList);
 				}
 			}
 		}

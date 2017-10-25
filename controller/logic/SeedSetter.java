@@ -76,6 +76,7 @@ public class SeedSetter {
 		//seedList.add("も");
 		//seedList.add("続ける");
 		//seedList.add("剤");
+		//seedList.add("は");
 		
 		return seedList;
 	}

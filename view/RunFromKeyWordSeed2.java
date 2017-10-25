@@ -31,8 +31,8 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0; //0.5
-		int repeatCountMax = 10; //3
+		double constant = 0.8; //0.5
+		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 		
 		//文取得
@@ -253,6 +253,7 @@ public class RunFromKeyWordSeed2 {
 		
 		//すでに取得しているものは取得しない
 		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
+		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetCandidateList);
 		
 		//三つ組候補リストに追加
 		tripleSetForDisplayList.addAll(tripleSetTmpList);

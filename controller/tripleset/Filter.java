@@ -127,6 +127,13 @@ public class Filter {
 				|| text.equals("から") || text.equals("まで") || text.equals("とか")
 				|| text.equals("の") );
 	}
+	
+	public static boolean isGAorHAorWOorNIorMOorNIMOorTOorMADEorTOKAorYAorNO(String text){
+		return (text.equals("が") || text.equals("は") || text.equals("を") 
+				|| text.equals("に") || text.equals("も") || text.equals("にも")
+				|| text.equals("と") || text.equals("まで") || text.equals("とか")
+				|| text.equals("や") || text.equals("の") );
+	}
 
 
 }

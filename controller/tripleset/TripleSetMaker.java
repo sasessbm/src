@@ -45,8 +45,12 @@ public class TripleSetMaker {
 		ArrayList<TripleSet> tripleSetList = new ArrayList<TripleSet>();
 
 		for(TripleSetInfo tripleSetInfo : tripleSetInfoList){
-			ArrayList<Phrase> phraseRestoreList = sentenceList.get(tripleSetInfo.getSentenceId()-1).getPhraseRestoreList();
-			//ArrayList<Phrase> phraseRestoreList = sentenceList.get(0).getPhraseRestoreList(); // デバグ用
+			ArrayList<Phrase> phraseRestoreList = new ArrayList<Phrase>();
+			if(sentenceList.size() != 1){
+				phraseRestoreList = sentenceList.get(tripleSetInfo.getSentenceId()-1).getPhraseRestoreList();
+			}else{
+				phraseRestoreList = sentenceList.get(0).getPhraseRestoreList(); // デバグ用
+			}
 			tripleSetList.addAll(getTripleSet(tripleSetInfo, phraseRestoreList, medicineNameList));
 		}
 		
