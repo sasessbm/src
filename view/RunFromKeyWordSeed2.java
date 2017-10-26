@@ -23,15 +23,17 @@ public class RunFromKeyWordSeed2 {
 	private static ArrayList<Sentence> sentenceList;
 	private static ArrayList<String> medicineNameList;
 	private static ArrayList<TripleSet> tripleSetFinalList = new ArrayList<TripleSet>();
+	private static ArrayList<String> targetFilteringList;
 
 	public static void run(ArrayList<String> keyWordSeedList, ArrayList<String> medicineNameList, 
 								String testDataPath, ArrayList<String> targetFilteringList) throws Exception {
 		
 		RunFromKeyWordSeed2.medicineNameList = medicineNameList;
+		RunFromKeyWordSeed2.targetFilteringList = targetFilteringList;
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0.1; //0.5
+		double constant = 0.4; //0.5
 		int repeatCountMax = 10; //3
 		int repeatCount = 0;
 		
@@ -254,6 +256,7 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
 		tripleSetTmpList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 		Filter.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
+		Filter.filter(tripleSetTmpList, targetFilteringList);
 		
 		//すでに取得しているものは取得しない
 		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
