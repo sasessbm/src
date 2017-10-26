@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import model.Phrase;
 import controller.logic.Logic;
 
-public class P10KeyWordSearcher {
+public class P11KeyWordSearcher {
 
 	public static ArrayList<Integer> getKeyWordIdList
 						(int targetId, int effectId, ArrayList<Phrase> phraseList, ArrayList<String> medicineNameList){
@@ -16,9 +16,8 @@ public class P10KeyWordSearcher {
 			int id = phrase.getId();
 			if(id == targetId){ break; } //対象文節まで到達した時
 			if(phrase.getDependencyIndex() != effectDIndex){ continue; }
-			//if(!PhraseChecker.conditionPartOfSpeechDetails(phrase.getMorphemeList())){ continue; } //助詞の条件付け
-			if(LogicOfKeyWord.judgeKeyWordPhraseForP4(id, phraseList)){ keyWordIdList.add(id); }
-			else{ keyWordIdList.addAll(LogicOfKeyWord.searchKeyWordPhraseForP4(id, phraseList)); }
+			if(LogicOfKeyWord.judgeKeyWordPhraseForP3(phrase)){ keyWordIdList.add(id); }
+			else{ keyWordIdList.addAll(LogicOfKeyWord.searchKeyWordPhraseForP3(id, phraseList)); }
 		}
 		return keyWordIdList;
 	}

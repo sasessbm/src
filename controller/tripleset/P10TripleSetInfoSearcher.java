@@ -28,8 +28,7 @@ public class P10TripleSetInfoSearcher {
 				if(!phrase.getPhraseText().contains(MEDICINE)){ continue; } //薬剤名がない
 
 				//薬剤名文節の助詞の条件付け
-				//ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
-				//if(!PhraseChecker.conditionPartOfSpeech(morphemeList)){ continue; } 
+				//if(!PhraseChecker.conditionPartOfSpeech(phrase.getMorphemeList())){ continue; } 
 
 				//手がかり語文節探索
 				int medicineDIndex = phrase.getDependencyIndex();
@@ -49,11 +48,10 @@ public class P10TripleSetInfoSearcher {
 				ArrayList<Integer> effectIdList = PhraseChecker.getEffectIdList(keyDIndex, keyId, phraseList);
 				
 				for(int effectId : effectIdList){
+					
 					//対象文節探索
-//					ArrayList<Integer> targetIdList = PhraseChecker.getTargetIdList(effectId, keyId, phraseList);
-//					if(targetIdList.size() == 0){ continue; }
 					TreeMap<Integer, Integer> targetEffectIdMap = new TreeMap<Integer, Integer>();
-					targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(keyDIndex, keyId, phraseList, targetEffectIdMap);
+					targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(effectId, keyId, phraseList, targetEffectIdMap);
 					if(targetEffectIdMap.size() == 0){ continue; }
 					
 					//三つ組情報生成

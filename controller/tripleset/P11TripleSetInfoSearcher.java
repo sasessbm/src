@@ -1,7 +1,6 @@
 package controller.tripleset;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.TreeMap;
 
 import controller.logic.OverlapDeleter;
@@ -11,13 +10,12 @@ import model.Phrase;
 import model.Sentence;
 import model.TripleSetInfo;
 
-public class P3TripleSetInfoSearcher {
+public class P11TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 
-	public static ArrayList<TripleSetInfo> getTripleSetInfoList(ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList) {
+	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList) {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
-
 		for(Sentence sentence : sentenceList){
 			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
 			ArrayList<Phrase> phraseList = sentence.getPhraseReplaceList();
@@ -45,20 +43,25 @@ public class P3TripleSetInfoSearcher {
 				ArrayList<Integer> keyIdList = PhraseChecker.getKeyIdList(medicineId, phraseList, keyList);
 				ArrayList<String> usedKeyList = LogicOfTripleSetInfoSearcher.getUsedKeyList(keyIdList, phraseList, keyList, keyText);
 				
-				//対象文節探索
+				//効果文節探索
 				int keyId = keyIdList.get(keyIdList.size() - 1); //最後の手がかり語位置から探索
 				int keyDIndex = phraseList.get(keyId).getDependencyIndex();
-				TreeMap<Integer, Integer> targetEffectIdMap = new TreeMap<Integer, Integer>();
-				targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(keyDIndex, keyId, phraseList, targetEffectIdMap);
-				if(targetEffectIdMap.size() == 0){ continue; }
-
-				//三つ組情報生成
-				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, targetEffectIdMap, phraseList, sentenceId, sentenceText, medicineIdList, 3, usedKeyList);
+				ArrayList<Integer> effectIdList = PhraseChecker.getEffectIdList(keyDIndex, keyId, phraseList);
+				
+				for(int effectId : effectIdList){
+					
+					//対象文節探索
+					TreeMap<Integer, Integer> targetEffectIdMap = new TreeMap<Integer, Integer>();
+					targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(effectId, keyId, phraseList, targetEffectIdMap);
+					if(targetEffectIdMap.size() == 0){ continue; }
+					
+					//三つ組情報生成
+					LogicOfTripleSetInfoSearcher.addTripleSetInfoList
+					(tripleSetInfoList, targetEffectIdMap, phraseList, sentenceId, sentenceText, medicineIdList, 11, usedKeyList);
+				}
 			}
 		}
 		return tripleSetInfoList;
 	}
-
 
 }

@@ -31,8 +31,8 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0.8; //0.5
-		int repeatCountMax = 3; //3
+		double constant = 0.1; //0.5
+		int repeatCountMax = 10; //3
 		int repeatCount = 0;
 		
 		//文取得
@@ -72,6 +72,10 @@ public class RunFromKeyWordSeed2 {
 				
 				//三つ組取得(P10)
 				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
+				
+				//三つ組取得(P11)
+				tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 				
 				if(tripleSetForDisplayList.size() == 0){ continue; }

@@ -41,6 +41,7 @@ public class KeyWordSearcher {
 			//手がかり語探索
 			keyWordIdListExtractAfterMedicine.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 3));
 			keyWordIdListExtractAfterMedicine.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
+			keyWordIdListExtractAfterMedicine.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 11));
 			keyWordIdListExtractFirstPlace.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 4));
 			keyWordIdListExtractFirstPlace.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 10));
 			
@@ -85,6 +86,9 @@ public class KeyWordSearcher {
 			case 10:
 				keyWordIdList.addAll(P10KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList));
 				break;
+			case 11:
+				keyWordIdList.addAll(P11KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList));
+				break;
 			}
 		}
 		return keyWordIdList;
@@ -127,8 +131,6 @@ public class KeyWordSearcher {
 			morphemeText = Logic.cleanWord(morphemeText);
 			if(morphemeText.equals("")){ continue; }
 			String morphemeOriginalText = morpheme.getOriginalForm();
-			//System.out.println(morphemeText);
-
 			if(!morphemeOriginalText.equals("*")){
 				KeyWord keyWord = new KeyWord(morphemeOriginalText);
 				keyWord.setSentenceId(sentenceId);

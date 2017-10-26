@@ -88,7 +88,6 @@ public class PhraseChecker {
 	//対象文節ID取得(マップ)
 	public static TreeMap<Integer, Integer> getTargetEffectIdMap
 	(int effectId, int keyId, ArrayList<Phrase> phraseList, TreeMap<Integer, Integer> targetEffectIdMap){
-		//ArrayList<Integer> targetIdList = new ArrayList<Integer>();
 		// 逆から探索
 		for(int i=1; i<=phraseList.size(); i++){
 			int phraseId = phraseList.size() - i;
@@ -96,9 +95,7 @@ public class PhraseChecker {
 			Phrase phrase = phraseList.get(phraseId);
 			if(phrase.getDependencyIndex() != effectId){ continue; }
 			targetEffectIdMap.put(phraseId, effectId);
-			//targetIdList.add(phraseId);
 			//targetEffectIdMap = searchTargetId(phraseId, effectId, keyId, phraseList, targetEffectIdMap);
-			//targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
 		}
 		if(targetEffectIdMap.size() == 0){ return targetEffectIdMap; } //取得できなかった場合
 		keyId = effectId;
