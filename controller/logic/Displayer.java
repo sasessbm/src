@@ -98,7 +98,9 @@ public class Displayer {
 
 	public static void dixplayTripleSetEntropyAndThreshold(TripleSet tripleSet, double entropy, double threshold){
 		System.out.println("「" +tripleSet.getTargetOriginalElement().getText()+ "」" + "（，" 
-				+tripleSet.getEffectElement().getText() +"）　→　" + entropy + "   閾値・・・" + threshold);
+				+tripleSet.getEffectElement().getText() +"）　→　" + entropy + "   閾値・・・" + threshold
+				+ "  （" + tripleSet.getSentenceId() + "，" + tripleSet.getMedicinePhraseIndex() + "，"
+				+ tripleSet.getTargetElement().getPhraseIndex() + "，" + tripleSet.getEffectElement().getPhraseIndex() + "）");
 	}
 
 	public static void dixplayKeyWordEntropyAndThreshold(KeyWord keyWord, double entropy, double threshold){
