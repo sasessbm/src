@@ -1,6 +1,10 @@
 package controller.sentence;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -17,6 +21,13 @@ import model.*;
 
 public class SentenceMaker {
 	
+	public static ArrayList<Sentence> getSentenceList2() throws ClassNotFoundException, IOException{
+		String path = "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\sentenceList.dat";
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+		ArrayList<Sentence> sentenceList = (ArrayList<Sentence>) ois.readObject();
+		return sentenceList;
+	}
+	
 	public static ArrayList<Sentence> getSentenceList(String testDataPath, ArrayList<String> medicineNameList) throws SAXException, IOException, ParserConfigurationException{
 		
 		ArrayList<Sentence> sentenceList = new ArrayList<Sentence>();
@@ -28,11 +39,13 @@ public class SentenceMaker {
 		int recordIdPlaceIndex = 0;
 		int sentenceIdPlaceIndex = 0;
 		int spaceIndex = 0;
+		String path = "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\sentenceList.dat";
 		
 		for(String text : testDataContentsList){
 			int lineType = lineCount % 3;
 			switch(lineType){
 			case 0:
+				
 				break;
 				
 			case 1:
@@ -52,7 +65,11 @@ public class SentenceMaker {
 				break;
 			}
 			lineCount++ ;
+			
 		}
+		
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+		oos.writeObject(sentenceList);
 		return sentenceList;
 	}
 	
@@ -66,15 +83,15 @@ public class SentenceMaker {
 		TreeMap<Integer, String> medicineNameMap = 
 				PreProcessor.getMedicineNameMap(text, medicineNameList); //薬剤名取得
 		text = PreProcessor.replaceMedicineName(text, medicineNameMap);	//薬剤名置き換え
-
+		
 		//構文解析結果をXml形式で取得
 		ArrayList<String> xmlList = new ArrayList<String>();
 		xmlList = SyntaxAnalyzer.GetSyntaxAnalysResultXml(text);
-
+		
 		//文節リスト取得　(phrase,morphemeの生成)
 		ArrayList<Phrase> phraseReplaceList = XmlReader.GetPhraseList(xmlList);
 		ArrayList<Phrase> phraseRestoreList = new ArrayList<Phrase>();
-
+		
 		//文節リスト更新
 		phraseRestoreList = Logic.copyPhraseList(phraseReplaceList);
 		

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Phrase {
+public class Phrase implements Serializable{
 	
 	private int id;
 	private String phraseText;

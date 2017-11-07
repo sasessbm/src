@@ -105,11 +105,6 @@ public class XmlReader {
 
 		}
 		
-//		System.out.println("in XmlReader");
-//		for(Phrase phrase : phraseList){
-//			System.out.println(phrase.getPhraseText());
-//		}
-		
 		return phraseList;
 	}
 	

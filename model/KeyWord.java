@@ -44,12 +44,8 @@ public class KeyWord {
 	public int getTargetNum(TripleSet tripleSet){
 		int count = 0;
 		String target = tripleSet.getTargetOriginalElement().getText();
-		//String effect = tripleSet.getEffectElement().getText();
-		//String keyWordText = keyWord.getKeyWordText();
 		for(TripleSet set : tripleSetList){
-//			if(set.getTargetElement().getText().equals(target) && set.getEffectElement().getText().equals(effect)){ 
-//				count++; 
-//			}
+
 //			if(set.getTargetElement().getText().equals(target)){ 
 //				count++; 
 //			}

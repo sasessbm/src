@@ -1,6 +1,8 @@
 package model;
 
-public class Morpheme {
+import java.io.Serializable;
+
+public class Morpheme implements Serializable{
 	
 	private int id;
 	private String morphemeText;

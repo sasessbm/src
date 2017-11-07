@@ -36,12 +36,13 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
 		double constant = 0; //0.5
-		int repeatCountMax = 3; //3
+		int repeatCountMax = 1; //3
 		int repeatCount = 0;
 
 		//文取得
 		System.out.println("テストデータ読み込み中・・・");
-		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
+		//ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
+		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList2();
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
 		RunFromKeyWordSeed2.sentenceList = sentenceList;
 

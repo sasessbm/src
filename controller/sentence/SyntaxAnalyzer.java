@@ -10,20 +10,6 @@ import java.util.ArrayList;
 
 public class SyntaxAnalyzer {
 
-//	public static ArrayList<Phrase> getPhraseList(Sentence sentence) throws SAXException, IOException, ParserConfigurationException {
-//
-//		ArrayList<Phrase> phraseList = new ArrayList<Phrase>();
-//		
-//		String sentenceText = sentence.getSentenceText();
-//		ArrayList<String> xmlList = new ArrayList<String>();
-//		xmlList = CaboChaTest3.Run(sentenceText);
-//		
-//		XmlReader.domRead(xmlList);
-//		
-//		return phraseList;
-//
-//	}
-
 	//String型で文字列を受け取り、係り受け解析する関数
 	public static ArrayList<String> GetSyntaxAnalysResultXml(String text){
 
