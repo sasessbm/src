@@ -1,7 +1,9 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.TreeMap;
 
 import model.*;
 import controller.tripleset.*;
@@ -24,7 +26,8 @@ public class RunFromKeyWordSeed2 {
 	private static ArrayList<Sentence> sentenceList;
 	private static ArrayList<String> medicineNameList;
 	private static ArrayList<TripleSet> tripleSetFinalList = new ArrayList<TripleSet>();
-	private static ArrayList<String> targetFinalList = new ArrayList<String>();
+	//private static ArrayList<String> targetFinalList = new ArrayList<String>();
+	private static TreeMap<String, Double> targetFilalMap = new TreeMap<String, Double>();
 	private static ArrayList<String> targetFilteringList;
 
 	public static void run(ArrayList<String> keyWordSeedList, ArrayList<String> medicineNameList, 
@@ -36,7 +39,7 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
 		double constant = 0; //0.5
-		int repeatCountMax = 1; //3
+		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 
 		//文取得
@@ -132,13 +135,19 @@ public class RunFromKeyWordSeed2 {
 				Displayer.dixplayTripleSetEntropyAndThreshold(tripleSet, entropy, threshold);
 				
 				if(constant != 0 && entropy == 0 && i != 0){ continue; }
+				
+				if(tripleSet.getTargetOriginalElement().getText().equals("調子")){
+					int a = 0;
+				}
 
 				//閾値以上の三つ組を増加リストに追加
 				if(entropy >= threshold){ 
 					getFlag = true;
+					tripleSet.setEntropy(entropy);
 					tripleSetForSearchList.add(tripleSet);
 					tripleSetFinalList.add(tripleSet);
-					targetFinalList.add(tripleSet.getTargetOriginalElement().getText());
+					//targetFinalList.add(tripleSet.getTargetOriginalElement().getText());
+					targetFilalMap.put(tripleSet.getTargetOriginalElement().getText(), entropy);
 				}
 			}
 			if(!getFlag){
@@ -152,7 +161,7 @@ public class RunFromKeyWordSeed2 {
 
 			//三つ組リスト重複削除
 			tripleSetForSearchList = OverlapDeleter.deleteSameTarget(tripleSetForSearchList); //対象重複削除
-			targetFinalList = new ArrayList<String>(new LinkedHashSet<>(targetFinalList)); //重複削除
+			//targetFinalList = new ArrayList<String>(new LinkedHashSet<>(targetFinalList)); //重複削除
 
 			//対象要素から手がかり語取得
 			System.out.println("\r\n＜以下の対象要素から新たな手がかり語探索＞");
@@ -202,6 +211,7 @@ public class RunFromKeyWordSeed2 {
 				//閾値計算
 				threshold = constant * (Math.log(keyWordTextAllNum) / Math.log(2.0));
 				entropy = Calculator.calculateEntropy(keyWordNumList, keyWordTextAllNum); //エントロピー計算
+				keyWord.setEntropy(entropy);
 
 				//エントロピーと閾値表示
 				Displayer.dixplayKeyWordEntropyAndThreshold(keyWord, entropy, threshold);
@@ -237,7 +247,7 @@ public class RunFromKeyWordSeed2 {
 		tripleSetFinalList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 
 		//全抽出結果表示
-		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
+		Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
 
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
 		
@@ -280,10 +290,20 @@ public class RunFromKeyWordSeed2 {
 
 		//すでに取得している対象単語を含む三つ組は、最終リストに追加
 		for(TripleSet tripleSet : tripleSetTmpList){
-			for(String target : targetFinalList){
+//			for(String target : targetFinalList){
+//				if(tripleSet.getTargetOriginalElement().getText().equals(target)){
+//					tripleSetFinalList.add(tripleSet);
+//					
+//					break;
+//				}
+//			}
+			
+			Iterator<String> it = targetFilalMap.keySet().iterator();
+			while(it.hasNext()){
+				String target = it.next();
 				if(tripleSet.getTargetOriginalElement().getText().equals(target)){
+					tripleSet.setEntropy(targetFilalMap.get(target));
 					tripleSetFinalList.add(tripleSet);
-					
 					break;
 				}
 			}

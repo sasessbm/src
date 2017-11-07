@@ -16,6 +16,7 @@ public class TripleSet {
 	private Element targetOriginalElement;
 	private int patternType;
 	private int effectRepeatCount;
+	private double entropy;
 
 	
 	public TripleSet(String medicineName, Element targetElement,
@@ -132,7 +133,13 @@ public class TripleSet {
 	public void setEffectRepeatCount(int effectRepeatCount) {
 		this.effectRepeatCount = effectRepeatCount;
 	}
-	
-	
+
+	public double getEntropy() {
+		return entropy;
+	}
+
+	public void setEntropy(double entropy) {
+		this.entropy = entropy;
+	}
 	
 }

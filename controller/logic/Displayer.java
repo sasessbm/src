@@ -12,7 +12,7 @@ public class Displayer {
 		System.out.println("\r\n＜全抽出結果＞");
 		System.out.println("\r\n＜手がかり語＞");
 		for(KeyWord keyWord : keyWordList){
-			System.out.println("「" + keyWord.getText() + "」");
+			System.out.println("「" + keyWord.getText() + "」 →　" + keyWord.getEntropy());
 		}
 		System.out.println("\r\n＜三つ組＞");
 		for(TripleSet tripleSet : tripleSetList){
@@ -60,7 +60,8 @@ public class Displayer {
 			System.out.println("「"+ tripleSet.getSentenceText() + "」");
 			System.out.println("（" + tripleSet.getMedicineName()+ " , " + tripleSet.getTargetElement().getText() + " , " 
 					+tripleSet.getEffectElement().getText() + "）（" + tripleSet.getMedicinePhraseIndex() + " , " 
-					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）");
+					+ tripleSet.getTargetElement().getPhraseIndex() + " , " + tripleSet.getEffectElement().getPhraseIndex() + "）  →  "
+					+ tripleSet.getEntropy());
 		}
 		
 		System.out.println("\r\n＜正解＞");

@@ -7,6 +7,7 @@ public class KeyWord {
 	private String text;
 	private ArrayList<TripleSet> tripleSetList;
 	private int sentenceId;
+	private double entropy;
 	
 	public KeyWord(String text){
 		this.text = text;
@@ -39,6 +40,14 @@ public class KeyWord {
 
 	public void setSentenceId(int sentenceId) {
 		this.sentenceId = sentenceId;
+	}
+
+	public double getEntropy() {
+		return entropy;
+	}
+
+	public void setEntropy(double entropy) {
+		this.entropy = entropy;
 	}
 
 	public int getTargetNum(TripleSet tripleSet){
