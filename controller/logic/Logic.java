@@ -33,7 +33,7 @@ public class Logic {
 	//	}
 
 
-	
+
 
 	//ゴミ取り
 	public static String cleanWord(String word){
@@ -166,7 +166,7 @@ public class Logic {
 		return additionalIdList;
 	}
 
-	
+
 
 	//正解三つ組情報取得
 	public static ArrayList<TripleSet> getCorrectTripleSetList(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
@@ -186,6 +186,30 @@ public class Logic {
 		}
 		return correctTripleSetList;
 	}
+
+	//誤り三つ組情報取得
+	public static ArrayList<TripleSet> getWrongTripleSetList(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
+		ArrayList<TripleSet> wrongTripleSetList = new ArrayList<TripleSet>();
+		
+		for(TripleSet tripleSet : tripleSetList){
+			boolean isCorrect = false;
+			int sentenceId = tripleSet.getSentenceId();
+			int medicinePhraseId = tripleSet.getMedicinePhraseIndex();
+			int targetPhraseId = tripleSet.getTargetElement().getPhraseIndex();
+			int effectPhraseId = tripleSet.getEffectElement().getPhraseIndex();
+			for(CorrectAnswer correctAnswer : correctAnswerList){
+				if(correctAnswer.getSentenceId() == sentenceId && correctAnswer.getMedicinePhraseId() == medicinePhraseId
+						&& correctAnswer.getTargetPhraseId() == targetPhraseId && correctAnswer.getEffectPhraseId() == effectPhraseId){
+					isCorrect = true;
+					break;
+				}
+			}
+			if(!isCorrect){ wrongTripleSetList.add(tripleSet); }
+		}
+		return wrongTripleSetList;
+	}
+
+
 
 	public static ArrayList<Phrase> copyPhraseList(ArrayList<Phrase> originPhraseList){
 		ArrayList<Phrase> copyPhraseList = new ArrayList<Phrase>();

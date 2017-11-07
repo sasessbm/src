@@ -48,6 +48,7 @@ public class SentenceMaker {
 				//if(sentenceCount != 180){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
+				System.out.println(sentenceCount);
 				break;
 			}
 			lineCount++ ;

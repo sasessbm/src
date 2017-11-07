@@ -35,8 +35,8 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0.2; //0.5
-		int repeatCountMax = 1; //3
+		double constant = 0; //0.5
+		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 
 		//文取得
@@ -45,8 +45,9 @@ public class RunFromKeyWordSeed2 {
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
 		RunFromKeyWordSeed2.sentenceList = sentenceList;
 
-		for(int i=1; i <= repeatCountMax; i++){
+		for(int i=0; i <= repeatCountMax; i++){
 			System.out.println("\r\n" + i + "回目");
+			repeatCount = i;
 
 			//初期化
 			ArrayList<TripleSet> tripleSetCandidateList = new ArrayList<TripleSet>();
@@ -55,7 +56,7 @@ public class RunFromKeyWordSeed2 {
 			boolean getFlag = false;
 
 			//手がかり語から三つ組取得
-			if(i==1){ System.out.println("\r\n＜以下の初期手がかり語から三つ組探索＞"); }
+			if(i==0){ System.out.println("\r\n＜以下の初期手がかり語から三つ組探索＞"); }
 			else{ System.out.println("\r\n＜以下の手がかり語から新たな三つ組探索＞"); }
 			for(KeyWord keyWord : keyWordFinalList){
 				ArrayList<TripleSet> tripleSetForDisplayList = new ArrayList<TripleSet>();
@@ -122,10 +123,14 @@ public class RunFromKeyWordSeed2 {
 
 				//閾値計算
 				threshold = constant * (Math.log(targetAllNum) / Math.log(2.0));
+				if(i==0){ threshold = -1; }
 				entropy = Calculator.calculateEntropy(targetNumList, targetAllNum); //エントロピー計算
+				
 
 				//エントロピーと閾値表示
 				Displayer.dixplayTripleSetEntropyAndThreshold(tripleSet, entropy, threshold);
+				
+				if(constant != 0 && entropy == 0 && i != 0){ continue; }
 
 				//閾値以上の三つ組を増加リストに追加
 				if(entropy >= threshold){ 
@@ -141,6 +146,8 @@ public class RunFromKeyWordSeed2 {
 				break;
 			}
 			getFlag = false;
+			
+			if(i == repeatCountMax){ break; }
 
 			//三つ組リスト重複削除
 			tripleSetForSearchList = OverlapDeleter.deleteSameTarget(tripleSetForSearchList); //対象重複削除
@@ -197,6 +204,8 @@ public class RunFromKeyWordSeed2 {
 
 				//エントロピーと閾値表示
 				Displayer.dixplayKeyWordEntropyAndThreshold(keyWord, entropy, threshold);
+				
+				if(constant != 0 && entropy == 0){ continue; }
 
 				//閾値以上の手がかり語をリストに追加
 				if(entropy >= threshold){ 
@@ -211,7 +220,7 @@ public class RunFromKeyWordSeed2 {
 			}
 		}
 
-		if(repeatCount == 0){repeatCount = repeatCountMax;}
+		//if(repeatCount == 0){repeatCount = repeatCountMax;}
 
 		//評価表現辞書抽出
 		//extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
@@ -229,9 +238,16 @@ public class RunFromKeyWordSeed2 {
 		//全抽出結果表示
 		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
 
-		//最終結果表示
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
+		
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
+		ArrayList<TripleSet> wrongTripleSetList = Logic.getWrongTripleSetList(tripleSetFinalList, correctAnswerList);
+		
+		//全抽出結果表示
+		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, correctTripleSetList);
+		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, wrongTripleSetList);
+		
+		//最終結果表示
 		Displayer.displayResult(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), keyWordFinalList.size());
 		System.out.println("\r\n" + repeatCount + "回目で終了");
 	}
@@ -255,7 +271,7 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
 		tripleSetTmpList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 		Filter.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
-		Filter.filter(tripleSetTmpList, targetFilteringList);
+		//Filter.filter(tripleSetTmpList, targetFilteringList);
 
 		//すでに取得しているものは取得しない
 		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
@@ -266,15 +282,16 @@ public class RunFromKeyWordSeed2 {
 			for(String target : targetFinalList){
 				if(tripleSet.getTargetOriginalElement().getText().equals(target)){
 					tripleSetFinalList.add(tripleSet);
+					
 					break;
 				}
 			}
 		}
+		tripleSetForDisplayList.addAll(tripleSetTmpList);
 		
-		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
 
 		//三つ組候補リストに追加
-		tripleSetForDisplayList.addAll(tripleSetTmpList);
+		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
 		tripleSetCandidateList.addAll(tripleSetTmpList);
 	}
 
