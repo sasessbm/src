@@ -1,7 +1,9 @@
 package view;
 import java.util.ArrayList;
+
 import controller.logic.FileOperator;
 import controller.logic.SeedSetter;
+import controller.logic.SeedSetterForBaseLine;
 
 public class Main {
 
@@ -11,6 +13,7 @@ public class Main {
 	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\薬剤名\\medicine_name.txt");
 	
 	private static ArrayList<String> keyWordSeedList = SeedSetter.getKeyWordSeedList();
+	private static ArrayList<String> keyWordSeedListForBaseLine = SeedSetterForBaseLine.getKeyWordSeedList();
 	//private static ArrayList<String> keyWordSeedList = SeedSetter.getTestKeyWordSeedList();
 	
 //	private static ArrayList<String> keyWordList 
@@ -41,7 +44,7 @@ public class Main {
 		//Logic.medicineNameList = medicineNameList;
 		
 		//既存手法
-		//RunBaseLine.run(keyWordSeedList, testDataPath, medicineNameList, targetFilteringList);
+		//RunBaseLine.run(keyWordSeedListForBaseLine, testDataPath, medicineNameList, targetFilteringList);
 		
 		//ブートストラップ
 		//RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);

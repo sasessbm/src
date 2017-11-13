@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("プレドニンが減ったためなのかな？あまりにも調子が良すぎて怖いくらいだ");
+		Run("多分、脱ステロイドして、4月から眠れない日がずっと、続いて");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

@@ -23,10 +23,11 @@ public class RunBaseLine {
 	
 	public static void run
 	(ArrayList<String> keyWordSeedList, String testDataPath, ArrayList<String> medicineNameList, ArrayList<String> targetFilteringList) 
-															throws SAXException, IOException, ParserConfigurationException{
+															throws SAXException, IOException, ParserConfigurationException, ClassNotFoundException{
 		
 		System.out.println("テストデータ読み込み中・・・");
-		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
+		//ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
+		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList2();
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 		ArrayList<TripleSetInfo> tripleSetInfoIncreaseFinalList = new ArrayList<TripleSetInfo>();
 		ArrayList<TripleSet> tripleSetTmpList = new ArrayList<TripleSet>();
@@ -53,7 +54,7 @@ public class RunBaseLine {
 		}
 		
 		//評価表現辞書のパターンから三つ組の位置抽出
-		tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
+		//tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
 		if(tripleSetInfoList.size() != 0){
 			//すでに取得しているものは取得しない
 			tripleSetInfoList = OverlapDeleter.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);
@@ -79,7 +80,7 @@ public class RunBaseLine {
 //		}
 		
 		//フィルタリング
-		Filter.filter(tripleSetFinalList, targetFilteringList);
+		//Filter.filter(tripleSetFinalList, targetFilteringList);
 		
 //		System.out.println("\r\nフィルタ後");
 //		

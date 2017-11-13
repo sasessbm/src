@@ -41,15 +41,25 @@ public class LogicOfKeyWord {
 	}
 
 	//P3,P11用(手がかり語が続いている場合に対応)
-	public static ArrayList<Integer> searchKeyWordPhraseForP3(int effectId, ArrayList<Phrase> phraseList){
-		ArrayList<Integer> keyWordIdList = new ArrayList<Integer>(); 
+	public static ArrayList<Integer> searchKeyWordPhrase
+	(int effectId, ArrayList<Phrase> phraseList, ArrayList<Integer> keyWordIdList, int type){
+		boolean isKeyId = false;
 		for(Phrase phrase : phraseList){
 			int id = phrase.getId();
 			if(id >= effectId){ break; } //効果文節まで到達した時
 			if(phrase.getDependencyIndex() != effectId){ continue; }
-			if(judgeKeyWordPhraseForP3(phrase)){ keyWordIdList.add(id); }
-			else{ keyWordIdList.addAll(searchKeyWordPhraseForP3(id, phraseList)); }
+			
+			if((type == 3 && judgeKeyWordPhraseForP3(phrase)) || (type == 4 && judgeKeyWordPhraseForP4(id, phraseList))){
+				keyWordIdList.add(id);
+				isKeyId = true;
+				break;
+			}
+			else{ 
+				keyWordIdList.add(id);
+				keyWordIdList = searchKeyWordPhrase(id, phraseList, keyWordIdList, type);
+			}
 		}
+		if(!isKeyId){ keyWordIdList.clear(); } //薬剤名文節が無かった時，手がかり語ではない
 		return keyWordIdList;
 	}
 

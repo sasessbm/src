@@ -58,7 +58,7 @@ public class SentenceMaker {
 				
 			case 2:
 				sentenceCount++;
-				//if(sentenceCount != 180){ break; }
+				//if(sentenceCount != 252){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
 				System.out.println(sentenceCount);
@@ -68,8 +68,8 @@ public class SentenceMaker {
 			
 		}
 		
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
-		oos.writeObject(sentenceList);
+		//ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+		//oos.writeObject(sentenceList);
 		return sentenceList;
 	}
 	

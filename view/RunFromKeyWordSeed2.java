@@ -135,10 +135,6 @@ public class RunFromKeyWordSeed2 {
 				Displayer.dixplayTripleSetEntropyAndThreshold(tripleSet, entropy, threshold);
 				
 				if(constant != 0 && entropy == 0 && i != 0){ continue; }
-				
-				if(tripleSet.getTargetOriginalElement().getText().equals("調子")){
-					int a = 0;
-				}
 
 				//閾値以上の三つ組を増加リストに追加
 				if(entropy >= threshold){ 
@@ -247,7 +243,7 @@ public class RunFromKeyWordSeed2 {
 		tripleSetFinalList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 
 		//全抽出結果表示
-		Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
+		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
 
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
 		
@@ -256,7 +252,7 @@ public class RunFromKeyWordSeed2 {
 		
 		//全抽出結果表示
 		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, correctTripleSetList);
-		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, wrongTripleSetList);
+		Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, wrongTripleSetList);
 		
 		//最終結果表示
 		Displayer.displayResult(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), keyWordFinalList.size());
@@ -310,9 +306,9 @@ public class RunFromKeyWordSeed2 {
 		}
 		tripleSetForDisplayList.addAll(tripleSetTmpList);
 		
-
 		//三つ組候補リストに追加
 		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
+		
 		tripleSetCandidateList.addAll(tripleSetTmpList);
 	}
 

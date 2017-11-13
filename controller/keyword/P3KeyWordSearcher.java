@@ -16,7 +16,8 @@ public class P3KeyWordSearcher {
 			if(id == targetId){ break; } //対象文節まで到達した時
 			if(phrase.getDependencyIndex() != effectId){ continue; }
 			if(LogicOfKeyWord.judgeKeyWordPhraseForP3(phrase)){ keyWordIdList.add(id); }
-			else{ keyWordIdList.addAll(LogicOfKeyWord.searchKeyWordPhraseForP3(id, phraseList)); }
+			//else{ keyWordIdList.addAll(LogicOfKeyWord.searchKeyWordPhraseForP3(id, phraseList)); }
+			else{ keyWordIdList = LogicOfKeyWord.searchKeyWordPhrase(id, phraseList, keyWordIdList, 3); }
 		}
 		return keyWordIdList;
 	}

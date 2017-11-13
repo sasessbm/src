@@ -17,7 +17,7 @@ public class P4KeyWordSearcher {
 			if(dIndex != effectId){ continue; }
 			//if(!PhraseChecker.conditionPartOfSpeechDetails(phrase.getMorphemeList())){ continue; } //助詞の条件付け
 			if(LogicOfKeyWord.judgeKeyWordPhraseForP4(id, phraseList)){ keyWordIdList.add(id); }
-			else{ keyWordIdList.addAll(LogicOfKeyWord.searchKeyWordPhraseForP4(id, phraseList)); }
+			else{ keyWordIdList.addAll(LogicOfKeyWord.searchKeyWordPhrase(id, phraseList, keyWordIdList, 4)); }
 		}
 		return keyWordIdList;
 	}
