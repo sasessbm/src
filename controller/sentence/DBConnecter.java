@@ -53,6 +53,7 @@ public class DBConnecter {
 			
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			System.out.println("JDBCドライバのロードに失敗しました。");
+			System.out.println(e);
 		} catch (SQLException e) {
 			System.out.println("MySQLに接続できませんでした。" + e);
 		} finally {

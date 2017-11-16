@@ -40,15 +40,14 @@ public class LogicOfKeyWord {
 		return Logic.containsMedicine(phrase.getPhraseText());
 	}
 
-	//P3,P11用(手がかり語が続いている場合に対応)
+	//手がかり語が続いている場合に対応
 	public static ArrayList<Integer> searchKeyWordPhrase
-	(int effectId, ArrayList<Phrase> phraseList, ArrayList<Integer> keyWordIdList, int type){
-		boolean isKeyId = false;
+	(int effectId, ArrayList<Phrase> phraseList, ArrayList<Integer> keyWordIdList, int type, boolean isKeyId){
+		if(isKeyId){ return keyWordIdList; }
 		for(Phrase phrase : phraseList){
 			int id = phrase.getId();
 			if(id >= effectId){ break; } //効果文節まで到達した時
 			if(phrase.getDependencyIndex() != effectId){ continue; }
-			
 			if((type == 3 && judgeKeyWordPhraseForP3(phrase)) || (type == 4 && judgeKeyWordPhraseForP4(id, phraseList))){
 				keyWordIdList.add(id);
 				isKeyId = true;
@@ -56,7 +55,7 @@ public class LogicOfKeyWord {
 			}
 			else{ 
 				keyWordIdList.add(id);
-				keyWordIdList = searchKeyWordPhrase(id, phraseList, keyWordIdList, type);
+				keyWordIdList = searchKeyWordPhrase(id, phraseList, keyWordIdList, type, isKeyId);
 			}
 		}
 		if(!isKeyId){ keyWordIdList.clear(); } //薬剤名文節が無かった時，手がかり語ではない

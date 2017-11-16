@@ -54,7 +54,7 @@ public class RunBaseLine {
 		}
 		
 		//評価表現辞書のパターンから三つ組の位置抽出
-		//tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
+		tripleSetInfoList = PEvalDicSearcher.getTripleSetInfoList(sentenceList);
 		if(tripleSetInfoList.size() != 0){
 			//すでに取得しているものは取得しない
 			tripleSetInfoList = OverlapDeleter.deleteOverlappingFromListForTripleSetInfo(tripleSetInfoList, tripleSetInfoIncreaseFinalList);

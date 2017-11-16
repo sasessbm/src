@@ -166,7 +166,7 @@ public class KeyWordSearcher {
 			Phrase phrase = phraseList.get(id);
 			ArrayList<Morpheme> morphemeList = phrase.getMorphemeList();
 
-			//P3、P101の時は、薬剤名のすぐ後ろを手がかり語とする
+			//文節内に薬剤名を含む時は，薬剤名のすぐ後ろを手がかり語とする
 			if(Logic.containsMedicine(phrase.getPhraseText())){
 				// 薬剤名の形態素位置取得
 				for(int i = 0; i<morphemeList.size(); i++){
@@ -177,7 +177,7 @@ public class KeyWordSearcher {
 				}
 				keyWordPlace = medicinePlaceIndex + 1;
 			}
-			//P4、P10の時は、最初の形態素を手がかり語とする
+			//文節内に薬剤名を含まない時は，最初の形態素を手がかり語とする
 			else { keyWordPlace = 0; }
 
 			if(keyWordPlace >= morphemeList.size()){ continue; } //形態素存在チェック

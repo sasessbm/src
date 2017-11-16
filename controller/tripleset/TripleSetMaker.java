@@ -100,6 +100,7 @@ public class TripleSetMaker {
 		// 要素取得
 		Element targetOriginalElement = getOriginalElement(phraseList.get(targetPhraseId).getMorphemeList(), 1);
 		Element targetElement = getTargetElement(targetPhraseList, 1, isRelation);
+		//if(targetElement == null){}
 		targetElement.setPhraseIndex(targetPhraseId);
 		
 
@@ -188,6 +189,15 @@ public class TripleSetMaker {
 		//係り受け関係でない
 		else{ addMorphemeInList(elementMorphemeList, searchPhraseList); }
 		
+		//System.out.println(elementMorphemeList.size());
+		
+		if(elementMorphemeList.size() == 0){
+			for(Phrase phrase : phraseList){
+				System.out.println(phrase.getPhraseText());
+				System.out.println(isRelation);
+			}
+		}
+		
 		//最後の形態素が動詞であるか確認
 		if(elementMorphemeList.get(elementMorphemeList.size()-1).getPartOfSpeech().equals("動詞")){ isVerb = true; }
 		
@@ -217,6 +227,9 @@ public class TripleSetMaker {
 				addList.add(morpheme);
 			}
 			if(particleHasAppeared){ break; }
+		}
+		if(addList.size() == 0){
+			addList.add(phraseList.get(0).getMorphemeList().get(0));
 		}
 	}
 	

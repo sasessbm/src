@@ -21,33 +21,48 @@ import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.PEvalDicSearcher;
 import controller.tripleset.TripleSetMaker;
 
-public class RunFromKeyWordSeed2 {
+public class ExtractAfterAddKeyword {
 
-	private static ArrayList<Sentence> sentenceList;
+	private static ArrayList<Sentence> sentenceForKeySearchList;
 	private static ArrayList<String> medicineNameList;
 	private static ArrayList<TripleSet> tripleSetFinalList = new ArrayList<TripleSet>();
 	//private static ArrayList<String> targetFinalList = new ArrayList<String>();
 	private static TreeMap<String, Double> targetFilalMap = new TreeMap<String, Double>();
 	private static ArrayList<String> targetFilteringList;
-
+	
 	public static void run(ArrayList<String> keyWordSeedList, ArrayList<String> medicineNameList, 
-			String testDataPath, ArrayList<String> targetFilteringList) throws Exception {
+			String testDataPath, ArrayList<String> targetFilteringList) throws Exception{
+		
+		double constant = 0.5; //0.5
+		int repeatCountMax = 5; //3
+		
+		ArrayList<KeyWord> keyList 
+			= getKeyList(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList, constant, repeatCountMax);
+		
+		System.out.println("三つ組抽出用データ読み込み中・・・");
+		ArrayList<Sentence> sentenceForExtractTripleSetList = SentenceMaker.getSentenceList2();
+		System.out.println("取得文書数は " + sentenceForExtractTripleSetList.size() + "文 です");
+		
+		extractTripleSet(keyList, sentenceForExtractTripleSetList);
+		
+	}
 
-		RunFromKeyWordSeed2.medicineNameList = medicineNameList;
-		RunFromKeyWordSeed2.targetFilteringList = targetFilteringList;
+	public static ArrayList<KeyWord> getKeyList(ArrayList<String> keyWordSeedList, ArrayList<String> medicineNameList, 
+			String testDataPath, ArrayList<String> targetFilteringList, double constant, int repeatCountMax) throws Exception {
+
+		ExtractAfterAddKeyword.medicineNameList = medicineNameList;
+		ExtractAfterAddKeyword.targetFilteringList = targetFilteringList;
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0; //0.5
-		int repeatCountMax = 5; //3
 		int repeatCount = 0;
 
 		//文取得
-		System.out.println("テストデータ読み込み中・・・");
+		System.out.println("手がかり語探索用データ読み込み中・・・");
 		//ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
-		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList2();
-		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
-		RunFromKeyWordSeed2.sentenceList = sentenceList;
+		ArrayList<Sentence> sentenceForKeySearchList = SentenceMaker.getSentenceList3();
+		System.out.println("取得文書数は " + sentenceForKeySearchList.size() + "文 です");
+		ExtractAfterAddKeyword.sentenceForKeySearchList = sentenceForKeySearchList;
 
 		for(int i=0; i <= repeatCountMax; i++){
 			System.out.println("\r\n" + i + "回目");
@@ -68,23 +83,23 @@ public class RunFromKeyWordSeed2 {
 				System.out.println("「" + keyWordText + "」");
 
 				//三つ組取得(P3)
-				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceForKeySearchList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P4)
-				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceForKeySearchList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P101)
-				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceForKeySearchList, keyWordText);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P10)
-				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceForKeySearchList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P11)
-				tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceForKeySearchList, keyWordText, keyWordFinalList);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				if(tripleSetForDisplayList.size() == 0){ continue; }
@@ -165,7 +180,7 @@ public class RunFromKeyWordSeed2 {
 				ArrayList<KeyWord> keyWordTmpList = new ArrayList<KeyWord>();
 				String target = tripleSet.getTargetOriginalElement().getText();
 				System.out.println("<" + target + ">");
-				keyWordTmpList = KeyWordSearcher.getKeyWordList(medicineNameList, sentenceList, target);
+				keyWordTmpList = KeyWordSearcher.getKeyWordList(medicineNameList, sentenceForKeySearchList, target);
 				if(keyWordTmpList.size() == 0){ continue; }
 
 				//すでに取得しているものは取得しない
@@ -230,33 +245,37 @@ public class RunFromKeyWordSeed2 {
 		//if(repeatCount == 0){repeatCount = repeatCountMax;}
 
 		//評価表現辞書抽出
-		extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
+		//extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
 
 		//フィルタリング
 		//Filter.filter(tripleSetFinalList, targetFilteringList);
 
 		//シードを削除
-		keyWordFinalList = OverlapDeleter.deleteOverlappingFromListForKey(keyWordFinalList, seedList);
+		//keyWordFinalList = OverlapDeleter.deleteOverlappingFromListForKey(keyWordFinalList, seedList);
 
 		//ソート
 		keyWordFinalList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
-		tripleSetFinalList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
+		//tripleSetFinalList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 
 		//全抽出結果表示
 		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
 
-		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
-		
-		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
-		ArrayList<TripleSet> wrongTripleSetList = Logic.getWrongTripleSetList(tripleSetFinalList, correctAnswerList);
+		//ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
+		//ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
+		//ArrayList<TripleSet> wrongTripleSetList = Logic.getWrongTripleSetList(tripleSetFinalList, correctAnswerList);
 		
 		//全抽出結果表示
 		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, correctTripleSetList);
-		Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, wrongTripleSetList);
+		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, wrongTripleSetList);
 		
 		//最終結果表示
-		Displayer.displayResult(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), keyWordFinalList.size());
+		//Displayer.displayResult(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), keyWordFinalList.size());
 		System.out.println("\r\n" + repeatCount + "回目で終了");
+		
+		for(KeyWord key : keyWordFinalList){
+			System.out.println(key.getText() + " → " + key.getEntropy());
+		}
+		return keyWordFinalList;
 	}
 
 	//評価表現辞書抽出
@@ -275,7 +294,7 @@ public class RunFromKeyWordSeed2 {
 	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<TripleSet> tripleSetCandidateList, ArrayList<TripleSet> tripleSetForDisplayList){
 
 		//三つ組取得
-		ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceList, medicineNameList);
+		ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceForKeySearchList, medicineNameList);
 		tripleSetTmpList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
 		Filter.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
 		//Filter.filter(tripleSetTmpList, targetFilteringList);
@@ -305,4 +324,55 @@ public class RunFromKeyWordSeed2 {
 		tripleSetCandidateList.addAll(tripleSetTmpList);
 	}
 
+	public static void extractTripleSet(ArrayList<KeyWord> keyList, ArrayList<Sentence> sentenceForExtractTripleSetList){
+		
+		ArrayList<TripleSet> tripleSetList = new ArrayList<TripleSet>();
+		for(KeyWord keyWord : keyList){
+			String keyWordText = keyWord.getText();
+			System.out.println("「" + keyWordText + "」");
+
+			//三つ組取得(P3)
+			ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceForExtractTripleSetList, keyWordText, keyList);
+			addTripleSet(tripleSetInfoList, tripleSetList, sentenceForExtractTripleSetList);
+
+			//三つ組取得(P4)
+			tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceForExtractTripleSetList, keyWordText, keyList);
+			addTripleSet(tripleSetInfoList, tripleSetList, sentenceForExtractTripleSetList);
+
+			//三つ組取得(P101)
+			tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceForExtractTripleSetList, keyWordText);
+			addTripleSet(tripleSetInfoList, tripleSetList, sentenceForExtractTripleSetList);
+
+			//三つ組取得(P10)
+			tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceForExtractTripleSetList, keyWordText, keyList);
+			addTripleSet(tripleSetInfoList, tripleSetList, sentenceForExtractTripleSetList);
+
+			//三つ組取得(P11)
+			tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceForExtractTripleSetList, keyWordText, keyList);
+			addTripleSet(tripleSetInfoList, tripleSetList, sentenceForExtractTripleSetList);
+
+			Displayer.displayExtractedTripleSet(keyWordText, tripleSetList); //抽出三つ組表示
+		}
+		
+		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
+		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetList, correctAnswerList);
+		Displayer.displayAllKeyWordAndTripleSet(keyList, tripleSetList);
+		Displayer.displayResult(tripleSetList.size(), correctTripleSetList, correctAnswerList.size(), keyList.size());
+	}
+	
+	public static void addTripleSet
+	(ArrayList<TripleSetInfo> tripleSetInfoList, ArrayList<TripleSet> tripleSetList, ArrayList<Sentence> sentenceForExtractTripleSetList){
+
+		//三つ組取得
+		ArrayList<TripleSet> tripleSetTmpList = TripleSetMaker.getTripleSetList(tripleSetInfoList, sentenceForExtractTripleSetList, medicineNameList);
+		tripleSetTmpList.sort( (a,b) -> a.getSentenceId() - b.getSentenceId() );
+		Filter.filterMedicineName(tripleSetTmpList); //対象要素には薬剤名を含めない
+
+		//すでに取得しているものは取得しない
+		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetList);
+		
+		//三つ組候補リストに追加
+		tripleSetList.addAll(tripleSetTmpList);
+	}
+	
 }
