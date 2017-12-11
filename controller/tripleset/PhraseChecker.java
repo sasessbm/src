@@ -134,16 +134,31 @@ public class PhraseChecker {
 	}
 
 	//対象文節の助詞の条件付け
-	public static boolean judgeTargetPhrase(ArrayList<Morpheme> morphemeList){
+	public static boolean judgeTargetPhrase(ArrayList<Morpheme> morphemeList, int targetParticleType){
 		String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
-		if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
+		
+		boolean isMatch = false;
+		
+		switch(targetParticleType){
+		case 1:
+			if(Filter.isGAorHAorWO(lastMorphemeText)){ isMatch = true; }
+			break;
+		case 2:
+			if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ isMatch = true; }
+			break;
+		case 3:
+			if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ isMatch = true; }
+			break;
+		
+		}
+		//if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
 		//if(Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ return true; } 
 		
 		//if(Filter.isGAorHAorWOorNIorMOorNIMOorTOorMADEorTOKAorYAorNO(lastMorphemeText)){ return true; } 
 		//if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return true; } 
 		//if(Filter.isGAorHAorWO(lastMorphemeText)){ return true; } 
 		
-		return false;
+		return isMatch;
 	}
 
 	//効果文節ID取得（P10用）

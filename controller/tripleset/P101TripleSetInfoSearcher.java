@@ -12,7 +12,8 @@ public class P101TripleSetInfoSearcher {
 
 	public static final String MEDICINE = "MEDICINE";
 
-	public static ArrayList<TripleSetInfo> getTripleSetInfoList (ArrayList<Sentence> sentenceList, String keyText) {
+	public static ArrayList<TripleSetInfo> getTripleSetInfoList 
+	(ArrayList<Sentence> sentenceList, String keyText, int targetParticleType) {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 
 		for(Sentence sentence : sentenceList){
@@ -62,7 +63,7 @@ public class P101TripleSetInfoSearcher {
 				
 				//三つ組情報生成
 				LogicOfTripleSetInfoSearcher.addTripleSetInfoList
-				(tripleSetInfoList, targetEffectIdMap, phraseList, sentenceId, sentenceText, medicineIdList, 101, usedKeyList);
+				(tripleSetInfoList, targetEffectIdMap, phraseList, sentenceId, sentenceText, medicineIdList, 101, usedKeyList, targetParticleType);
 				
 			}
 		}

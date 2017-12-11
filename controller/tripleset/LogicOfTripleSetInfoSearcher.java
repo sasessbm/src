@@ -19,8 +19,8 @@ public class LogicOfTripleSetInfoSearcher {
 	}
 
 	public static void addTripleSetInfoList
-	(ArrayList<TripleSetInfo> tripleSetInfoList, TreeMap<Integer, Integer> targetEffectIdMap, ArrayList<Phrase> phraseList, 
-				int sentenceId, String sentenceText, ArrayList<Integer> medicineIdList, int pattern, ArrayList<String> usedKeyList){
+	(ArrayList<TripleSetInfo> tripleSetInfoList, TreeMap<Integer, Integer> targetEffectIdMap, ArrayList<Phrase> phraseList, int sentenceId, 
+	String sentenceText, ArrayList<Integer> medicineIdList, int pattern, ArrayList<String> usedKeyList, int targetParticleType){
 		int effectIdTmp = -1;
 		int effectRepeatCount = -1;
 		
@@ -31,7 +31,7 @@ public class LogicOfTripleSetInfoSearcher {
 			int effectId = targetEffectIdMap.get(targetId);
 			if(effectId != effectIdTmp){ effectRepeatCount++; }
 			effectIdTmp = effectId;
-			if(!PhraseChecker.judgeTargetPhrase(targetPhrase.getMorphemeList())){ continue; }// 助詞の条件付け
+			if(!PhraseChecker.judgeTargetPhrase(targetPhrase.getMorphemeList(), targetParticleType)){ continue; }// 助詞の条件付け
 			for(int medicineId : medicineIdList){
 				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicineId, targetId, effectId);
 				tripleSetInfo.setUsedKeyList(usedKeyList);
@@ -40,21 +40,6 @@ public class LogicOfTripleSetInfoSearcher {
 				tripleSetInfoList.add(tripleSetInfo);
 			}
 		}
-		
-//		for(int targetId : targetIdList){
-//			Phrase targetPhrase = phraseList.get(targetId);
-//			int effectId = targetPhrase.getDependencyIndex();
-//			if(effectId != effectIdTmp){ effectRepeatCount++; }
-//			effectIdTmp = effectId;
-//			//if(!PhraseChecker.judgeTargetPhrase(targetPhrase.getMorphemeList())){ continue; }// 助詞の条件付け
-//			for(int medicineId : medicineIdList){
-//				TripleSetInfo tripleSetInfo = new TripleSetInfo(sentenceId, sentenceText, medicineId, targetId, effectId);
-//				tripleSetInfo.setUsedKeyList(usedKeyList);
-//				tripleSetInfo.setPatternType(pattern);
-//				tripleSetInfo.setEffectRepeatCount(effectRepeatCount);
-//				tripleSetInfoList.add(tripleSetInfo);
-//			}
-//		}
 	}
 	
 	public static ArrayList<String> getUsedKeyList

@@ -15,12 +15,6 @@ public class Main {
 	private static ArrayList<String> keyWordSeedList = SeedSetter.getKeyWordSeedList();
 	private static ArrayList<String> keyWordSeedListForBaseLine = SeedSetterForBaseLine.getKeyWordSeedList();
 	//private static ArrayList<String> keyWordSeedList = SeedSetter.getTestKeyWordSeedList();
-	
-//	private static ArrayList<String> keyWordList 
-//	= GetTextFileList.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\手がかり語\\keyword_extend.txt");
-	
-//	private static ArrayList<String> keyWordList 
-//	= GetTextFileList.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\手がかり語\\keyword_seed.txt");
 
 	private static String keyWordIncreaseFilePath 
 	= "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\手がかり語\\keyword_increase.txt";
@@ -28,14 +22,9 @@ public class Main {
 	private static String keyWordIncreaseFinalFilePath 
 	= "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\手がかり語\\keyword_increase_final.txt";
 	
-//	private static ArrayList<String> targetFilteringList 
-//	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\辞書\\medicine_dic_110_2_clean_human2.txt");
-	
 	private static ArrayList<String> targetFilteringList 
 	//= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\辞書\\medicine_dic_110.txt");
 	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\辞書\\medicine_dic_110_2_clean_human2.txt");
-
-	//private static String seedFilePath = "C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\組\\seed.txt";
 
 	public static void main(String[] args) throws Exception {
 		
@@ -51,8 +40,8 @@ public class Main {
 		//RunFromKeyWordSeed2.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
 		
 		//追加実験
-		//ExtractAfterAddKeyword.run(keyWordSeedList, testDataPath);
-		ExtractAfterAddKeyword.run2(keyWordSeedList, testDataPath);
+		//ExtractAfterAddKeyword.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
+		ExtractAfterAddKeyword.run2(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
 	}
 
 }

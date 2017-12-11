@@ -41,6 +41,10 @@ public class RunFromKeyWordSeed2 {
 		double constant = 0; //0.5
 		int repeatCountMax = 3; //3
 		int repeatCount = 0;
+		int targetParticleType = 3;
+		/* 1 → 「が・は・を」
+		 * 2 → 「が・は・を・も」
+		 * 3 → 「が・は・を・に・も・にも」*/
 
 		//文取得
 		System.out.println("テストデータ読み込み中・・・");
@@ -68,23 +72,23 @@ public class RunFromKeyWordSeed2 {
 				System.out.println("「" + keyWordText + "」");
 
 				//三つ組取得(P3)
-				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				ArrayList<TripleSetInfo> tripleSetInfoList = P3TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P4)
-				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P101)
-				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText);
+				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P10)
-				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P11)
-				tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList);
+				tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				if(tripleSetForDisplayList.size() == 0){ continue; }
