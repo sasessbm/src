@@ -33,18 +33,11 @@ public class KeyWordSearcher {
 			throws SAXException, IOException, ParserConfigurationException{
 		ArrayList<KeyWord> keyWordList = new ArrayList<KeyWord>();
 		for(Sentence sentence : sentenceList){
-			ArrayList<Integer> keyWordIdListExtractAfterMedicine = new ArrayList<Integer>();
-			ArrayList<Integer> keyWordIdListExtractFirstPlace = new ArrayList<Integer>();
 			ArrayList<Integer> keyWordIdList = new ArrayList<Integer>();
 			ArrayList<Phrase> phraseRestoreList = sentence.getPhraseRestoreList();
 			int sentenceId = sentence.getSentenceId();
 
 			//手がかり語探索
-//			keyWordIdListExtractAfterMedicine.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 3));
-//			keyWordIdListExtractAfterMedicine.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
-//			keyWordIdListExtractAfterMedicine.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 11));
-//			keyWordIdListExtractFirstPlace.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 4));
-//			keyWordIdListExtractFirstPlace.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 10));
 			keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 3));
 			keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 101));
 			keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 11));
@@ -52,18 +45,8 @@ public class KeyWordSearcher {
 			keyWordIdList.addAll(getKeyWordIdList(medicineNameList, phraseRestoreList, target, 10));
 			
 			//重複削除
-			//keyWordIdListExtractAfterMedicine = new ArrayList<Integer>(new HashSet<>(keyWordIdListExtractAfterMedicine));
-			//keyWordIdListExtractFirstPlace = new ArrayList<Integer>(new HashSet<>(keyWordIdListExtractFirstPlace));
 			keyWordIdList = new ArrayList<Integer>(new HashSet<>(keyWordIdList));
-			
-//			if(keyWordIdListExtractAfterMedicine.size() != 0){
-//				keyWordList = addKeyWord(keyWordList, keyWordIdListExtractAfterMedicine, phraseRestoreList, sentenceId, 3);
-//			}
-//			if(keyWordIdListExtractFirstPlace.size() != 0){
-//				keyWordList = addKeyWord(keyWordList, keyWordIdListExtractFirstPlace, phraseRestoreList, sentenceId, 4);
-//			}
 			keyWordList = addKeyWord2(keyWordList, keyWordIdList, phraseRestoreList, sentenceId);
-			
 		}
 		return keyWordList;
 	}
@@ -74,9 +57,10 @@ public class KeyWordSearcher {
 		for(int id = 0; id < phraseList.size(); id++){
 			ArrayList<Morpheme> morphemeList = phraseList.get(id).getMorphemeList();
 			String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
-			if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+			//if(!Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ continue; } // 助詞の条件付け
 			//if(!Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ continue; } // 助詞の条件付け
-			//if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+			if(!Filter.isGAorHAorWOorMO(lastMorphemeText)){ continue; } // 助詞の条件付け
+			//if(!Filter.isGAorHAorWO(lastMorphemeText)){ continue; } // 助詞の条件付け
 			Element targetOriginalElement = TripleSetMaker.getOriginalElement(morphemeList, 1);
 			String targetText = targetOriginalElement.getText();
 			if(!targetText.equals(target)){ continue; }
@@ -84,23 +68,19 @@ public class KeyWordSearcher {
 			if(effectId == -1){ continue; }// 対象文節の係り先がない
 			switch(patternType){
 			case 3:
-				//keyWordIdList = P3KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList);
 				keyWordIdList.addAll(P3KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList));
 				break;
 			case 4:
 				keyWordIdList.addAll(P4KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList));
-				//keyWordIdList = P4KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList);
 				break;
 			case 101:
 				if(P101KeyWordSearcher.judgeKeyWordId(id, phraseList, medicineNameList)){ keyWordIdList.add(id-1); }
 				break;
 			case 10:
 				keyWordIdList.addAll(P10KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList));
-				//keyWordIdList = P10KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList);
 				break;
 			case 11:
 				keyWordIdList.addAll(P11KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList));
-				//keyWordIdList = P10KeyWordSearcher.getKeyWordIdList(id, effectId, phraseList, medicineNameList);
 				break;
 			}
 		}
@@ -182,6 +162,8 @@ public class KeyWordSearcher {
 
 			if(keyWordPlace >= morphemeList.size()){ continue; } //形態素存在チェック
 			Morpheme morpheme = morphemeList.get(keyWordPlace);
+			
+			//数か括弧だったら，次の形態素を手がかり語とする
 			if(morpheme.getPartOfSpeechDetails().equals("数") || morpheme.getPartOfSpeechDetails().contains("括弧")){ 
 				if(keyWordPlace + 1 >= morphemeList.size()){ continue; } //形態素存在チェック
 				morpheme = morphemeList.get(keyWordPlace + 1); 

@@ -102,7 +102,7 @@ public class Filter {
 //			}
 			if(word.equals(dicWord)){
 				existInList = true;
-				System.out.println("辞書単語: " + dicWord);
+				//System.out.println("辞書単語: " + dicWord);
 			}
 		}
 		return existInList;

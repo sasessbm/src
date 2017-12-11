@@ -136,11 +136,13 @@ public class PhraseChecker {
 	//対象文節の助詞の条件付け
 	public static boolean judgeTargetPhrase(ArrayList<Morpheme> morphemeList){
 		String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
-		//if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
+		if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
 		//if(Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ return true; } 
 		
 		//if(Filter.isGAorHAorWOorNIorMOorNIMOorTOorMADEorTOKAorYAorNO(lastMorphemeText)){ return true; } 
-		if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return true; } 
+		//if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return true; } 
+		//if(Filter.isGAorHAorWO(lastMorphemeText)){ return true; } 
+		
 		return false;
 	}
 

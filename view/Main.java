@@ -51,7 +51,8 @@ public class Main {
 		//RunFromKeyWordSeed2.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
 		
 		//追加実験
-		ExtractAfterAddKeyword.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
+		//ExtractAfterAddKeyword.run(keyWordSeedList, testDataPath);
+		ExtractAfterAddKeyword.run2(keyWordSeedList, testDataPath);
 	}
 
 }

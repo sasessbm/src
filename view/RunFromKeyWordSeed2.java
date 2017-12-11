@@ -39,7 +39,7 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
 		double constant = 0; //0.5
-		int repeatCountMax = 5; //3
+		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 
 		//文取得
@@ -246,7 +246,6 @@ public class RunFromKeyWordSeed2 {
 		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, tripleSetFinalList);
 
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
-		
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetFinalList, correctAnswerList);
 		ArrayList<TripleSet> wrongTripleSetList = Logic.getWrongTripleSetList(tripleSetFinalList, correctAnswerList);
 		

@@ -252,6 +252,9 @@ public class TripleSetMaker {
 				addList.add(morpheme);
 			}
 		}
+		if(addList.size() == 0){
+			addList.add(phraseList.get(0).getMorphemeList().get(0));
+		}
 	}
 	
 	public static boolean isParticle(Morpheme morpheme){
