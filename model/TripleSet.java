@@ -17,6 +17,7 @@ public class TripleSet {
 	private int patternType;
 	private int effectRepeatCount;
 	private double entropy;
+	private String filterWord;
 
 	
 	public TripleSet(String medicineName, Element targetElement,
@@ -32,6 +33,7 @@ public class TripleSet {
 		this.sentenceId = sentenceId;
 		this.medicinePhraseIndex = medicinePhraseIndex;
 		this.patternType = patternType;
+		this.filterWord = "";
 	}
 	
 
@@ -141,5 +143,17 @@ public class TripleSet {
 	public void setEntropy(double entropy) {
 		this.entropy = entropy;
 	}
+
+
+	public String getFilterWord() {
+		return filterWord;
+	}
+
+
+	public void setFilterWord(String filterWord) {
+		this.filterWord = filterWord;
+	}
+	
+	
 	
 }

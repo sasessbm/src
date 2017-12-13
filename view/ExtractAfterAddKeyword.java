@@ -68,7 +68,7 @@ public class ExtractAfterAddKeyword {
 	public static void run2(ArrayList<String> keyWordSeedList, ArrayList<String> medicineNameList, 
 			String testDataPath, ArrayList<String> targetFilteringList) throws Exception{
 		
-		int repeatCountMax = 3; //3
+		int repeatCountMax = 2; //3
 		double constant = 0.5;
 		int targetParticleTypeForKey = 2;
 		int targetParticleTypeForTripleSet = 2;
@@ -372,17 +372,15 @@ public class ExtractAfterAddKeyword {
 		}
 		
 		//評価表現辞書抽出
-		extractEvalDicPattern(sentenceForExtractTripleSetList, medicineNameList, tripleSetList);
+		//extractEvalDicPattern(sentenceForExtractTripleSetList, medicineNameList, tripleSetList);
 		
+		System.out.println("α＝ " + constant);
+		//Filter.filter(tripleSetList, targetFilteringList);
 		ArrayList<CorrectAnswer> correctAnswerList = SeedSetter.getCorrectAnswerList();
 		ArrayList<TripleSet> correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetList, correctAnswerList);
 		ArrayList<TripleSet> wrongTripleSetList = Logic.getWrongTripleSetList(tripleSetList, correctAnswerList);
-		//Displayer.displayAllKeyWordAndTripleSet(keyList, wrongTripleSetList);
-		//Displayer.displayResult(tripleSetList.size(), correctTripleSetList, correctAnswerList.size(), keyList.size());
-		System.out.println("α＝ " + constant);
-		
-		Filter.filter(tripleSetList, targetFilteringList);
 		correctTripleSetList = Logic.getCorrectTripleSetList(tripleSetList, correctAnswerList);
+		Displayer.displayAllKeyWordAndTripleSet(keyList, wrongTripleSetList);
 		Displayer.displayResult(tripleSetList.size(), correctTripleSetList, correctAnswerList.size(), keyList.size());
 	}
 	

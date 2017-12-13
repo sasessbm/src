@@ -38,7 +38,7 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
-		double constant = 0; //0.5
+		double constant = 0.5; //0.5
 		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 		int targetParticleType = 3;
@@ -48,7 +48,7 @@ public class RunFromKeyWordSeed2 {
 
 		//文取得
 		System.out.println("テストデータ読み込み中・・・");
-		//ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList);
+		//ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList); //デバグ用
 		ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList2();
 		System.out.println("取得文書数は " + sentenceList.size() + "文 です");
 		RunFromKeyWordSeed2.sentenceList = sentenceList;
@@ -234,10 +234,10 @@ public class RunFromKeyWordSeed2 {
 		//if(repeatCount == 0){repeatCount = repeatCountMax;}
 
 		//評価表現辞書抽出
-		extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
+		//extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
 
 		//フィルタリング
-		//Filter.filter(tripleSetFinalList, targetFilteringList);
+		Filter.filter(tripleSetFinalList, targetFilteringList);
 
 		//シードを削除
 		keyWordFinalList = OverlapDeleter.deleteOverlappingFromListForKey(keyWordFinalList, seedList);

@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("デパケンを使用して痙攣が止まった");
+		Run("MEDICINEEN錠・MEDICINE錠・MEDICINE錠へ変えてから少し落ち着いてきたのですが…MEDICINEを飲むとめまいがしてフラフラな状態のまま１日中眠くて大変でした");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数

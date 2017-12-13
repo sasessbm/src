@@ -7,12 +7,6 @@ import model.*;
 
 public class Filter {
 
-	//	private static ArrayList<String> targetFilteringList = 
-	//			GetTextFileList.fileRead("C:\\Users\\sase\\Desktop\\実験\\リスト\\medicine_dic_110_2_clean_human2.txt");
-
-	//	private static ArrayList<String> targetFilteringList = 
-	//			GetTextFileList.fileRead("C:\\Users\\sase\\Desktop\\実験\\辞書\\110&body.txt");
-
 	//対象要素に薬剤名が入っていたら不適切
 	public static void filterMedicineName(ArrayList<TripleSet> tripleSetList){
 		for(int i = tripleSetList.size() - 1; i >= 0; i--){
@@ -26,39 +20,34 @@ public class Filter {
 
 	//110番辞書フィルタ
 	public static void filter(ArrayList<TripleSet> tripleSetList, ArrayList<String> targetFilteringList){
-
 		for(int i = tripleSetList.size() - 1; i >= 0; i--){
 			TripleSet tripleSet = tripleSetList.get(i);
 			ArrayList<Morpheme> morphemeList = tripleSet.getTargetOriginalElement().getMorphemeList();
-
-			if(!isProper(morphemeList, targetFilteringList)){
+			String dicWord = getDicWord(morphemeList, targetFilteringList);
+			
+			if(dicWord == null){
 				tripleSetList.remove(i);
+			}else{
+				//System.out.println(dicWord);
+				tripleSet.setFilterWord(dicWord);
 			}
 		}
 	}
-
-
+	
 	//110番辞書フィルタ
-	public static boolean isProper(ArrayList<Morpheme> morphemeList, ArrayList<String> targetFilteringList){
-		boolean existInTargetFilteringList = false;
+	public static String getDicWord(ArrayList<Morpheme> morphemeList, ArrayList<String> targetFilteringList){
 		String targetWord = "";
-		//String dicWord = "";
+		String dicWord = null;
 		boolean nounFlag = false;
-
 		for(Morpheme morpheme : morphemeList){
 			String morphemeText = morpheme.getMorphemeText();
 			String pos = morpheme.getPartOfSpeech();
 			if(pos.equals("接頭詞")){
 				if(nounFlag){
-					//dicWord = Preprocessor.preprocessorTargetWord(dicWord);
 					if(targetWord != ""){
-						//pw.println(dicWord);
-						if(searchTargetFilteringList(targetWord, targetFilteringList)){
-							existInTargetFilteringList = true;
-							break;
-						}
-						//System.out.println(targetWord);
-						targetWord = "";
+						dicWord = getFilterWord(targetWord, targetFilteringList);
+						if(dicWord != null){ break; }
+						targetWord = ""; //辞書に含まれていなかったとき，初期化して次の単語を作る
 					}
 					nounFlag = false;
 				}else{ targetWord += morphemeText; }
@@ -69,43 +58,33 @@ public class Filter {
 			}
 			else{
 				if(!nounFlag){ continue; }
-				//dicWord = Preprocessor.preprocessorTargetWord(dicWord);
 				if(targetWord != ""){
-					//pw.println(dicWord);
-					if(searchTargetFilteringList(targetWord, targetFilteringList)){
-						existInTargetFilteringList = true;
-						break;
-					}
-					//System.out.println(targetWord);
-					targetWord = "";
+					dicWord = getFilterWord(targetWord, targetFilteringList);
+					if(dicWord != null){ break; }
+					targetWord = ""; //辞書に含まれていなかったとき，初期化して次の単語を作る
 				}
 				nounFlag = false;
 			}
 		}
 		if(targetWord.length() != 0){
-			if(searchTargetFilteringList(targetWord, targetFilteringList)){
-				existInTargetFilteringList = true;
-				targetWord = "";
-			}
+			dicWord = getFilterWord(targetWord, targetFilteringList);
 		}
-		return existInTargetFilteringList;
+		return dicWord;
 	}
 
-
-
-	public static boolean searchTargetFilteringList(String word, ArrayList<String> targetFilteringList){
-		boolean existInList = false;
+	public static String getFilterWord(String word, ArrayList<String> targetFilteringList){
+		String filterWord = null;
 		for(String dicWord : targetFilteringList){
 //			if(word.contains(dicWord)){
-//				existInList = true;
-//				System.out.println("辞書単語: " + dicWord);
+//				filterWord = dicWord;
+//				break;
 //			}
 			if(word.equals(dicWord)){
-				existInList = true;
-				//System.out.println("辞書単語: " + dicWord);
+				filterWord = dicWord;
+				break;
 			}
 		}
-		return existInList;
+		return filterWord;
 	}
 	
 	public static boolean isGAorHAorWO(String text){
