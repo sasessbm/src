@@ -42,10 +42,11 @@ public class RunFromKeyWordSeed2 {
 		int repeatCountMax = 3; //3
 		int repeatCount = 0;
 		int targetParticleType = 3;
-		/* 1 → 「が・は・を」
+		/* 0 →　なし
+		 * 1 → 「が・は・を」
 		 * 2 → 「が・は・を・も」
 		 * 3 → 「が・は・を・に・も・にも」*/
-
+		
 		//文取得
 		System.out.println("テストデータ読み込み中・・・");
 		//ArrayList<Sentence> sentenceList = SentenceMaker.getSentenceList(testDataPath, medicineNameList); //デバグ用
@@ -79,16 +80,16 @@ public class RunFromKeyWordSeed2 {
 				tripleSetInfoList = P4TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
-				//三つ組取得(P101)
-				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, targetParticleType);
-				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
-
 				//三つ組取得(P10)
 				tripleSetInfoList = P10TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				//三つ組取得(P11)
 				tripleSetInfoList = P11TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, keyWordFinalList, targetParticleType);
+				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
+				
+				//三つ組取得(P101)
+				tripleSetInfoList = P101TripleSetInfoSearcher.getTripleSetInfoList(sentenceList, keyWordText, targetParticleType);
 				addTripleSetForKeyWordSetList(tripleSetInfoList, tripleSetCandidateList, tripleSetForDisplayList);
 
 				if(tripleSetForDisplayList.size() == 0){ continue; }
@@ -169,7 +170,7 @@ public class RunFromKeyWordSeed2 {
 				ArrayList<KeyWord> keyWordTmpList = new ArrayList<KeyWord>();
 				String target = tripleSet.getTargetOriginalElement().getText();
 				System.out.println("<" + target + ">");
-				keyWordTmpList = KeyWordSearcher.getKeyWordList(medicineNameList, sentenceList, target);
+				keyWordTmpList = KeyWordSearcher.getKeyWordList(medicineNameList, sentenceList, target, targetParticleType);
 				if(keyWordTmpList.size() == 0){ continue; }
 
 				//すでに取得しているものは取得しない
@@ -237,7 +238,9 @@ public class RunFromKeyWordSeed2 {
 		//extractEvalDicPattern(sentenceList, medicineNameList, tripleSetFinalList);
 
 		//フィルタリング
-		Filter.filter(tripleSetFinalList, targetFilteringList);
+		//Filter.filter(tripleSetFinalList, targetFilteringList);
+		
+		//OverlapDeleter.deleteSameSet(tripleSetFinalList);
 
 		//シードを削除
 		keyWordFinalList = OverlapDeleter.deleteOverlappingFromListForKey(keyWordFinalList, seedList);
@@ -254,8 +257,9 @@ public class RunFromKeyWordSeed2 {
 		ArrayList<TripleSet> wrongTripleSetList = Logic.getWrongTripleSetList(tripleSetFinalList, correctAnswerList);
 		
 		//全抽出結果表示
-		//Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, correctTripleSetList);
-		Displayer.displayAllKeyWordAndTripleSet(keyWordFinalList, wrongTripleSetList);
+		Displayer.displayAllKeyWord(keyWordFinalList);
+		Displayer.displayWrongTripleSet(wrongTripleSetList);
+		Displayer.displayCorrectTripleSet(correctTripleSetList);
 		
 		//最終結果表示
 		Displayer.displayResult(tripleSetFinalList.size(), correctTripleSetList, correctAnswerList.size(), keyWordFinalList.size());
@@ -284,6 +288,7 @@ public class RunFromKeyWordSeed2 {
 		//Filter.filter(tripleSetTmpList, targetFilteringList);
 
 		//すでに取得しているものは取得しない
+		//OverlapDeleter.deleteSameSet(tripleSetTmpList);
 		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetFinalList);
 		tripleSetTmpList = OverlapDeleter.deleteOverlappingFromListForTripleSet(tripleSetTmpList, tripleSetCandidateList);
 

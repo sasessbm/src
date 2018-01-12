@@ -105,18 +105,18 @@ public class PhraseChecker {
 	}
 
 	//対象文節の並列部分探索
-	//	public static ArrayList<Integer> searchTargetId(int targetId, int keyId, ArrayList<Integer> targetIdList, ArrayList<Phrase> phraseList){
-	//
-	//		for(int i=1; i<=phraseList.size(); i++){
-	//			int phraseId = phraseList.size() - i;
-	//			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
-	//			Phrase phrase = phraseList.get(phraseId);
-	//			if(phrase.getDependencyIndex() != targetId){ continue; }
-	//			targetIdList.add(phraseId);
-	//			targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
-	//		}
-	//		return targetIdList;
-	//	}
+//		public static ArrayList<Integer> searchTargetId(int targetId, int keyId, ArrayList<Integer> targetIdList, ArrayList<Phrase> phraseList){
+//	
+//			for(int i=1; i<=phraseList.size(); i++){
+//				int phraseId = phraseList.size() - i;
+//				if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
+//				Phrase phrase = phraseList.get(phraseId);
+//				if(phrase.getDependencyIndex() != targetId){ continue; }
+//				targetIdList.add(phraseId);
+//				targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
+//			}
+//			return targetIdList;
+//		}
 
 	//対象文節の並列部分探索(マップ)
 	public static TreeMap<Integer, Integer> searchTargetId
@@ -136,10 +136,11 @@ public class PhraseChecker {
 	//対象文節の助詞の条件付け
 	public static boolean judgeTargetPhrase(ArrayList<Morpheme> morphemeList, int targetParticleType){
 		String lastMorphemeText = morphemeList.get(morphemeList.size()-1).getMorphemeText();
-		
 		boolean isMatch = false;
-		
 		switch(targetParticleType){
+		case 0:
+			isMatch = true;
+			break;
 		case 1:
 			if(Filter.isGAorHAorWO(lastMorphemeText)){ isMatch = true; }
 			break;
@@ -149,15 +150,7 @@ public class PhraseChecker {
 		case 3:
 			if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ isMatch = true; }
 			break;
-		
 		}
-		//if(Filter.isGAorHAorWOorMO(lastMorphemeText)){ return true; } 
-		//if(Filter.isGAorHAorWOorNIorMOorNIMOorKARAorMADEorTOKAorNO(lastMorphemeText)){ return true; } 
-		
-		//if(Filter.isGAorHAorWOorNIorMOorNIMOorTOorMADEorTOKAorYAorNO(lastMorphemeText)){ return true; } 
-		//if(Filter.isGAorHAorWOorNIorMOorNIMO(lastMorphemeText)){ return true; } 
-		//if(Filter.isGAorHAorWO(lastMorphemeText)){ return true; } 
-		
 		return isMatch;
 	}
 

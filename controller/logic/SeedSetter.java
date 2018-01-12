@@ -70,13 +70,15 @@ public class SeedSetter {
 //		seedList.add("mg");
 //		seedList.add("なくなる");
 //		
-		//seedList.add("で");
+		//seedList.add("と");
 		//seedList.add("の");
 		//seedList.add("ん");
 		//seedList.add("も");
 		//seedList.add("続ける");
 		//seedList.add("剤");
-		seedList.add("は");
+		//seedList.add("は");
+		//seedList.add("を");
+		//seedList.add("錠");
 		
 		return seedList;
 	}

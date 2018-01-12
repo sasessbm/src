@@ -73,11 +73,9 @@ public class TripleSetMaker {
 		for(Morpheme morpheme : phraseList.get(medicinePhraseId).getMorphemeList()){
 			if(!morpheme.getPartOfSpeechDetails().equals("固有名詞") && 
 					!morpheme.getPartOfSpeechDetails().equals("一般")){ continue; }
-
 			for(String name : medicineNameList){
 				String morphemeText = morpheme.getMorphemeText();
 				if(morphemeText.contains(name)){ medicineNameListInPhrase.add(name); }
-				//if(name.contains(morphemeText)){ medicineNameListInPhrase.add(name); }
 			}
 		}
 		ArrayList<Phrase> targetPhraseList = new ArrayList<Phrase>();
@@ -100,12 +98,9 @@ public class TripleSetMaker {
 		// 要素取得
 		Element targetOriginalElement = getOriginalElement(phraseList.get(targetPhraseId).getMorphemeList(), 1);
 		Element targetElement = getTargetElement(targetPhraseList, 1, isRelation);
-		//if(targetElement == null){}
 		targetElement.setPhraseIndex(targetPhraseId);
 		
-
 		// 効果要素の形態素リスト取得
-		//effectPhraseList.add(phraseList.get(effectPhraseId));
 		searchIndex = effectPhraseId;
 		isRelation = false;
 		Phrase effectPhrase = phraseList.get(searchIndex);
@@ -119,12 +114,8 @@ public class TripleSetMaker {
 			isRelation = true;
 		}
 		Collections.reverse(effectPhraseList);
-		
-		//Element effectElement = getOriginalElement(phraseList.get(effectPhraseId).getMorphemeList(), 1);
 		Element effectElement = getOriginalElement(phraseList.get(effectPhraseId).getMorphemeList(), 2);
-		//Element effectElement = getTargetElement(effectPhraseList, 2, isRelation);
 		effectElement.setPhraseIndex(effectPhraseId);
-
 		for(String medicineName : medicineNameListInPhrase){
 			TripleSet tripleSet = new TripleSet(medicineName,targetElement, effectElement, tripleSetInfo.getUsedKeyList(),
 					sentenceText, sentenceId, medicinePhraseId, tripleSetInfo.getPatternType());
@@ -133,12 +124,10 @@ public class TripleSetMaker {
 			PostProcessor.deleteParentheses(tripleSet);
 			tripleSetList.add(tripleSet);
 		}
-		
 		return tripleSetList;
 	}
 	
 	public static Element getTargetElement(ArrayList<Phrase> phraseList, int elementType, boolean isRelation){
-
 		Element element = new Element();
 		String text = "";
 		ArrayList<Morpheme> elementMorphemeList = new ArrayList<Morpheme>();
@@ -147,15 +136,12 @@ public class TripleSetMaker {
 		boolean isVerb = false;
 		int particlePhraseIndex = -1;
 		int particleMorphemeIndex = -1;
-		
 		//係り受け関係である
 		if(isRelation){
 			int searchIndex = phraseList.size() - 2;
-			
 			//存在文節に最も近くに係っている助詞の位置特定
 			for(int i = searchIndex; i >= 0; i--){
 				searchMorphemeList = searchPhraseList.get(i).getMorphemeList();
-				//Collections.reverse(searchMorphemeList);
 				for(int j = 0; j < searchMorphemeList.size(); j++){
 					Morpheme morpheme = searchMorphemeList.get(j);
 					if(isParticle(morpheme)){
@@ -164,20 +150,8 @@ public class TripleSetMaker {
 						break;
 					}
 				}
-//				for(int j = 0; j < searchMorphemeList.size(); j++){
-//					Morpheme morpheme = searchMorphemeList.get(j);
-//					if(isParticle(morpheme)){
-//						particlePhraseIndex = searchIndex;
-//						particleMorphemeIndex = j;
-//						break;
-//					}
-//				}
 				//助詞が見つかった
-				if(particlePhraseIndex != -1 && particleMorphemeIndex != -1){
-//					Collections.reverse(searchMorphemeList);
-					break;
-				}
-//				Collections.reverse(searchMorphemeList);
+				if(particlePhraseIndex != -1 && particleMorphemeIndex != -1){ break; }
 			}
 			//助詞が見つからなかった場合
 			if(particlePhraseIndex == -1 && particleMorphemeIndex == -1){
@@ -188,19 +162,14 @@ public class TripleSetMaker {
 		}
 		//係り受け関係でない
 		else{ addMorphemeInList(elementMorphemeList, searchPhraseList); }
-		
-		//System.out.println(elementMorphemeList.size());
-		
 		if(elementMorphemeList.size() == 0){
 			for(Phrase phrase : phraseList){
 				System.out.println(phrase.getPhraseText());
 				System.out.println(isRelation);
 			}
 		}
-		
 		//最後の形態素が動詞であるか確認
 		if(elementMorphemeList.get(elementMorphemeList.size()-1).getPartOfSpeech().equals("動詞")){ isVerb = true; }
-		
 		//三つ組要素のテキスト生成
 		for(int i = 0; i < elementMorphemeList.size(); i++){
 			if(isVerb && i == elementMorphemeList.size() - 1 && elementType == 2){
@@ -228,9 +197,7 @@ public class TripleSetMaker {
 			}
 			if(particleHasAppeared){ break; }
 		}
-		if(addList.size() == 0){
-			addList.add(phraseList.get(0).getMorphemeList().get(0));
-		}
+		if(addList.size() == 0){ addList.add(phraseList.get(0).getMorphemeList().get(0)); }
 	}
 	
 	public static void addMorphemeInList
@@ -238,23 +205,17 @@ public class TripleSetMaker {
 		int tmp = 0;
 		for(int i = particlePhraseIndex; i < phraseList.size(); i++){
 			ArrayList<Morpheme> morphemeList = phraseList.get(i).getMorphemeList();
-			
 			//形態素の位置更新
-			if(i == particlePhraseIndex){ tmp = particleMorphemeIndex;}
+			if(i == particlePhraseIndex){ tmp = particleMorphemeIndex; }
 			else{ tmp = 0; }
-			
 			//リストに追加
 			for(int j = tmp; j < morphemeList.size(); j++){
 				Morpheme morpheme = morphemeList.get(j);
-				if(isParticle(morpheme)){
-					break;
-				}
+				if(isParticle(morpheme)){ break; }
 				addList.add(morpheme);
 			}
 		}
-		if(addList.size() == 0){
-			addList.add(phraseList.get(0).getMorphemeList().get(0));
-		}
+		if(addList.size() == 0){ addList.add(phraseList.get(0).getMorphemeList().get(0)); }
 	}
 	
 	public static boolean isParticle(Morpheme morpheme){
@@ -269,8 +230,7 @@ public class TripleSetMaker {
 		ArrayList<Morpheme> elementMorphemeList = new ArrayList<Morpheme>();
 		boolean isVerb = false;
 		for(Morpheme morpheme : morphemeList){
-			//助詞が出現("の"以外) 
-			//if(morpheme.getPartOfSpeech().equals("助詞") & !morpheme.getOriginalForm().equals("の") ){ break; }
+			//助詞が出現
 			if(morpheme.getPartOfSpeech().equals("助詞")){ break; }
 			if(morpheme.getOriginalForm().equals("、") || morpheme.getOriginalForm().equals("。")){ break; }
 			if(morpheme.getPartOfSpeech().equals("動詞")){
@@ -280,7 +240,6 @@ public class TripleSetMaker {
 			}
 			elementMorphemeList.add(morpheme);
 		}
-
 		for(int i = 0; i < elementMorphemeList.size(); i++){
 			if(isVerb && i == elementMorphemeList.size() - 1 && elementType == 2){
 				text += elementMorphemeList.get(i).getOriginalForm(); //「効果」要素で、最後が動詞だった時
@@ -290,33 +249,26 @@ public class TripleSetMaker {
 		}
 		element.setText(text);
 		element.setMorphemeList(elementMorphemeList);
-
 		return element;
 	}
 
 	//重複した組を削除
 	public static ArrayList<TripleSet> deleteSameSet(ArrayList<TripleSet> tripleSetList){
-
 		ArrayList<TripleSet> tripleSetListBase = tripleSetList;
-
 		for(int i = 0 ; i < tripleSetListBase.size() ; i++){
 			int sameCount = 0;
 			String medicineNameBase = tripleSetListBase.get(i).getMedicineName();
 			String targetBase = tripleSetListBase.get(i).getTargetElement().getText();
 			String effectBase = tripleSetListBase.get(i).getEffectElement().getText();
-
 			for(TripleSet tripleSet : tripleSetList){
 				String medicineName = tripleSet.getMedicineName();
 				String target = tripleSet.getTargetElement().getText();
 				String effect = tripleSet.getEffectElement().getText();
-
 				if(medicineNameBase.equals(medicineName) && targetBase.equals(target) && effectBase.equals(effect)){
 					sameCount++;
 				}
 			}
-			if(sameCount>=2){
-				tripleSetList.remove(tripleSetListBase.get(i));
-			}
+			if(sameCount>=2){ tripleSetList.remove(tripleSetListBase.get(i)); }
 		}
 		return tripleSetList;
 	}

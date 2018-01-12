@@ -37,11 +37,11 @@ public class Main {
 		
 		//ブートストラップ
 		//RunFromKeyWordSeed.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
-		RunFromKeyWordSeed2.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
+		//RunFromKeyWordSeed2.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
 		
 		//追加実験
 		//ExtractAfterAddKeyword.run(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
-		//ExtractAfterAddKeyword.run2(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
+		ExtractAfterAddKeyword.run2(keyWordSeedList, medicineNameList, testDataPath, targetFilteringList);
 	}
 
 }

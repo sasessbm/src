@@ -65,7 +65,7 @@ public class SentenceMaker {
 				
 			case 2:
 				sentenceCount++;
-				if(sentenceCount != 50){ break; }
+				if(sentenceCount != 171){ break; }
 				Sentence sentence = makeSentence(text, recordId, sentenceId, medicineNameList);
 				sentenceList.add(sentence);
 				System.out.println(sentenceCount);

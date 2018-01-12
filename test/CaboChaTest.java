@@ -12,7 +12,7 @@ public class CaboChaTest {
 
 	public static void main(String[] args) {
 
-		Run("MEDICINEEN錠・MEDICINE錠・MEDICINE錠へ変えてから少し落ち着いてきたのですが…MEDICINEを飲むとめまいがしてフラフラな状態のまま１日中眠くて大変でした");
+		Run("それまでもジムにはずっと通っていたし、肺転移が判明してから、リュープリンとタスオミンの治療を続けており、ＣＡ１５－３は２０前後に下がっていましたが、半年ほどずっと２０以下にはなっていませんでした");
 	}
 
 	//String型で文字列を受け取り、それを係り受け解析する関数
@@ -31,8 +31,8 @@ public class CaboChaTest {
 			text=text.replaceAll(btmp, "");
 
 			//cabochaの実行開始　ラティス形式で出力(-f3の部分で決定、詳しくはcabochaのhelp参照)
-			//ProcessBuilder pb = new ProcessBuilder("cabocha", "-f3");
-			ProcessBuilder pb = new ProcessBuilder("cabocha");
+			ProcessBuilder pb = new ProcessBuilder("cabocha", "-f3");
+			//ProcessBuilder pb = new ProcessBuilder("cabocha");
 			Process process = pb.start();
 
 			//実行途中で文字列を入力(コマンドプロンプトで文字を入力する操作)

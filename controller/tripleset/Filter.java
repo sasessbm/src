@@ -12,6 +12,7 @@ public class Filter {
 		for(int i = tripleSetList.size() - 1; i >= 0; i--){
 			TripleSet tripleSet = tripleSetList.get(i);
 			String targetText = tripleSet.getTargetElement().getText();
+			//String targetText = tripleSet.getTargetOriginalElement().getText();
 			if(Logic.containsMedicine(targetText)){
 				tripleSetList.remove(i);
 			}
@@ -22,7 +23,8 @@ public class Filter {
 	public static void filter(ArrayList<TripleSet> tripleSetList, ArrayList<String> targetFilteringList){
 		for(int i = tripleSetList.size() - 1; i >= 0; i--){
 			TripleSet tripleSet = tripleSetList.get(i);
-			ArrayList<Morpheme> morphemeList = tripleSet.getTargetOriginalElement().getMorphemeList();
+			ArrayList<Morpheme> morphemeList = tripleSet.getTargetOriginalElement().getMorphemeList(); //三つ組生成規則前の対象要素
+			//ArrayList<Morpheme> morphemeList = tripleSet.getTargetElement().getMorphemeList(); //三つ組生成規則後の対象要素
 			String dicWord = getDicWord(morphemeList, targetFilteringList);
 			
 			if(dicWord == null){

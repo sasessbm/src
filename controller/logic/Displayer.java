@@ -8,55 +8,34 @@ import model.TripleSet;
 
 public class Displayer {
 
-	public static void displayAllKeyWordAndTripleSet(ArrayList<KeyWord> keyWordList, ArrayList<TripleSet> tripleSetList){
+	public static void displayAllKeyWord(ArrayList<KeyWord> keyWordList){
 		System.out.println("\r\n＜全抽出結果＞");
 		System.out.println("\r\n＜手がかり語＞");
+		//keyWordList.sort((a,b) -> (int)(a.getEntropy()) - (int)(b.getEntropy()) );
 //		for(KeyWord keyWord : keyWordList){
 //			System.out.println("「" + keyWord.getText() + "」 →　" + keyWord.getEntropy());
 //		}
 		ArrayList<String> keyList = SeedSetterForBaseLine.getKeyWordSeedList();
+		
 		int count = 0;
-//		for(KeyWord keyWord : keyWordList){
-//			System.out.println(keyWord.getText());
-//			for(String key : keyList){
-//				if(key.equals(keyWord.getText())){ count++; }
-//			}
-//			
-//		}
-//		for(KeyWord keyWord : keyWordList){
-//			System.out.println(keyWord.getEntropy());
-//		}
+		for(KeyWord keyWord : keyWordList){
+			System.out.println(keyWord.getText());
+			for(String key : keyList){
+				if(key.equals(keyWord.getText())){ count++; }
+			}
+			
+		}
+		for(KeyWord keyWord : keyWordList){
+			System.out.println(keyWord.getEntropy());
+		}
 		System.out.println("先行研究の手がかり語との重複数：" + count);
-		System.out.println("\r\n＜誤り三つ組＞");
-		displayTripleSet(tripleSetList);
-//		for(TripleSet tripleSet : tripleSetList){
-//			Element targetElement = tripleSet.getTargetElement();
-//			Element effectElement = tripleSet.getEffectElement();
-//			ArrayList<String> usedKeyList = tripleSet.getUsedKeyList();
-//			String usedKey = "";
-//			if(usedKeyList != null){
-//				for(int i = 0; i < usedKeyList.size(); i++){
-//					usedKey += usedKeyList.get(i);
-//					if(i != usedKeyList.size()-1){ usedKey += "→"; }
-//				}
-//			}
-//			System.out.println("\r\n「"+ tripleSet.getSentenceText() + "」");
-//			System.out.println("（" + tripleSet.getMedicineName()+ "，" + targetElement.getText() + "，" 
-//			+effectElement.getText() + "）（"  + tripleSet.getSentenceId() + "，" + tripleSet.getMedicinePhraseIndex() + 
-//			"，" + targetElement.getPhraseIndex() + "，" + effectElement.getPhraseIndex() +  "）・・・" + usedKey);
-//			
-//		}
 	}
 
 	// 結果表示                                   出力数　　　　　　　　　　　　　　　正解三つ組リスト　　　     本来の正解数　　抽出手がかり語数　
 	public static void displayResult(int allExtractionNum, ArrayList<TripleSet> correctTripleSetList,  int correctAnswerNum, int keyWordNum){
 		int correctExtractionNum = correctTripleSetList.size();
 		ArrayList<Double> resultList = Calculator.getResultList(allExtractionNum, correctExtractionNum, correctAnswerNum);
-		System.out.println("\r\n＜正解出力結果＞");
-		displayTripleSet(correctTripleSetList);
-		System.out.println("\r\n＜正解＞");
 		System.out.println("\r\n全正解数　　　：" + correctAnswerNum);
-		//System.out.println("\r\n抽出した文数　：　200文中　" + sentenceCount + "文から抽出");
 		System.out.println("\r\n＜評価結果＞");
 		System.out.println("\r\n抽出手がかり語数　　　：" + keyWordNum);
 		System.out.println("\r\n出力数　　　：" + allExtractionNum);
@@ -65,6 +44,16 @@ public class Displayer {
 		System.out.println("\r\n適合率(precision)：" + resultList.get(0));
 		System.out.println("再現率(recall)   ：" + resultList.get(1));
 		System.out.println("Ｆ値(F-measure)  ：" + resultList.get(2));
+	}
+	
+	public static void displayCorrectTripleSet(ArrayList<TripleSet> correctTripleSetList){
+		System.out.println("\r\n＜正解三つ組＞");
+		displayTripleSet(correctTripleSetList);
+	}
+	
+	public static void displayWrongTripleSet(ArrayList<TripleSet> wrongTripleSetList){
+		System.out.println("\r\n＜誤り三つ組＞");
+		displayTripleSet(wrongTripleSetList);
 	}
 	
 	public static void displayTripleSet(ArrayList<TripleSet> tripleSetList){

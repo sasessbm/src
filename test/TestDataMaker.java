@@ -42,10 +42,11 @@ public class TestDataMaker {
 //			usedIdList.add(sentence.getRecordId());
 //		}
 //		
-//		ArrayList<Sentence> sentenceList = getRandomSentenceList(10000, 1, 425527, medicineNameList, usedIdList);
+//		ArrayList<Sentence> sentenceList = getRandomSentenceList(100, 1, 425527, medicineNameList, usedIdList);
 //		
 //		for(Sentence sentence : sentenceList){
 //			System.out.println(sentence.getRecordId());
+//			System.out.println(sentence.getText());
 //		}
 //		
 //		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputPath));
