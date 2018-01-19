@@ -23,7 +23,6 @@ public class Morpheme implements Serializable{
 		this.originalForm = featureArray[6];
 	}
 	
-
 	public int getId() {
 		return id;
 	}

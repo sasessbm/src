@@ -1,39 +1,12 @@
 package controller.logic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 import model.*;
 
 public class Logic {
 
 	private static ArrayList<String> medicineNameList 
 	= FileOperator.fileRead("C:\\Users\\sase\\Desktop\\実験\\ブートストラップ\\薬剤名\\medicine_name.txt");
-
-	//	public static void main(String[] args) throws Exception{
-	//
-	//		//		ArrayList<Integer> idList = getRandomIdList(100,1,100);
-	//		//		for(int id : idList){
-	//		//			System.out.println(id);
-	//		//		}
-	//
-	//		ArrayList<Integer> usedIdList = new ArrayList<Integer>();
-	//		usedIdList.add(2);
-	//		usedIdList.add(3);
-	//		usedIdList.add(6);
-	//		usedIdList.add(9);
-	//		usedIdList.add(12);
-	//
-	//		ArrayList<Integer> additionalIdList = getAdditionalRandomIdList(10, 1, 30, usedIdList);
-	//
-	//		for(int id : additionalIdList){
-	//			System.out.println(id);
-	//		}
-	//
-	//	}
-
-
-
 
 	//ゴミ取り
 	public static String cleanWord(String word){
@@ -62,7 +35,6 @@ public class Logic {
 		word = word.replace("？", "");
 		word = word.replace("・", "");
 		word = word.replace("β", "");
-
 		return word;
 	}
 
@@ -76,22 +48,14 @@ public class Logic {
 
 	//手がかり語の適切性判定
 	public static boolean properKeyWord(Morpheme morpheme){
-
 		//手がかり語は名詞または動詞とする
 		//if(!(morpheme.getPartOfSpeech().equals("名詞") || morpheme.getPartOfSpeech().equals("動詞"))){ return false; }
-
 		//数字は不適
 		if(morpheme.getPartOfSpeechDetails().equals("数")){ return false; }
-
 		//薬剤名が含まれていた場合は不適
 		if(containsMedicine(morpheme.getMorphemeText())){ return false; }
-
 		return true;
 	}
-
-	
-
-
 
 	//正解三つ組情報取得
 	public static ArrayList<TripleSet> getCorrectTripleSetList(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
@@ -115,7 +79,6 @@ public class Logic {
 	//誤り三つ組情報取得
 	public static ArrayList<TripleSet> getWrongTripleSetList(ArrayList<TripleSet> tripleSetList, ArrayList<CorrectAnswer> correctAnswerList){
 		ArrayList<TripleSet> wrongTripleSetList = new ArrayList<TripleSet>();
-		
 		for(TripleSet tripleSet : tripleSetList){
 			boolean isCorrect = false;
 			int sentenceId = tripleSet.getSentenceId();
@@ -134,8 +97,7 @@ public class Logic {
 		return wrongTripleSetList;
 	}
 
-
-
+	//文節リストコピー
 	public static ArrayList<Phrase> copyPhraseList(ArrayList<Phrase> originPhraseList){
 		ArrayList<Phrase> copyPhraseList = new ArrayList<Phrase>();
 		for(Phrase originPhrase : originPhraseList){
@@ -149,7 +111,5 @@ public class Logic {
 		}
 		return copyPhraseList;
 	}
-
-
 
 }

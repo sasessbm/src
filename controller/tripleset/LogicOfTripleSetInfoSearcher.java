@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
-
-import controller.logic.Logic;
 import model.KeyWord;
 import model.Phrase;
 import model.TripleSetInfo;
@@ -23,7 +21,6 @@ public class LogicOfTripleSetInfoSearcher {
 	String sentenceText, ArrayList<Integer> medicineIdList, int pattern, ArrayList<String> usedKeyList, int targetParticleType){
 		int effectIdTmp = -1;
 		int effectRepeatCount = -1;
-		
 		Iterator<Integer> it = targetEffectIdMap.keySet().iterator();
 		while(it.hasNext()){
 			int targetId = it.next();
@@ -46,8 +43,8 @@ public class LogicOfTripleSetInfoSearcher {
 	(ArrayList<Integer> keyIdList, ArrayList<Phrase> phraseList, ArrayList<KeyWord> keyList, String keyText){
 		Collections.sort(keyIdList);
 		ArrayList<String> usedKeyList = new ArrayList<String>();
-		usedKeyList.add(keyText);
-		for(int i=1; i<keyIdList.size(); i++){ //1番目は飛ばす（P3に対応）
+		usedKeyList.add(keyText); //1番目は先に加える
+		for(int i=1; i<keyIdList.size(); i++){ 
 			usedKeyList.add(LogicOfTripleSetInfoSearcher.getUsedKey(keyIdList.get(i), phraseList));
 		}
 		return usedKeyList;

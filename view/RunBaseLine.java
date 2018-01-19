@@ -80,7 +80,7 @@ public class RunBaseLine {
 //		}
 		
 		//フィルタリング
-		//Filter.filter(tripleSetFinalList, targetFilteringList);
+		Filter.filter(tripleSetFinalList, targetFilteringList);
 		
 //		System.out.println("\r\nフィルタ後");
 //		

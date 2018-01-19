@@ -7,7 +7,6 @@ public class TripleSet {
 	private String medicineName;
 	private Element targetElement;
 	private Element effectElement;
-	//private String usedKeyWord;
 	private ArrayList<KeyWord> extractKeyList;
 	private ArrayList<String> usedKeyList;
 	private String sentenceText;
@@ -18,7 +17,6 @@ public class TripleSet {
 	private int effectRepeatCount;
 	private double entropy;
 	private String filterWord;
-
 	
 	public TripleSet(String medicineName, Element targetElement,
 			Element effectElement, ArrayList<String> usedKeyList, String sentenceText,
@@ -27,7 +25,6 @@ public class TripleSet {
 		this.medicineName = medicineName;
 		this.targetElement = targetElement;
 		this.effectElement = effectElement;
-		//this.usedKeyWord = usedKeyWord;
 		this.usedKeyList = usedKeyList;
 		this.sentenceText = sentenceText;
 		this.sentenceId = sentenceId;
@@ -36,7 +33,6 @@ public class TripleSet {
 		this.filterWord = "";
 	}
 	
-
 	public String getMedicineName() {
 		return medicineName;
 	}
@@ -119,18 +115,15 @@ public class TripleSet {
 
 	public int getKeyWordNum(String keyWordText){
 		int count = 0;
-		//String keyWordText = keyWord.getKeyWordText();
 		for(KeyWord key : extractKeyList){
 			if(key.getText().equals(keyWordText)){ count++; }
 		}
 		return count;
 	}
 
-
 	public int getEffectRepeatCount() {
 		return effectRepeatCount;
 	}
-
 
 	public void setEffectRepeatCount(int effectRepeatCount) {
 		this.effectRepeatCount = effectRepeatCount;
@@ -144,11 +137,9 @@ public class TripleSet {
 		this.entropy = entropy;
 	}
 
-
 	public String getFilterWord() {
 		return filterWord;
 	}
-
 
 	public void setFilterWord(String filterWord) {
 		this.filterWord = filterWord;

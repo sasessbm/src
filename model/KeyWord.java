@@ -54,10 +54,6 @@ public class KeyWord {
 		int count = 0;
 		String target = tripleSet.getTargetOriginalElement().getText();
 		for(TripleSet set : tripleSetList){
-
-//			if(set.getTargetElement().getText().equals(target)){ 
-//				count++; 
-//			}
 			if(set.getTargetOriginalElement().getText().equals(target)){ 
 				count++; 
 			}

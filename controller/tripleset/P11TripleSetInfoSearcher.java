@@ -2,8 +2,6 @@ package controller.tripleset;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
-
-import controller.logic.OverlapDeleter;
 import model.KeyWord;
 import model.Morpheme;
 import model.Phrase;
@@ -18,7 +16,6 @@ public class P11TripleSetInfoSearcher {
 	(ArrayList<Sentence> sentenceList, String keyText, ArrayList<KeyWord> keyList, int targetParticleType) {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 		for(Sentence sentence : sentenceList){
-			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
 			ArrayList<Phrase> phraseList = sentence.getPhraseReplaceList();
 			int sentenceId = sentence.getSentenceId();
 			String sentenceText = sentence.getText();

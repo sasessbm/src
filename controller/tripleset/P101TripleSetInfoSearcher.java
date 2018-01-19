@@ -17,7 +17,6 @@ public class P101TripleSetInfoSearcher {
 		ArrayList<TripleSetInfo> tripleSetInfoList = new ArrayList<TripleSetInfo>();
 
 		for(Sentence sentence : sentenceList){
-			//if(sentence.getSentenceId() != 717){ continue; } //デバッグ用
 			ArrayList<Phrase> phraseList = sentence.getPhraseReplaceList();
 			int sentenceId = sentence.getSentenceId();
 			String sentenceText = sentence.getText();
@@ -49,17 +48,9 @@ public class P101TripleSetInfoSearcher {
 				ArrayList<String> usedKeyList = new ArrayList<String>();
 				usedKeyList.add(keyText);
 				
-				//ArrayList<Integer> targetIdList = new ArrayList<Integer>();
-				//targetIdList.add(targetId);
+				//対象文節探索
 				TreeMap<Integer, Integer> targetEffectIdMap = new TreeMap<Integer, Integer>();
 				targetEffectIdMap = PhraseChecker.getTargetEffectIdMap(effectId, keyId, phraseList, targetEffectIdMap);
-//				if(phraseList.get(effectId).getDependencyIndex() != -1){
-//					keyId = effectId;
-//					effectId = phraseList.get(effectId).getDependencyIndex();
-//					//targetIdList.addAll(PhraseChecker.getTargetIdList(effectId, keyId, phraseList));
-//					
-//					
-//				}
 				
 				//三つ組情報生成
 				LogicOfTripleSetInfoSearcher.addTripleSetInfoList

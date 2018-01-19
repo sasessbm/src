@@ -55,7 +55,6 @@ public class PreProcessor {
 	//薬剤名マップ取得
 	public static TreeMap<Integer, String> getMedicineNameMap(String sentenceText, ArrayList<String> medicineNameList){
 		TreeMap<Integer, String> medicineNameMap = new TreeMap<Integer, String>();
-
 		for(String medicineNameInList : medicineNameList){
 			int searchIndex = 0;
 			if(sentenceText.contains(medicineNameInList)){
@@ -88,7 +87,6 @@ public class PreProcessor {
 		int indexStart = -1;
 		int indexFirstCharacter = -1;
 		int indexSecondCharacter = -1;
-
 		while (true){
 			indexFirstCharacter = sentenceText.indexOf(firstCharacter, indexStart + 1);
 			indexSecondCharacter = sentenceText.indexOf(secondCharacter, indexStart + 1);

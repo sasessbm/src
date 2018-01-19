@@ -86,6 +86,4 @@ public class TripleSetInfo {
 		this.effectRepeatCount = effectRepeatCount;
 	}
 	
-	
-
 }

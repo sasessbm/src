@@ -2,11 +2,9 @@ package controller.tripleset;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
-
 import model.KeyWord;
 import model.Morpheme;
 import model.Phrase;
-import model.TripleSetInfo;
 
 public class PhraseChecker {
 
@@ -67,25 +65,6 @@ public class PhraseChecker {
 	}
 
 	//対象文節ID取得
-	public static ArrayList<Integer> getTargetIdList(int effectId, int keyId, ArrayList<Phrase> phraseList){
-		ArrayList<Integer> targetIdList = new ArrayList<Integer>();
-		// 逆から探索
-		for(int i=1; i<=phraseList.size(); i++){
-			int phraseId = phraseList.size() - i;
-			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
-			Phrase phrase = phraseList.get(phraseId);
-			if(phrase.getDependencyIndex() != effectId){ continue; }
-			targetIdList.add(phraseId);
-			//targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
-		}
-		if(targetIdList.size() == 0){ return targetIdList; } //取得できなかった場合
-		keyId = effectId;
-		effectId = phraseList.get(effectId).getDependencyIndex();
-		if(effectId != -1){ targetIdList.addAll(getTargetIdList(effectId, keyId, phraseList)); }
-		return targetIdList;
-	}
-
-	//対象文節ID取得(マップ)
 	public static TreeMap<Integer, Integer> getTargetEffectIdMap
 	(int effectId, int keyId, ArrayList<Phrase> phraseList, TreeMap<Integer, Integer> targetEffectIdMap){
 		// 逆から探索
@@ -95,7 +74,7 @@ public class PhraseChecker {
 			Phrase phrase = phraseList.get(phraseId);
 			if(phrase.getDependencyIndex() != effectId){ continue; }
 			targetEffectIdMap.put(phraseId, effectId);
-			//targetEffectIdMap = searchTargetId(phraseId, effectId, keyId, phraseList, targetEffectIdMap);
+			//targetEffectIdMap = searchTargetId(phraseId, effectId, keyId, phraseList, targetEffectIdMap); //対象文節の並列部分探索
 		}
 		if(targetEffectIdMap.size() == 0){ return targetEffectIdMap; } //取得できなかった場合
 		keyId = effectId;
@@ -105,23 +84,8 @@ public class PhraseChecker {
 	}
 
 	//対象文節の並列部分探索
-//		public static ArrayList<Integer> searchTargetId(int targetId, int keyId, ArrayList<Integer> targetIdList, ArrayList<Phrase> phraseList){
-//	
-//			for(int i=1; i<=phraseList.size(); i++){
-//				int phraseId = phraseList.size() - i;
-//				if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
-//				Phrase phrase = phraseList.get(phraseId);
-//				if(phrase.getDependencyIndex() != targetId){ continue; }
-//				targetIdList.add(phraseId);
-//				targetIdList = searchTargetId(phraseId, keyId, targetIdList, phraseList);
-//			}
-//			return targetIdList;
-//		}
-
-	//対象文節の並列部分探索(マップ)
 	public static TreeMap<Integer, Integer> searchTargetId
 	(int targetId, int effectId, int keyId, ArrayList<Phrase> phraseList, TreeMap<Integer, Integer> targetEffectIdMap){
-
 		for(int i=1; i<=phraseList.size(); i++){
 			int phraseId = phraseList.size() - i;
 			if(phraseId == keyId){ break; } //「手がかり語」文節まで到達した時
@@ -168,7 +132,7 @@ public class PhraseChecker {
 		return effectIdList;
 	}
 
-	//手がかり語の最終文節ID取得
+	//手がかり語文節のID取得
 	public static ArrayList<Integer> getKeyIdList(int id, ArrayList<Phrase> phraseList, ArrayList<KeyWord> keyList){
 		ArrayList<Integer> keyIdList = new ArrayList<Integer>();
 		keyIdList.add(id);

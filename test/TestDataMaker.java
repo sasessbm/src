@@ -170,7 +170,6 @@ public class TestDataMaker {
 			if(sentenceTextCheckList.size() <= 2){ continue; } //3文以上のスニペットを適用
 
 			for(int i = 0; i < sentenceTextCheckList.size(); i++){
-
 				if(i==0 || i == sentenceTextCheckList.size() - 1){ continue; } //最初と最後以外の文を適用
 				String sentenceText = sentenceTextCheckList.get(i);
 				if(!Logic.containsMedicine(sentenceText)){ continue; } //薬剤名が含まれる文を適用
@@ -254,53 +253,6 @@ public class TestDataMaker {
 		}
 		Collections.sort(randomIdList);
 		return randomIdList;
-	}
-
-	//IDリストを更新
-	public static ArrayList<Integer> getAdditionalRandomIdList2
-	(int idNum, int startIdIndex, int endIdIndex, ArrayList<Integer> usedIdList){
-		ArrayList<Integer> additionalIdList = new ArrayList<Integer>();
-		Random rand = new Random();
-		boolean isUsedId = false;
-		boolean isCreated;
-		int id = 0;
-		while(true){
-			isUsedId = false;
-			id = rand.nextInt(endIdIndex + 1 - startIdIndex) + startIdIndex;
-			for(int usedId : usedIdList){
-				if(id == usedId){
-					isUsedId = true;
-					break;
-				}
-			}
-			if(!isUsedId){ break; }
-		}
-		additionalIdList.add(id);
-		for(int i=0; i < idNum-1; ){
-			isCreated = false;
-			while(true){
-				isUsedId = false;
-				id = rand.nextInt(endIdIndex + 1 - startIdIndex) + startIdIndex;
-				for(int usedId : usedIdList){
-					if(id == usedId){
-						isUsedId = true;
-						break;
-					}
-				}
-				if(!isUsedId){ break; }
-			}
-			for(Integer idInList : additionalIdList){
-				if(idInList == id){
-					isCreated = true;
-				}
-			}
-			if(!isCreated){
-				additionalIdList.add(id);
-				i++;
-			}
-		}
-		Collections.sort(additionalIdList);
-		return additionalIdList;
 	}
 	
 	//IDリストを更新

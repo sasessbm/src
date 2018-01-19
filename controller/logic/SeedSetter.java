@@ -1,8 +1,6 @@
 package controller.logic;
 
 import java.util.ArrayList;
-
-import controller.keyword.Transformation;
 import model.*;
 
 public class SeedSetter {
@@ -81,22 +79,6 @@ public class SeedSetter {
 		//seedList.add("錠");
 		
 		return seedList;
-	}
-	
-	public static ArrayList<String> getTestKeyWordSeedList(){
-		
-		ArrayList<String> seedList = new ArrayList<String>();
-		
-		seedList.add("で");
-		seedList.add("によって");
-		seedList.add("は");
-		//seedList.add("副作用");
-		//seedList.add("せい");
-		//seedList.add("減る");
-		//seedList.add("調整");
-		
-		return seedList;
-		
 	}
 	
 	

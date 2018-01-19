@@ -3,24 +3,18 @@ package view;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.TreeMap;
-
 import model.*;
 import controller.tripleset.*;
 import controller.keyword.KeyWordSearcher;
-import controller.keyword.Transformation;
+import controller.keyword.LogicOfKeyWord;
 import controller.logic.Calculator;
 import controller.logic.Displayer;
-import controller.logic.FileOperator;
 import controller.logic.Logic;
 import controller.logic.OverlapDeleter;
 import controller.logic.SeedSetter;
-import controller.logic.SeedSetterForBaseLine;
 import controller.sentence.SentenceMaker;
-import controller.sentence.SentenceMaker2;
 import controller.tripleset.Filter;
-import controller.tripleset.P3P4TripleSetInfoSearcher;
 import controller.tripleset.PEvalDicSearcher;
 import controller.tripleset.TripleSetMaker;
 
@@ -72,7 +66,7 @@ public class ExtractAfterAddKeyword {
 		int repeatCountMax = 2; //3
 		double constant = 0.5;
 		int targetParticleTypeForKey = 2;
-		int targetParticleTypeForTripleSet = 0;
+		int targetParticleTypeForTripleSet = 2;
 		/* 0 →　なし
 		 * 1 → 「が・は・を」
 		 * 2 → 「が・は・を・も」
@@ -99,7 +93,7 @@ public class ExtractAfterAddKeyword {
 	public static ArrayList<KeyWord> getKeyList(ArrayList<String> keyWordSeedList,
 			String testDataPath, double constant, int repeatCountMax, int targetParticleType) throws Exception {
 
-		ArrayList<KeyWord> seedList = Transformation.stringToKeyWord(keyWordSeedList); //シードセット
+		ArrayList<KeyWord> seedList = LogicOfKeyWord.transformStringToKeyWord(keyWordSeedList); //シードセット
 		ArrayList<KeyWord> keyWordFinalList = new ArrayList<KeyWord>();
 		keyWordFinalList.addAll(seedList); //手がかり語最終リストに追加
 		int repeatCount = 0;
